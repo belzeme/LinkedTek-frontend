@@ -15,7 +15,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from './login.js';
 import ReactDOM from 'react-dom';
-import { mainListItems } from './listItems';
+import { mainListItems } from '../Components/leftMenu';
 
 const drawerWidth = 240;
 

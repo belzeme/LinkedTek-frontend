@@ -13,12 +13,12 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import Message from '@material-ui/icons/Chat';
 
 import ReactDOM from 'react-dom';
-import Actualities from './actualities.js'
-import Schools from './schools.js'
-import Profile from './profile.js'
-import Posts from './posts.js'
-import Relations from './relations.js'
-import Messages from './messages.js'
+import Actualities from '../Activities/actualities.js'
+import Schools from '../Activities/schools.js'
+import Profile from '../Activities/profile.js'
+import Posts from '../Activities/posts.js'
+import Relations from '../Activities/relations.js'
+import Messages from '../Activities/messages.js'
 
 export const mainListItems = (
   <div>

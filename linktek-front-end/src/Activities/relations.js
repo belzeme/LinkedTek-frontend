@@ -15,7 +15,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from './login.js';
 import ReactDOM from 'react-dom';
-import { mainListItems } from './listItems';
+import { mainListItems } from '../Components/leftMenu';
 
 const drawerWidth = 240;
 
@@ -96,7 +96,7 @@ const styles = theme => ({
   },
 });
 
-class Schools extends React.Component {
+class Relations extends React.Component {
   state = {
     open: true,
   };
@@ -164,7 +164,7 @@ class Schools extends React.Component {
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Typography variant="h4" gutterBottom component="h3">
-            Schools and Companies
+            Relations
           </Typography>
           <Typography variant="h5" gutterBottom component="h3">
             Work in progress
@@ -175,4 +175,4 @@ class Schools extends React.Component {
   }
 }
 
-export default withStyles(styles)(Schools);
+export default withStyles(styles)(Relations);
