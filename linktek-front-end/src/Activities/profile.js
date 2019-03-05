@@ -104,7 +104,8 @@ class Profile extends React.Component {
     job: 'Developer',
     company: 'NanoSoft',
     age: '22',
-    country: 'USA'
+    country: 'USA',
+    lastSchool: 'Epitech'
   };
 
   handleDrawerOpen = () => {
@@ -176,7 +177,8 @@ class Profile extends React.Component {
                 job={this.state.job}
                 company={this.state.company}
                 age={this.state.age}
-                country={this.state.country}/>
+                country={this.state.country}
+                lastSchool={this.state.lastSchool}/>
             </p>
           </div>
         </main>

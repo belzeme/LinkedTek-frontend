@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import ProfileModule from './profileModule'
+import ProfileModule from './profileModule';
+import TimelineModule from './timelineModule';
 
 const styles = theme => ({
   root: {
@@ -34,7 +35,11 @@ function ProfileInner(props) {
           </Paper>
         </Grid>
         <Grid item xs>
-          <Paper className={classes.paper}>{props.profilePicture}</Paper>
+          <Paper className={classes.paper}>
+            <TimelineModule
+              job={props.job}
+              company={props.company}/>
+          </Paper>
         </Grid>
         <Grid item xs>
           <Paper className={classes.paper}>xs</Paper>
