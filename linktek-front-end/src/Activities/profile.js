@@ -16,6 +16,7 @@ import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from './login.js';
 import ReactDOM from 'react-dom';
 import { mainListItems } from '../Components/leftMenu';
+import ProfileInner from '../Components/profileInner';
 
 const drawerWidth = 240;
 
@@ -24,7 +25,7 @@ const styles = theme => ({
     display: 'flex',
   },
   toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
+    paddingRight: 24,
   },
   toolbarIcon: {
     display: 'flex',
@@ -99,6 +100,11 @@ const styles = theme => ({
 class Profile extends React.Component {
   state = {
     open: true,
+    userName: 'John Doe',
+    job: 'Developer',
+    company: 'NanoSoft',
+    age: '22',
+    country: 'USA'
   };
 
   handleDrawerOpen = () => {
@@ -138,7 +144,7 @@ class Profile extends React.Component {
               noWrap
               className={classes.title}
             >
-              LinkTek
+              LinkedTek
             </Typography>
             <IconButton color="inherit" onClick={() => {ReactDOM.render(<Login />, document.getElementById('root')); }}>
                 <Logout />
@@ -163,12 +169,16 @@ class Profile extends React.Component {
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
-          <Typography variant="h4" gutterBottom component="h3">
-            Profile
-          </Typography>
-          <Typography variant="h5" gutterBottom component="h3">
-            Work in progress
-          </Typography>
+          <div>
+            <p>
+              <ProfileInner
+                userName={this.state.userName}
+                job={this.state.job}
+                company={this.state.company}
+                age={this.state.age}
+                country={this.state.country}/>
+            </p>
+          </div>
         </main>
       </div>
     );
