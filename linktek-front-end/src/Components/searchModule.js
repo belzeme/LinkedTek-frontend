@@ -17,9 +17,8 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ProfilePicture from '../Images/profilePicture.jpg';
-import Paper from './papers.js';
-import DividerProfile from './dividerProfile.js';
-
+import SearchResult from './searchResultList.js';
+import InputBase from '@material-ui/core/InputBase';
 
 const styles = theme => ({
   card: {
@@ -47,11 +46,11 @@ const styles = theme => ({
   },
 });
 
-class ProfileModule extends React.Component {
+class SearchModule extends React.Component {
   state = { expanded: false };
 
   handleExpandClick = () => {
-    this.setState(state => ({ expanded: !state.expanded }));
+    this.setState(state => ({ expanded: true }));
   };
 
   render() {
@@ -59,42 +58,34 @@ class ProfileModule extends React.Component {
 
     return (
       <Card className={classes.card}>
-        <CardHeader
-          title="Profile"
-        />
-        <CardMedia
-          className={classes.media}
-          image={ ProfilePicture }
-        />
-        <CardContent>
-          <Typography component="h4" variant="h6">
-            {this.props.userName}
-          </Typography>
+        <CardContent style={{display: 'flex', justifyContent: 'center'}}>
+          <CardHeader
+            title="Search User"
+          />
+        </CardContent>
+        <CardContent style={{marginTop: -30}}>
+          <div className={classes.search} style={{backgroundColor: "#eeeeee", margin: 10, padding: 10}}>
+            <InputBase
+              placeholder="Enter user name ..."
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+            />
+          </div>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
-          <IconButton
-            className={classnames(classes.expand, {
-              [classes.expandOpen]: this.state.expanded,
-            })}
+          <Button style={{backgroundColor: '#3f51b5', width: "100%", color: "white"}}
             onClick={this.handleExpandClick}
-            aria-expanded={this.state.expanded}
-            aria-label="Show more"
-          >
-          <ExpandMoreIcon />
-          </IconButton>
+            aria-expanded={this.state.expanded}>
+            Search User
+          </Button>
         </CardActions>
         <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <DividerProfile
-              job={this.props.job}
-              company={this.props.company}
-              country={this.props.country}
-              age={this.props.age}/>
-          </CardContent>
-          <CardContent>
-            <Button style={{backgroundColor: '#3f51b5', width: "100%", color: "white", marginTop: -20}}>
-              Edit Profile
-            </Button>
+            <SearchResult
+              result={this.props.result}
+              resultPicture={this.props.resultPicture}/>
           </CardContent>
         </Collapse>
       </Card>
@@ -102,4 +93,4 @@ class ProfileModule extends React.Component {
   }
 }
 
-export default withStyles(styles)(ProfileModule);
+export default withStyles(styles)(SearchModule);

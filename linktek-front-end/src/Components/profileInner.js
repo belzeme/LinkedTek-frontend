@@ -2,9 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
 import Grid from '@material-ui/core/Grid';
 import ProfileModule from './profileModule';
 import TimelineModule from './timelineModule';
+import SearchModule from './searchModule'
+
 
 const styles = theme => ({
   root: {
@@ -22,7 +25,7 @@ function ProfileInner(props) {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={24}>
+      <Grid container spacing={24} style={{marginLeft: "auto", marginRight: "auto"}}>
         <Grid item xs>
           <Paper className={classes.paper}>
             <ProfileModule
@@ -38,11 +41,15 @@ function ProfileInner(props) {
           <Paper className={classes.paper}>
             <TimelineModule
               job={props.job}
-              company={props.company}/>
+              company={props.company}
+              names={props.names}
+              namesState={props.namesState}/>
           </Paper>
         </Grid>
         <Grid item xs>
-          <Paper className={classes.paper}>xs</Paper>
+          <SearchModule
+            result={props.result}
+            resultPicture={props.resultPicture}/>
         </Grid>
       </Grid>
     </div>

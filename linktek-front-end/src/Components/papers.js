@@ -15,15 +15,13 @@ function PaperSheet(props) {
   const { classes } = props;
 
   return (
-    <div>
-      <Paper className={classes.root} elevation={1} style={{backgroundColor: "lightgrey", minWidth: 465}}>
-        <Typography variant="h6" component="h6">
-          {props.title}
-        </Typography>
-        <Typography component="p">
-          {props.description}
-        </Typography>
-      </Paper>
+    <div style={{marginLeft: "auto", marginRight: "auto"}}>
+      <Typography variant="h6" component="h6">
+        {props.title}
+      </Typography>
+      <Typography component="p">
+        {props.description}
+      </Typography>
     </div>
   );
 }

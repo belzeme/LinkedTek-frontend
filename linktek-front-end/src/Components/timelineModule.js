@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Paper from './papers.js'
+import TimelineList from './timelineList.js'
 
 const styles = theme => ({
   card: {
@@ -52,19 +53,17 @@ class TimelineModule extends React.Component {
 
   render() {
     const { classes } = this.props;
-
+    const {names} = this.props;
     return (
       <Card className={classes.card}>
         <CardHeader
-          title="TimeLine"
+          title="Current Job"
         />
-
         <CardActions className={classes.actions}>
           <Paper
-            title='Current Job'
-            description={this.handleJobTitle(this.props.job, this.props.company)}/>
+            title={this.handleJobTitle(this.props.job, this.props.company)}
+            description="Since 01.01.1900"/>
         </CardActions>
-
         <CardActions className={classes.actions} disableActionSpacing>
           <IconButton
             className={classnames(classes.expand, {
@@ -79,21 +78,17 @@ class TimelineModule extends React.Component {
         </CardActions>
         <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <p>
-              <Typography component="h4" variant="h7"> Job : {this.props.job} </Typography>
-            </p>
-            <p>
-              <Typography component="h4" variant="h7"> Company : {this.props.company} </Typography>
-            </p>
-            <p>
-              <Typography component="h4" variant="h7"> Country : {this.props.country} </Typography>
-            </p>
-            <p>
-              <Typography component="h4" variant="h7"> Age : {this.props.age}</Typography>
-            </p>
+            <CardHeader
+              title="TimeLine"
+            />
+            <TimelineList
+              names={this.props.names}
+              namesState={this.props.namesState}/>
           </CardContent>
           <CardContent>
-            <Button>Edit TimeLine</Button>
+            <Button style={{backgroundColor: '#3f51b5', width: "100%", color: "white" }}>
+              Add New Input
+            </Button>
           </CardContent>
         </Collapse>
       </Card>
