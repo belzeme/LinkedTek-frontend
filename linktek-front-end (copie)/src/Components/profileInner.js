@@ -34,7 +34,8 @@ function ProfileInner(props) {
               company={props.company}
               job={props.job}
               country={props.country}
-            />
+              companies={props.companies}
+              company={props.company}/>
           </Paper>
         </Grid>
         <Grid item xs>

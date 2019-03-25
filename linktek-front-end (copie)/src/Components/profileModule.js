@@ -19,6 +19,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ProfilePicture from '../Images/profilePicture.jpg';
 import Paper from './papers.js';
 import DividerProfile from './dividerProfile.js';
+import EditProfile from './editProfile.js';
 
 
 const styles = theme => ({
@@ -92,9 +93,9 @@ class ProfileModule extends React.Component {
               age={this.props.age}/>
           </CardContent>
           <CardContent>
-            <Button style={{backgroundColor: '#3f51b5', width: "100%", color: "white", marginTop: -20}}>
-              Edit Profile
-            </Button>
+            <EditProfile
+              companies={this.props.companies}
+              Company={this.props.company} />
           </CardContent>
         </Collapse>
       </Card>

@@ -51,6 +51,7 @@ const styles = theme => ({
 
 function Login(props) {
   const { classes } = props;
+  
 
   return (
     <main className={classes.main}>
@@ -62,7 +63,6 @@ function Login(props) {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form}>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="email">Email Address</InputLabel>
             <Input id="email" name="email" autoComplete="email" autoFocus />
@@ -89,7 +89,6 @@ function Login(props) {
           >
             Register
           </Button>
-        </form>
       </Paper>
     </main>
   );

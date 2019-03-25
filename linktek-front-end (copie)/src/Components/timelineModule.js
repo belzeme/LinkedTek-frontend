@@ -11,10 +11,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Paper from './papers.js';
-import TimelineList from './timelineList.js';
-import WorkPicture from '../Images/work.png';
-import SchoolPicture from '../Images/school.png';
+import Paper from './papers.js'
+import TimelineList from './timelineList.js'
 
 const styles = theme => ({
   card: {
@@ -85,11 +83,7 @@ class TimelineModule extends React.Component {
             />
             <TimelineList
               names={this.props.names}
-              namesState={this.props.namesState}
-              companies={this.props.companies}
-              getAvatarImage={this.getAvatarImage}
-              formatThatLine={this.formatThatLine}
-              />
+              namesState={this.props.namesState}/>
           </CardContent>
           <CardContent>
             <Button style={{backgroundColor: '#3f51b5', width: "100%", color: "white" }}>

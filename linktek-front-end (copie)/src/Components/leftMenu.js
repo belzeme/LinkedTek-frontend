@@ -2,20 +2,23 @@ import React from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import School from '@material-ui/icons/School';
 import PeopleIcon from '@material-ui/icons/People';
 import UserIcon from '@material-ui/icons/Face';
 import BarChartIcon from '@material-ui/icons/BarChart';
+import LayersIcon from '@material-ui/icons/Layers';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import Message from '@material-ui/icons/Chat';
 
 import ReactDOM from 'react-dom';
-import Actualities from '../Activities/Actualities/Actualities.js';
-import SchoolAndCompanies from '../Activities/School/School.js';
-import Profile from '../Activities/Profile/Profile.js';
-import Post from '../Activities/Post/PostsManagement.js';
-import Relations from '../Activities/Relations/Relations.js';
-import Messages from '../Activities/Messages/Messages.js';
+import Actualities from '../Activities/actualities.js'
+import Schools from '../Activities/schools.js'
+import Profile from '../Activities/profile.js'
+import Posts from '../Activities/posts.js'
+import Relations from '../Activities/relations.js'
+import Messages from '../Activities/messages.js'
 
 export const mainListItems = (
   <div>
@@ -25,7 +28,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Actuality feed" />
     </ListItem>
-    <ListItem button onClick={() => {ReactDOM.render(<SchoolAndCompanies />, document.getElementById('root')); }}>
+    <ListItem button onClick={() => {ReactDOM.render(<Schools />, document.getElementById('root')); }}>
       <ListItemIcon>
         <School />
       </ListItemIcon>
@@ -37,7 +40,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Profile" />
     </ListItem>
-    <ListItem button onClick={() => {ReactDOM.render(<Post />, document.getElementById('root')); }}>
+    <ListItem button onClick={() => {ReactDOM.render(<Posts />, document.getElementById('root')); }}>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>

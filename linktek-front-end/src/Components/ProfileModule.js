@@ -4,17 +4,20 @@ import classnames from 'classnames';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
+import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
+import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Paper from './papers.js';
-import TimelineList from './timelineList.js';
-import WorkPicture from '../Images/work.png';
-import SchoolPicture from '../Images/school.png';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import ProfilePicture from '../Images/profilePicture.jpg';
+import Paper from '../Components/profileCurrentDescription.js';
 
 const styles = theme => ({
   card: {
@@ -42,30 +45,30 @@ const styles = theme => ({
   },
 });
 
-class TimelineModule extends React.Component {
+class ProfileModule extends React.Component {
   state = { expanded: false };
 
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
   };
 
-  handleJobTitle(job, company) {
-    return job + ' for ' + company + ' company';
-  };
-
   render() {
     const { classes } = this.props;
-    const {names} = this.props;
+
     return (
       <Card className={classes.card}>
         <CardHeader
-          title="Current Job"
+          title="Profile"
         />
-        <CardActions className={classes.actions}>
-          <Paper
-            title={this.handleJobTitle(this.props.job, this.props.company)}
-            description="Since 01.01.1900"/>
-        </CardActions>
+        <CardMedia
+          className={classes.media}
+          image={ ProfilePicture }
+        />
+        <CardContent>
+          <Typography component="h4" variant="h6">
+            {this.props.userName}
+          </Typography>
+        </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
           <IconButton
             className={classnames(classes.expand, {
@@ -80,21 +83,14 @@ class TimelineModule extends React.Component {
         </CardActions>
         <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <CardHeader
-              title="TimeLine"
+            <Paper
+              job={"Front-End Developer"}
+              company={"NanoSoft"}
+              state={"USA"}
+              age={"22"}
             />
-            <TimelineList
-              names={this.props.names}
-              namesState={this.props.namesState}
-              companies={this.props.companies}
-              getAvatarImage={this.getAvatarImage}
-              formatThatLine={this.formatThatLine}
-              />
           </CardContent>
           <CardContent>
-            <Button style={{backgroundColor: '#3f51b5', width: "100%", color: "white" }}>
-              Add New Input
-            </Button>
           </CardContent>
         </Collapse>
       </Card>
@@ -102,4 +98,4 @@ class TimelineModule extends React.Component {
   }
 }
 
-export default withStyles(styles)(TimelineModule);
+export default withStyles(styles)(ProfileModule);

@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import Login from './Activities/Login/Login.js';
+import Login from './Activities/login.js';
+import ReactDOM from 'react-dom';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Login />
-      </div>
+      ReactDOM.render(<Login />, document.getElementById('root'))
     );
   }
 }

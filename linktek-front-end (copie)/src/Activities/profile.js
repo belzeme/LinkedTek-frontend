@@ -103,12 +103,14 @@ class Profile extends React.Component {
     userName: 'John Doe',
     job: 'Front-End Developer',
     company: 'NanoSoft',
+    companyNumber: '3',
     age: '22',
     country: 'USA',
     names: ['Epitech Toulouse', 'Blop 1', 'Blop 2', 'NanoSoft'],
     namesState: ['School', 'Company', 'Company', 'Company'],
     result: ['Jean valjean', 'Jean valjean'],
-    resultPicture: ['../Images/profilePicture1.png', '../Images/profilePicture2.png']
+    resultPicture: ['../Images/profilePicture1.png', '../Images/profilePicture2.png'],
+    companies: ['Lateral Software', 'Eco-Software', 'Mobile Software', 'NanoSoft'],
   };
 
   handleDrawerOpen = () => {
@@ -184,7 +186,9 @@ class Profile extends React.Component {
                 names={this.state.names}
                 namesState={this.state.namesState}
                 result={this.state.result}
-                resultPicture={this.state.resultPicture}/>
+                resultPicture={this.state.resultPicture}
+                companies={this.state.companies}
+                company={this.state.companyNumber}/>
             </p>
           </div>
         </main>

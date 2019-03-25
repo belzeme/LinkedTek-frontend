@@ -23,27 +23,42 @@ const styles = theme => ({
 class TimelineList extends React.Component {
   constructor() {
     super();
+
   }
 
-  test(value) {
-    return SchoolPicture;
-    console.log("VALUE OF nameState at : " + value + this.props.namesState[value]);
-  }
 
   render() {
     const { classes } = this.props;
 
+    function getAvatarImage(value) {
+      if (value === 'School') {
+        return SchoolPicture;
+      }
+      else if (value === 'Company'){
+        return WorkPicture;
+      }
+    }
+
+    function formatThatLine(value) {
+        return value + " 01.01.1900 - 01.01.1901";
+    }
+
+    function makeArray() {
+      var N = 20;
+       return Array.apply(null, {length: N}).map(Number.call, Number)
+    }
+
     return (
       <List dense className={classes.root} style={{marginLeft: "auto", marginRight: "auto"}}>
-        {this.props.companies.map((value, index) => (
-          <ListItem key={value} button>
+        {makeArray().map(value => (
+          <ListItem key={value} button style={{display: this.props.namesState[value] ? 'block ' : 'none' }} >
             <ListItemAvatar >
               <Avatar
-                src={this.props.namesState[index] == 'School' ? SchoolPicture : WorkPicture}
+                src={getAvatarImage(this.props.namesState[value])}
               />
             </ListItemAvatar>
             <ListItemSecondaryAction>
-              <ListItemText primary={this.props.names[index]} secondary={"01.01.1900 - 01.01.1901"} />
+              <ListItemText primary={this.props.names[value]} secondary={"01.01.1900 - 01.01.1901"} style={{display: this.props.names[value] ? 'block ' : 'none' }} />
             </ListItemSecondaryAction>
           </ListItem>
         ))}

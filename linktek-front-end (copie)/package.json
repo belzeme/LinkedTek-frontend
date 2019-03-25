@@ -1,13 +1,16 @@
 {
-  "name": "linked",
+  "name": "linktek-front-end",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "react-scripts": "2.1.8"
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "react-native-gesture-handler": "^1.1.0",
+    "react-navigation": "^3.3.2",
+    "react-notifications": "^1.4.3",
+    "react-scripts": "2.1.5"
   },
   "scripts": {
     "start": "react-scripts start",
