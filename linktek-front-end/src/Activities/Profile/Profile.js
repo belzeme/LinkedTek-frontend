@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from '../Login/Login.js';
 import ReactDOM from 'react-dom';
@@ -99,17 +98,42 @@ const styles = theme => ({
 class Profile extends React.Component {
   state = {
     open: true,
+    selectedPicture: '',
+    profileModalVisible: false,
+    userModalVisible: false,
+    jobInputModalVisible: false,
+    jobEditModalVisible: false,
     userName: 'John Doe',
+    currentJobStartTime: '01.01.2000',
     job: 'Front-End Developer',
     company: 'NanoSoft',
     companyNumber: '3',
     age: '22',
-    country: 'USA',
+    country: "USA",
     names: ['Epitech Toulouse', 'Blop 1', 'Blop 2', 'NanoSoft'],
     namesState: ['School', 'Company', 'Company', 'Company'],
+    namesJob: ['Strudent', 'Software Developer', 'Software Developer', 'Software Architect'],
     result: ['Jean valjean', 'Jean valjean'],
     resultPicture: ['../Images/profilePicture1.png', '../Images/profilePicture2.png'],
     companies: ['Lateral Software', 'Eco-Software', 'Mobile Software', 'NanoSoft'],
+    searchResultName: ['Name 1', 'Name 2', 'Name 3', 'Name 4'],
+    searchResultJobTitle: ['Software Developer', 'Software engineer', 'Software Architect', 'Business Developer'],
+    searchUserName: "User Name",
+    searchUserCompany: "User Company",
+    searchUserCountry: "User Country",
+    searchUserJob: "User Job Title",
+    searchUserAge: "Search User Age",
+    selectedEditInput: 0,
+    newJobInputType: 'Company',
+    countries: [
+      '',
+      'USA',
+      'JAPAN',
+      'FRANCE',
+      'ITALIA',
+      'MEXICO',
+    ],
+    selectedCountry: 'USA',
   };
 
   handleDrawerOpen = () => {
@@ -119,6 +143,79 @@ class Profile extends React.Component {
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
+
+  handleProfileModalShow = () => {
+    this.setState({ profileModalVisible: true });
+  }
+
+  handleProfileModalClose = () => {
+    this.setState({ profileModalVisible: false });
+  }
+
+  handleUserModalShow = () => {
+    this.setState({ userModalVisible: true });
+  }
+
+  handleUserModalClose = () => {
+    this.setState({ userModalVisible: false });
+  }
+
+  handleJobInputModalShow = () => {
+    this.setState({ jobInputModalVisible: true });
+  }
+
+  handleJobInputModalClose = () => {
+    this.setState({ jobInputModalVisible: false });
+  }
+
+  handleJobEditModalShow = () => {
+    this.setState({ jobEditModalVisible: true });
+  }
+
+  handleJobEditModalClose = () => {
+    this.setState({ jobEditModalVisible: false });
+  }
+
+  handleUserNameChange = name => event => {
+    this.setState({ userName: event.target.value });
+  }
+
+  handleCountryChange = name => event => {
+    this.setState({ country: event.target.value });
+  }
+
+  handleCompanyChange = name => event => {
+    this.setState({ company: event.target.value });
+  }
+
+  handleJobChange = name => event => {
+    this.setState({ job: event.target.value });
+  }
+
+  handleAgeChange = name => event => {
+    this.setState({ age: event.target.value });
+  }
+
+  handleCurrentJobStartDate = name => event => {
+    this.setState({ currentJobStartTime: event.target.value });
+  }
+
+  handleProfilePictureChange = name => event => {
+    this.setState({ selectedPicture: event.target.value });
+  }
+
+  handleNewJobInputCompanyTypeChanged = () => {
+    if (this.state.newJobInputType === 'School') {
+      this.setState({ newJobInputType: 'Company' });
+    }
+    else if (this.state.newJobInputType === 'Company') {
+      this.setState({ newJobInputType: 'School' });
+    }
+  }
+
+  handleSelectedCountryChange = (value) => {
+    this.setState({ selectedCountry: value});
+  }
 
   render() {
     const { classes } = this.props;
@@ -164,9 +261,7 @@ class Profile extends React.Component {
           open={this.state.open}
         >
           <div className={classes.toolbarIcon}>
-            <IconButton onClick={this.handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
+
           </div>
           <Divider />
           <List>{mainListItems}</List>
@@ -183,12 +278,48 @@ class Profile extends React.Component {
             company={this.state.company}
             age={this.state.age}
             country={this.state.country}
+            currentJobStartTime={this.state.currentJobStartTime}
             names={this.state.names}
             namesState={this.state.namesState}
             result={this.state.result}
             resultPicture={this.state.resultPicture}
             companies={this.state.companies}
-            companyNumber={this.state.companyNumber}/>
+            companyNumber={this.state.companyNumber}
+            handleProfileModalClose={this.handleProfileModalClose}
+            handleProfileModalShow={this.handleProfileModalShow}
+            profileModalVisible={this.state.profileModalVisible}
+            handleUserNameChange={this.handleUserNameChange}
+            handleCountryChange={this.handleCountryChange}
+            handleCompanyChange={this.handleCompanyChange}
+            handleJobChange={this.handleJobChange}
+            handleAgeChange={this.handleAgeChange}
+            handleJobInputModalShow={this.handleJobInputModalShow}
+            handleJobInputModalClose={this.handleJobInputModalClose}
+            jobInputModalVisible={this.state.jobInputModalVisible}
+            handleCurrentJobStartDate={this.handleCurrentJobStartDate}
+            handleProfilePictureChange={this.handleProfilePictureChange}
+            searchResultName={this.state.searchResultName}
+            searchResultJobTitle={this.state.searchResultJobTitle}
+            handleUserModalShow={this.handleUserModalShow}
+            handleUserModalClose={this.handleUserModalClose}
+            userModalVisible={this.state.userModalVisible}
+            searchUserName={this.state.searchUserName}
+            searchUserCountry={this.state.searchUserCountry}
+            searchUserJob={this.state.searchUserJob}
+            searchUserAge={this.state.searchUserAge}
+            searchUserCompany={this.state.searchUserCompany}
+            jobEditModalVisible={this.state.jobEditModalVisible}
+            handleJobEditModalShow={this.handleJobEditModalShow}
+            handleJobEditModalClose={this.handleJobEditModalClose}
+            selectedEditInput={this.state.selectedEditInput}
+            namesJob={this.state.namesJob}
+            newJobInputType={this.state.newJobInputType}
+            handleNewJobInputCompanyTypeChanged={this.handleNewJobInputCompanyTypeChanged}
+            editNamesState={this.editNamesState}
+            countries={this.state.countries}
+            selectedCountry={this.state.selectedCountry}
+            handleSelectedCountryChange={this.handleSelectedCountryChange}
+          />
         </main>
       </div>
     );

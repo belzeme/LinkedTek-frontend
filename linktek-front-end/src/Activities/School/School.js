@@ -10,10 +10,10 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from '../Login/Login.js';
 import ReactDOM from 'react-dom';
+import Inner from './content/schoolAndCompaniesInner.js';
 import { mainListItems } from '../../Components/leftMenu';
 
 const drawerWidth = 240;
@@ -98,6 +98,69 @@ const styles = theme => ({
 class School extends React.Component {
   state = {
     open: true,
+    newInputTypes: ['School', 'Company'],
+    newInputTypeSelected: 0,
+    newInputName: '',
+    newInputDescription: '',
+    countryList: [
+      'USA',
+      'RUSSIA',
+      'FRANCE',
+      'ITALIE',
+      'SPAIN',
+      'JAPAN',
+    ],
+    selectedCountry: 0,
+    schoolList: [
+      'Epitech',
+      'Epita',
+      'ISEG',
+      'E-Artsup',
+      'Etna',
+      'Esme-Supdria',
+    ],
+    schoolDescription: [
+      'Post haec indumentum regale quaerebatur et ministris fucandae purpurae tortis confessisque pectoralem tuniculam sine manicis textam.',
+      'Maras nomine quidam inductus est ut appellant Christiani diaconus, cuius prolatae litterae scriptae.',
+      'Graeco sermone ad Tyrii textrini praepositum celerari speciem perurgebant quam autem.',
+      'Non indicabant denique etiam idem ad usque discrimen vitae vexatus nihil fateri conpulsus est.',
+      'Quanta autem vis amicitiae sit, ex hoc intellegi maxime potest, quod ex infinita societate generis humani, quam conciliavit ipsa natura.',
+      'Haec dum oriens diu perferret, caeli reserato tepore Constantius consulatu suo septies.'
+    ],
+    schoolSubscribed: [
+      true,
+      false,
+      true,
+      false,
+      false,
+      false,
+    ],
+    companyList: [
+      'Nano-Softare',
+      'Micro-Software',
+      'Mega-Softare',
+      'Ultra-Softare',
+      'Blop-Software',
+      'New-Software',
+    ],
+    companyDescription: [
+      'Per hoc minui studium suum existimans Paulus, ut erat in conplicandis negotiis artifex dirus, unde ei Catenae inditum est cognomentum.',
+      'Vicarium ipsum eos quibus praeerat adhuc defensantem ad sortem periculorum communium traxit.',
+      'Ille exitio urgente abrupto ferro eundem adoritur Paulum. et quia languente dextera.',
+      'Letaliter ferire non potuit, iam districtum mucronem in proprium latus inpegit. hocque deformi genere mortis excessit e vita iustissimus.',
+      'Inter quos Paulus eminebat notarius ortus in Hispania, glabro quidam sub vultu latens, odorandi vias periculorum occultas perquam sagax.',
+      'Auxerunt haec vulgi sordidioris audaciam, quod cum ingravesceret penuria commeatuum, famis et furoris inpulsu.'
+    ],
+    companySubscribed: [
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+    ],
+    filteredCountrySchools: 0,
+    filteredCountryCompanies: 0,
   };
 
   handleDrawerOpen = () => {
@@ -107,6 +170,34 @@ class School extends React.Component {
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
+
+  handleNewInputTypeChanged = () => {
+    if (this.state.newInputTypeSelected === 0) {
+      this.setState({ newInputTypeSelected: 1 });
+    }
+    else {
+      this.setState({ newInputTypeSelected: 0 });
+    }
+  }
+
+  handleNewInputNameChanged = name => event => {
+    this.setState({ newInputName: event.target.value });
+  }
+  handleNewInputDescriptionChanged = name => event => {
+    this.setState({ newInputDescription: event.target.value });
+  }
+
+  handleSelectedCountryChange = (value) => {
+    this.setState({ selectedCountry: value});
+  }
+
+  handleFilteredCountryChangeSchools = (value) => {
+    this.setState({ filteredCountrySchools: value});
+  }
+
+  handleFilteredCountryChangeCompanies = (value) => {
+    this.setState({ filteredCountryCompanies: value});
+  }
 
   render() {
     const { classes } = this.props;
@@ -152,9 +243,6 @@ class School extends React.Component {
           open={this.state.open}
         >
           <div className={classes.toolbarIcon}>
-            <IconButton onClick={this.handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
           </div>
           <Divider />
           <List>{mainListItems}</List>
@@ -165,9 +253,26 @@ class School extends React.Component {
           <Typography variant="h4" gutterBottom component="h3">
             School and Companies
           </Typography>
-          <Typography variant="h5" gutterBottom component="h3">
-            Work in progress
-          </Typography>
+          <Inner
+            newInputTypes={this.state.newInputTypes}
+            newInputTypeSelected={this.state.newInputTypeSelected}
+            handleNewInputTypeChanged={this.handleNewInputTypeChanged}
+            handleNewInputNameChanged={this.handleNewInputNameChanged}
+            handleNewInputDescriptionChanged={this.handleNewInputDescriptionChanged}
+            countryList={this.state.countryList}
+            selectedCountry={this.state.selectedCountry}
+            handleSelectedCountryChange={this.handleSelectedCountryChange}
+            schoolList={this.state.schoolList}
+            schoolDescription={this.state.schoolDescription}
+            schoolSubscribed={this.state.schoolSubscribed}
+            companyDescription={this.state.companyDescription}
+            companyList={this.state.companyList}
+            companySubscribed={this.state.companySubscribed}
+            filteredCountrySchools={this.state.filteredCountrySchools}
+            filteredCountryCompanies={this.state.filteredCountryCompanies}
+            handleFilteredCountryChangeSchool={this.handleFilteredCountryChangeSchools}
+            handleFilteredCountryChangeCompanies={this.handleFilteredCountryChangeCompanies}
+          />
         </main>
       </div>
     );

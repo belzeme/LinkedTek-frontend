@@ -13,7 +13,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from '../Login/Login.js';
 import ReactDOM from 'react-dom';
-import Inner from './content/relationsInner.js';
+import Inner from './content/actualityDetailsInner.js';
 import { mainListItems } from '../../Components/leftMenu';
 
 const drawerWidth = 240;
@@ -95,64 +95,29 @@ const styles = theme => ({
   },
 });
 
-class Relations extends React.Component {
+class ActualityDetails extends React.Component {
   state = {
     open: true,
-    searchResult: ['USER 1', 'UUSER 2', 'USER 3', 'USER 4'],
-    userRelations: ['John Doe', 'Joane Doe', 'Aplus didée', 'blop blop'],
-    relationSuggestion: ['Suggestion 1', 'Suggestion 2', 'Suggestion 3', 'Suggestion 4', 'Suggestion 5', 'Suggestion 6', 'Suggestion 7'],
-    searchUserSelectedName: "John Doe",
-    searchUserSelectedCompany: 'Ultra software',
-    searchUserSelectedJob: 'Front-end developer',
-    searchUserSelectedAge: 33,
-    searchUserModalVisible: false,
-    searchUserSelectstate: "USA",
-
-    relationSelectedName: "Johb Doe",
-    relationSelectedCompany: 'Ultra software',
-    relationSelectedJob: 'Front-end developer',
-    relationSelectedAge: 33,
-    relationSelectedModalVisible: false,
-    relationSelectstate: "USA",
-
-    relationSuggestionSelectedName: "Aplus Didée",
-    relationSuggestionSelectedCompany: 'Mega software',
-    relationSuggestionSelectedJob: 'Front-end developer',
-    relationSuggestionSelectedAge: 33,
-    realtionSuggestionModalVisible: false,
-    relationSuggestionSelectstate: "Russia",
+    postTitle: 'Artung !!!',
+    from: 'User 1',
+    date: '01.01.2001 : 15H20',
+    content: 'enean sagittis, justo a tincidunt pharetra, ipsum ex pretium libero, eu placerat felis felis vitae arcu. Aliquam sit amet accumsan dui, fermentum posuere magna. Donec sed nulla finibus, semper turpis eu, vestibulum lacus.',
+    comments:[
+      'Quantum patre etiam hunc illo hoc tantum munita ad erudiretur sit etiam ad dicam est potuit deditšnihil mecum patris patre.',
+      'Urbes habitaculis agrestibus opibus nominibus veteres conditoris viribus quae inposita quae construxit quam institutores enim urbes enim enim appellentur.',
+      'Construxit firmas nomina arbitrium eis nominibus nominibus Assyria veteres praesens pleraeque hominum ex inposita lingua et ad non conditoris in et.',
+      'Sermo mentionem haberi videretur eam in incidisset arbitratu atque Marci filio in sermonem Marci enim paucis altero loquentes inquit.',
+      'C disputationis mortem ab libro ab quasi quas altero tamquam secum Scaevola quasi tamquam haberi memoriae cum eam cum paucis mandavi.',
+      'Amicis quidquid quibus sunt simus si sumenda quidquid quidem de de Ex si accedunt statuerimus hoc vel ab Ex iis concedere res aut hoc eorum quidem velint numero si Ex.',
+      'Et saeculis magnis Phoenice Phoenice et saeculis nominum plena hanc in Libano et gratiarum nominum in adclinis venustatis Libano in et quibus pares quibus Libano magnis adclinis Emissa condita Berytus.'
+    ],
+    commentsFrom: ['John Doe', 'Aplus didée', 'Joane Doe', 'Mister blop', 'Jean Valjean', 'Encore un', 'Le dernier'],
+    commentsDate: ['01.01.2001 : 15H25', '01.01.2001 : 16h02', '01.01.2001 : 16h20', '01.01.2001 : 17H40', '01.01.2001 : 18H22', '01.01.2001 : 19H37', '01.01.2001 : 23H48'],
+    newComment: '',
   };
 
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
-
-  handleSearchUserModalShow = () => {
-    this.setState({ searchUserModalVisible: true });
-  }
-
-  handleSearchUserModalClose = () => {
-    this.setState({ searchUserModalVisible: false });
-  }
-
-  handleRelationModalShow = () => {
-    this.setState({ relationSelectedModalVisible: true });
-  }
-
-  handleRelationModalClose = () => {
-    this.setState({ relationSelectedModalVisible: false });
-  }
-
-  handleSelectedSuggestionModalShow = () => {
-    this.setState({ realtionSuggestionModalVisible: true });
-  }
-
-  handleSelectedSuggestionModalClose = () => {
-    this.setState({ realtionSuggestionModalVisible: false });
+  handleCommentChange = name => event => {
+    this.setState({ newComment: event.target.value});
   }
 
   render() {
@@ -201,51 +166,29 @@ class Relations extends React.Component {
           <div className={classes.toolbarIcon}>
           </div>
           <Divider />
-          <List>
-            {mainListItems}
-          </List>
+          <List>{mainListItems}</List>
           <Divider />
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
-            <Typography variant="h4" gutterBottom component="h3">
-              Relations
-            </Typography>
-            <Inner
-              searchResult={this.state.searchResult}
-              userRelations={this.state.userRelations}
-              relationSuggestion={this.state.relationSuggestion}
-              searchUserSelectedName={this.state.searchUserSelectedName}
-              searchUserSelectedCompany={this.state.searchUserSelectedCompany}
-              searchUserSelectedJob={this.state.searchUserSelectedJob}
-              searchUserSelectedAge={this.state.searchUserSelectedAge}
-              handleSearchUserModalShow={this.handleSearchUserModalShow}
-              handleSearchUserModalClose={this.handleSearchUserModalClose}
-              searchUserModalVisible={this.state.searchUserModalVisible}
-              searchUserSelectstate={this.state.searchUserSelectstate}
-
-              relationSelectedName={this.state.relationSelectedName}
-              relationSelectedCompany={this.state.relationSelectedCompany}
-              relationSelectedJob={this.state.relationSelectedJob}
-              relationSelectedAge={this.state.relationSelectedAge}
-              handleRelationModalShow={this.handleRelationModalShow}
-              handleRelationModalClose={this.handleRelationModalClose}
-              relationSelectedModalVisible={this.state.relationSelectedModalVisible}
-              relationSelectstate={this.state.relationSelectstate}
-
-              relationSuggestionSelectedName={this.state.relationSuggestionSelectedName}
-              relationSuggestionSelectedCompany={this.state.relationSuggestionSelectedCompany}
-              relationSuggestionSelectedJob={this.state.relationSuggestionSelectedJob}
-              relationSuggestionSelectedAge={this.state.relationSuggestionSelectedAge}
-              realtionSuggestionModalVisible={this.state.realtionSuggestionModalVisible}
-              relationSuggestionSelectstate={this.state.relationSuggestionSelectstate}
-              handleSelectedSuggestionModalShow={this.handleSelectedSuggestionModalShow}
-              handleSelectedSuggestionModalClose={this.handleSelectedSuggestionModalClose}
-            />
+          <Typography variant="h4" gutterBottom component="h3">
+            Actualities Feed
+          </Typography>
+          <Inner
+            postTitle={this.state.postTitle}
+            from={this.state.from}
+            date={this.state.date}
+            content={this.state.content}
+            comments={this.state.comments}
+            commentsDate={this.state.commentsDate}
+            commentsFrom={this.state.commentsFrom}
+            newComment={this.state.newComment}
+            handleCommentChange={this.handleCommentChange}
+          />
         </main>
       </div>
     );
   }
 }
 
-export default withStyles(styles)(Relations);
+export default withStyles(styles)(ActualityDetails);

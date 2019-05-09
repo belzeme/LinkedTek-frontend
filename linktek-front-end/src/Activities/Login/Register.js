@@ -1,6 +1,5 @@
 
 import React, { Component } from 'react';
-import { Alert } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,8 +10,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import ReactDOM from 'react-dom';
-import Login from './Login.js';
 import Snackbar from '../../Components/snackBar.js';
 
 const styles = theme => ({

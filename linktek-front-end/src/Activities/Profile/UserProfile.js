@@ -13,7 +13,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from '../Login/Login.js';
 import ReactDOM from 'react-dom';
-import Inner from './content/postsManagementInner.js'
+import Inner from './content/userProfileInner.js';
 import { mainListItems } from '../../Components/leftMenu';
 
 const drawerWidth = 240;
@@ -95,12 +95,16 @@ const styles = theme => ({
   },
 });
 
-class Post extends React.Component {
+class UserProfile extends React.Component {
   state = {
     open: true,
-    newPostTitle: '',
-    newPostContent: '',
-    myPosts: [
+    userName: 'John Doe',
+    userJob: 'Software Developer',
+    userState: 'USA',
+    userCompany: 'NanoSoft',
+    userAge: '24',
+    deleteRelationModalVisible: false,
+    userPosts: [
       ["01.01.2001", "10H00", "Artung !!!", "Enean sagittis, justo a tincidunt pharetra, ipsum ex pretium libero, eu placerat felis felis vitae arcu. Aliquam sit amet accumsan dui, fermentum posuere magna. Donec sed nulla finibus, semper turpis eu, vestibulum lacus."],
       ['01.01.2001', '11H44', 'Blop', 'Aliquam consectetur ultricies urna vitae consectetur. Morbi varius condimentum eros at vehicula. Proin faucibus id tortor sed cursus. Proin non laoreet mauris.'],
       ['01.01.2001', '15h25', 'Itsum !', 'Cras bibendum, mi vitae condimentum tincidunt, eros quam semper erat, sit amet maximus justo ante ut ipsum. Phasellus sit amet placerat leo. Aliquam congue libero in velit imperdiet ornare.'],
@@ -110,7 +114,7 @@ class Post extends React.Component {
       ['02.01.2001', '08h55', 'Accumsan nisl lacinia !!!', 'Donec pretium felis non luctus scelerisque. Etiam facilisis eros sit amet odio facilisis tincidunt. Phasellus fermentum nec tortor nec feugiat. Curabitur finibus leo quis posuere laoreet.'],
       ['02.01.2001', '11h12', 'Etiam convallis risus diam', 'Pellentesque id lacus suscipit metus dignissim rutrum. Etiam felis urna, faucibus eget urna sed, cursus porttitor metus. Sed non ligula in tellus ornare molestie. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.'],
     ],
-    myComments: [
+    userComments: [
       ["01.01.2001", "10H00", 'Suspendisse ac enim lorem.', '01.01.2001', '9h50', 'Nunc eget scelerisque', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac elit molestie, cursus justo eget, vehicula lorem. Sed quis arcu a eros ultrices commodo. Nulla ac scelerisque mauris. Vivamus vel tortor at ante elementum tempus.', 'User 1'],
       ['01.01.2001', '11H44', 'Vivamus condimentum nunc id lacinia consequat.', '01.01.2001', '10h00', 'Aenean porttitor eget', 'Quisque semper mattis dui, eu pellentesque ex. Phasellus sollicitudin arcu eget orci faucibus scelerisque. Aliquam aliquet erat vitae laoreet lobortis.', 'User 2'],
       ['01.01.2001', '15h25', 'Proin sed leo ligula.', '01.01.2001', '12h12', 'Acondimentum lacus', 'Maecenas posuere convallis felis ut rutrum. Donec consectetur vestibulum elit id aliquet. Mauris scelerisque velit vel magna lacinia, ac efficitur massa dapibus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis pretium metus ut risus porttitor congue.', 'User 3'],
@@ -120,26 +124,6 @@ class Post extends React.Component {
       ['02.01.2001', '08h55', 'Praesent mattis interdum augue, sed sollicitudin felis venenatis in. Praesent massa sapien, interdum vel elit non, imperdiet pellentesque nunc.', '02.01.2001', '07h45', 'Quisque ac faucibus velit', ' Sed vehicula aliquam turpis, sed suscipit nulla efficitur blandit. Sed ligula felis, pellentesque sed nisi nec, blandit porta diam. Vivamus eu tincidunt tellus, nec porta leo.', 'User 1'],
       ['02.01.2001', '11h12', 'Vivamus accumsan lacinia massa et euismod.', '02.01.2001', '11h11', 'Pellentesque feugiat mi !!!', 'Morbi at libero tincidunt, finibus mauris ac, auctor neque. Aliquam eu sem vel purus pretium venenatis.', 'User 4'],
     ],
-    contact: [
-      '',
-      'John Doe',
-      'Aplus Didée',
-      'Joanne Doe',
-      'User Ulop',
-      'Blop User',
-      'Toto AAA',
-      'Toto BBB',
-      'Toto CCC',
-      'Toto DDD',
-      'Toto EEE',
-      'Toto FFF',
-    ],
-    selectedContact: 0,
-    editPostModalVisible: false,
-    editCommentModalVisible: false,
-    editPostContent: '',
-    editPostTitle: '',
-    editComment: '',
   };
 
   handleDrawerOpen = () => {
@@ -150,52 +134,14 @@ class Post extends React.Component {
     this.setState({ open: false });
   };
 
-  handleNewPostTitleChanged = name => event => {
-    this.setState({ newPostTitle: event.target.value});
+  handleDeleteRelationClose = () => {
+    this.setState({ deleteRelationModalVisible: false });
   }
 
-  handleNewPostContentChanged = name => event => {
-    this.setState({ newPostContent: event.target.value});
+  handleDeleteRelationShow = () => {
+    this.setState({ deleteRelationModalVisible: true });
   }
 
-  handleSelectedContactChange = (value) => {
-    this.setState({ selectedContact: value});
-  }
-
-  handleEditPostModalShow = (value) => {
-    this.setState({ editPostContent: value[3]});
-    this.setState({ editPostTitle: value[2]});
-    this.setState({ editPostModalVisible: true});
-  }
-
-  handleEditPostModalClose = () => {
-    this.setState({ editPostModalVisible: false});
-    this.setState({ editPostContent: ''});
-    this.setState({ editPostTitle: ''});
-
-  }
-
-  handleEditCommentModalShow = (value) => {
-    this.setState({ editCommentModalVisible: true});
-    this.setState({ editComment: value[2]});
-  }
-
-  handleEditCommentModalClose = () => {
-    this.setState({ editCommentModalVisible: false});
-    this.setState({ editComment: ''});
-  }
-
-  handleEditPostContent = name => event => {
-    this.setState({ editPostContent: event.target.value});
-  }
-
-  handleEditPostTitle = name => event => {
-    this.setState({ editPostTitle: event.target.value});
-  }
-
-  handleEditComment = name => event => {
-    this.setState({ editComment: event.target.value});
-  }
 
   render() {
     const { classes } = this.props;
@@ -243,39 +189,32 @@ class Post extends React.Component {
           <div className={classes.toolbarIcon}>
           </div>
           <Divider />
-          <List>{mainListItems}</List>
+          <List>
+            {mainListItems}
+          </List>
           <Divider />
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
-          <Typography variant="h4" gutterBottom component="h3">
-            Posts Management
-          </Typography>
-          <Inner
-            handleNewPostTitleChanged={this.handleNewPostTitleChanged}
-            handleNewPostContentChanged={this.handleNewPostContentChanged}
-            myPosts={this.state.myPosts}
-            myComments={this.state.myComments}
-            contact={this.state.contact}
-            selectedContact={this.state.selectedContact}
-            handleSelectedContactChange={this.handleSelectedContactChange}
-            editPostModalVisible={this.state.editPostModalVisible}
-            handleEditPostModalClose={this.handleEditPostModalClose}
-            handleEditPostModalShow={this.handleEditPostModalShow}
-            editCommentModalVisible={this.state.editCommentModalVisible}
-            handleEditCommentModalShow={this.handleEditCommentModalShow}
-            handleEditCommentModalClose={this.handleEditCommentModalClose}
-            editPostContent={this.state.editPostContent}
-            editPostTitle={this.state.editPostTitle}
-            handleEditPostContent={this.handleEditPostContent}
-            handleEditPostTitle={this.handleEditPostTitle}
-            handleEditComment={this.handleEditComment}
-            editComment={this.state.editComment}
-          />
+            <Typography variant="h4" gutterBottom component="h3">
+              {this.state.userName} Profile
+            </Typography>
+            <Inner
+              userName={this.state.userName}
+              userAge={this.state.userAge}
+              userState={this.state.userState}
+              userCompany={this.state.userCompany}
+              userJob={this.state.userJob}
+              handleDeleteRelationClose={this.handleDeleteRelationClose}
+              handleDeleteRelationShow={this.handleDeleteRelationShow}
+              deleteRelationModalVisible={this.state.deleteRelationModalVisible}
+              userPosts={this.state.userPosts}
+              userComments={this.state.userComments}
+            />
         </main>
       </div>
     );
   }
 }
 
-export default withStyles(styles)(Post);
+export default withStyles(styles)(UserProfile);
