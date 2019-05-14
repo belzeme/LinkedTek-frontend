@@ -13,7 +13,6 @@ import Snackbar from '../../Components/snackBar.js';
 import RegisterService from '../../Services/login.service.js';
 import ReactDOM from 'react-dom';
 import Modal from 'react-awesome-modal';
-import jsonpAdapter from 'axios-jsonp';
 import axios from 'axios';
 
 const styles = theme => ({
@@ -105,13 +104,9 @@ class Register extends Component {
       this.handleModalShow()
     }
     else {
-      axios.post(`http://127.0.0.1:3010/auth/register`, { adapter: jsonpAdapter }, {
-        params: {
-          email: this.state.email,
-          password: this.state.password
-        }
-      })
-      .then(ret => console.log(ret));
+      axios.post(`http://127.0.0.1:3010/auth/register`, {email: this.state.email, password: this.state.password})
+      .then(ret => console.log('ret', ret))
+      .catch(error => console.log(`error: ${error}`));
     }
   }
 
