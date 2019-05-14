@@ -84,7 +84,7 @@ class UserCommentsModule extends React.Component {
                 </ListItem>
                 <ListItem>
                   <div style={{marginTop: -15}}>
-                    <p>My Comment</p>
+                    <p>{this.props.userName} Comment</p>
                     <p style={{marginLeft: 10}}>{this.handleCommentDate(value)}</p>
                     <p style={{marginLeft: 10}}>{this.handleRowComment(value)}</p>
                   </div>

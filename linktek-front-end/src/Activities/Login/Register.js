@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -11,6 +10,11 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Snackbar from '../../Components/snackBar.js';
+import RegisterService from '../../Services/login.service.js';
+import ReactDOM from 'react-dom';
+import Modal from 'react-awesome-modal';
+import jsonpAdapter from 'axios-jsonp';
+import axios from 'axios';
 
 const styles = theme => ({
   main: {
@@ -52,6 +56,7 @@ class Register extends Component {
       email: "",
       password: "",
       confirmation: "",
+      isModalVisible: false,
     };
   }
 
@@ -67,15 +72,46 @@ class Register extends Component {
     this.setState({confirmation: event.target.value});
   }
 
-  clickOnSubmitButton = () => {
-    //console.log("Email : " + this.state.email + '\nPassword : ' + this.state.password + '\nConfirmation : ' + this.state.confirmation);
-    //ReactDOM.render(<Login />, document.getElementById('root'));
-    if (this.state.password !== this.state.passwordConfirmation) {
-      console.log("BLOP");
-      return <Snackbar />
+  handleModalShow() {
+    this.setState({isModalVisible: true});
+  }
+
+  handleModalClose() {
+    this.setState({isModalVisible: false});
+  }
+
+  handleErrorMessage() {
+    if (this.state.email === '') {
+      return 'Error email field cannot be empty';
+    }
+    else if (this.state.password === '') {
+      return 'Error password field cannot be empty';
+    }
+    else if (this.state.confirmation === '') {
+      return 'Error, password confirmation cannot be empty';
+    }
+    else if (this.state.password !== this.state.confirmation) {
+      return 'Error with password and password confirmation';
     }
     else {
+      return 'OK';
+    }
+  }
 
+  clickOnSubmitButton = (email, password) => {
+    console.log("Email : " + this.state.email + '\nPassword : ' + this.state.password + '\nConfirmation : ' + this.state.confirmation);
+
+    if (this.handleErrorMessage() !== 'OK') {
+      this.handleModalShow()
+    }
+    else {
+      axios.post(`http://127.0.0.1:3010/auth/register`, { adapter: jsonpAdapter }, {
+        params: {
+          email: this.state.email,
+          password: this.state.password
+        }
+      })
+      .then(ret => console.log(ret));
     }
   }
 
@@ -103,7 +139,7 @@ class Register extends Component {
               <InputLabel htmlFor="password">Password Confirmation</InputLabel>
               <Input name="passwordConfirmatiobn" type="password" id="passwordConfirmation" autoComplete="current-password" onChange={(event) => this.handleConfirmChange(event)}/>
             </FormControl>
-            <Button onClick={() => this.clickOnSubmitButton()}
+            <Button onClick={() => this.clickOnSubmitButton(this.state.email, this.state.password)}
               type="submit"
               fullWidth
               variant="contained"
@@ -113,6 +149,14 @@ class Register extends Component {
               Submit
             </Button>
         </Paper>
+        <Modal visible={this.state.isModalVisible} width="500" height="200" effect="fadeInUp" onClickAway={() => this.handleModalClose()}>
+          <div>
+            <h3 style={{marginTop: 60, textAlign: 'center'}}>{this.handleErrorMessage()}</h3>
+          </div>
+          <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white", marginLeft: 11, marginTop: 10 }} onClick={() => this.handleModalClose()}>
+            Close
+          </Button>
+        </Modal>
       </main>
     );
   }
