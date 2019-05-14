@@ -56,6 +56,8 @@ class Register extends Component {
       password: "",
       confirmation: "",
       isModalVisible: false,
+      isReturnServerOKModalVisible: false,
+      isReturnServerKOModalVisible: false,
     };
   }
 
@@ -79,6 +81,22 @@ class Register extends Component {
     this.setState({isModalVisible: false});
   }
 
+  handleKoModalShow() {
+    this.setState({isReturnServerKOModalVisible: true});
+  }
+
+  handleKoModalClose() {
+    this.setState({isReturnServerKOModalVisible: false});
+  }
+
+  handleOkModalShow() {
+    this.setState({isReturnServerOKModalVisible: true});
+  }
+
+  handleOkModalClose() {
+    this.setState({isReturnServerOKModalVisible: false});
+  }
+
   handleErrorMessage() {
     if (this.state.email === '') {
       return 'Error email field cannot be empty';
@@ -97,6 +115,7 @@ class Register extends Component {
     }
   }
 
+
   clickOnSubmitButton = (email, password) => {
     console.log("Email : " + this.state.email + '\nPassword : ' + this.state.password + '\nConfirmation : ' + this.state.confirmation);
 
@@ -105,8 +124,8 @@ class Register extends Component {
     }
     else {
       axios.post(`http://127.0.0.1:3010/auth/register`, {email: this.state.email, password: this.state.password})
-      .then(ret => console.log('ret', ret))
-      .catch(error => console.log(`error: ${error}`));
+      .then(ret => this.handleOkModalShow())
+      .catch(error => this.handleKoModalShow());
     }
   }
 
@@ -149,6 +168,22 @@ class Register extends Component {
             <h3 style={{marginTop: 60, textAlign: 'center'}}>{this.handleErrorMessage()}</h3>
           </div>
           <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white", marginLeft: 11, marginTop: 10 }} onClick={() => this.handleModalClose()}>
+            Close
+          </Button>
+        </Modal>
+        <Modal visible={this.state.isReturnServerOKModalVisible} width="500" height="200" effect="fadeInUp" onClickAway={() => this.handleOkModalClose()}>
+          <div>
+            <h3 style={{marginTop: 60, textAlign: 'center'}}>Account creation success !</h3>
+          </div>
+          <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white", marginLeft: 11, marginTop: 10 }} onClick={() => this.handleOkModalClose()}>
+            Close
+          </Button>
+        </Modal>
+        <Modal visible={this.state.isReturnServerKOModalVisible} width="500" height="200" effect="fadeInUp" onClickAway={() => this.handleKoModalClose()}>
+          <div>
+            <h3 style={{marginTop: 60, textAlign: 'center'}}>Account creation failed, email alreay used !</h3>
+          </div>
+          <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white", marginLeft: 11, marginTop: 10 }} onClick={() => this.handleKoModalClose()}>
             Close
           </Button>
         </Modal>
