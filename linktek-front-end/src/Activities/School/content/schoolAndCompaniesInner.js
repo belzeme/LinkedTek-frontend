@@ -33,6 +33,11 @@ class SchoolAndCompaniesInner extends React.Component {
               countryList={this.props.countryList}
               selectedCountry={this.props.selectedCountry}
               handleSelectedCountryChange={this.props.handleSelectedCountryChange}
+              handleNewInputValidate={this.props.handleNewInputValidate}
+              handleSuccessModalClose={this.props.handleSuccessModalClose}
+              isSuccessModalVisible={this.props.isSuccessModalVisible}
+              isErrorModalVisible={this.props.isErrorModalVisible}
+              handleErrorModalClose={this.props.handleErrorModalClose}
             />
           </Grid>
           <Grid item xs>

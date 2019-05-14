@@ -155,15 +155,64 @@ class School extends React.Component {
     ],
     filteredCountrySchools: 0,
     filteredCountryCompanies: 0,
+    isSuccessModalVisible: false,
+    isErrorsModalVisible: false,
   };
+
 
   componentDidMount() {
     axios.get(`http://127.0.0.1:3010/country/list`)
     .then(ret => this.handleCountryList(ret));
+
+    axios.get(`http://127.0.0.1:3010/school/list`)
+    .then(ret => this.handleSchoolList(ret));
   }
 
   handleCountryList(ret) {
     this.setState({countryList: ret.data});
+  }
+
+  handleBlop(ret) {
+    console.log(Object.keys(ret).map(k => ret[k]));
+  }
+
+  handleSchoolList(ret) {
+    console.log("SCHOOL : " + Object.keys(ret).map(k => ret[k]));
+    for (let value of Object.values(ret)) {
+      console.log(Object.keys(value).map(k => value[k]));
+    }
+  }
+
+  createNewSchoolReturn(value, ret) {
+    if (value === true) {
+      this.handleSuccessModalShow();
+    }
+    else {
+      this.handleErrorModalShow();
+    }
+  }
+
+  handleSuccessModalClose = () => {
+    this.setState({ isSuccessModalVisible: false });
+  }
+
+  handleSuccessModalShow = () => {
+    this.setState({ isSuccessModalVisible: true });
+  }
+
+  handleErrorModalClose = () => {
+    this.setState({ isErrorModalVisible: false });
+  }
+
+  handleErrorModalShow = () => {
+    this.setState({ isErrorModalVisible: true });
+  }
+
+  handleCreateNewSchool = () => {
+    axios
+    .post(`http://127.0.0.1:3010/school/create`, {name: this.state.newInputName, description: this.state.newInputDescription, country: this.state.selectedCountry})
+    .then(ret => this.createNewSchoolReturn(true, ret))
+    .catch(ret => this.createNewSchoolReturn(false, ret));
   }
 
   handleDrawerOpen = () => {
@@ -275,6 +324,13 @@ class School extends React.Component {
             filteredCountryCompanies={this.state.filteredCountryCompanies}
             handleFilteredCountryChangeSchool={this.handleFilteredCountryChangeSchools}
             handleFilteredCountryChangeCompanies={this.handleFilteredCountryChangeCompanies}
+            handleNewInputValidate={this.handleCreateNewSchool}
+            newInputName={this.state.newInputName}
+            newInputDescription={this.state.newInputDescription}
+            isSuccessModalVisible={this.state.isSuccessModalVisible}
+            isErrorModalVisible={this.state.isErrorModalVisible}
+            handleErrorModalClose={this.handleErrorModalClose}
+            handleSuccessModalClose={this.handleSuccessModalClose}
           />
         </main>
       </div>

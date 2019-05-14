@@ -43,6 +43,7 @@ class ProfileInner extends React.Component {
                 countries={this.props.countries}
                 selectedCountry={this.props.selectedCountry}
                 handleSelectedCountryChange={this.props.handleSelectedCountryChange}
+                updateCountry={this.props.updateCountry}
               />
              </Paper>
            </Grid>

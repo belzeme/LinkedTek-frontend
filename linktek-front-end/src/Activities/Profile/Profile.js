@@ -14,6 +14,7 @@ import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from '../Login/Login.js';
 import ReactDOM from 'react-dom';
 import ProfileModule from './content/ProfileInner.js';
+import axios from 'axios';
 import { mainListItems } from '../../Components/leftMenu';
 
 const drawerWidth = 240;
@@ -109,7 +110,6 @@ class Profile extends React.Component {
     company: 'NanoSoft',
     companyNumber: '3',
     age: '22',
-    country: "USA",
     names: ['Epitech Toulouse', 'Blop 1', 'Blop 2', 'NanoSoft'],
     namesState: ['School', 'Company', 'Company', 'Company'],
     namesJob: ['Strudent', 'Software Developer', 'Software Developer', 'Software Architect'],
@@ -125,15 +125,9 @@ class Profile extends React.Component {
     searchUserAge: "Search User Age",
     selectedEditInput: 0,
     newJobInputType: 'Company',
-    countries: [
-      '',
-      'USA',
-      'JAPAN',
-      'FRANCE',
-      'ITALIA',
-      'MEXICO',
-    ],
-    selectedCountry: 'USA',
+    countries: [],
+    selectedCountry: 'France',
+    country: 'France',
   };
 
   handleDrawerOpen = () => {
@@ -149,6 +143,7 @@ class Profile extends React.Component {
   }
 
   handleProfileModalClose = () => {
+    this.updateCountry();
     this.setState({ profileModalVisible: false });
   }
 
@@ -215,6 +210,21 @@ class Profile extends React.Component {
 
   handleSelectedCountryChange = (value) => {
     this.setState({ selectedCountry: value});
+  }
+
+  componentDidMount() {
+    axios.get(`http://127.0.0.1:3010/country/list`)
+    .then(ret => this.handleCountryList(ret));
+  }
+
+  updateCountry() {
+    if (this.state.country !== this.state.selectedCountry) {
+      this.setState({country: this.state.selectedCountry})
+    }
+  }
+
+  handleCountryList(ret) {
+    this.setState({countries: ret.data});
   }
 
   render() {
@@ -319,6 +329,7 @@ class Profile extends React.Component {
             countries={this.state.countries}
             selectedCountry={this.state.selectedCountry}
             handleSelectedCountryChange={this.handleSelectedCountryChange}
+            updateCountry={this.updateCountry}
           />
         </main>
       </div>

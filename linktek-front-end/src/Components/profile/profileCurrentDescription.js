@@ -38,9 +38,6 @@ function PaperSheet(props) {
         <ListItem divider>
           <ListItemText primary={handleCompanyName(props.company)}/>
         </ListItem>
-        <ListItem>
-          <ListItemText primary={props.state}/>
-        </ListItem>
         <Divider light />
         <ListItem>
           <ListItemText primary={handleUserAge(props.age)}/>
@@ -50,8 +47,8 @@ function PaperSheet(props) {
         Edit profile
       </Button>
       {/*edit user profile modal*/}
-      <Modal visible={props.profileModalVisible} width="400" height="530" effect="fadeInUp" onClickAway={() => props.handleProfileModalClose()}>
-        <div>
+      <Modal visible={props.profileModalVisible} width="410" height="550" effect="fadeInUp" onClickAway={() => props.handleProfileModalClose()}>
+        <div style={{maxHeight: 550, overflow: 'auto'}}>
           <h2 style={{display: 'flex', justifyContent: 'center'}}>Edit profile</h2>
           {/*textField for user name*/}
           <TextField

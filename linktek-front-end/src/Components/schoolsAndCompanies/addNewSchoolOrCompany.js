@@ -10,6 +10,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Dropdown from 'react-dropdown';
+import Modal from 'react-awesome-modal';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -100,12 +101,30 @@ class AddNewSchoolOrCompany extends React.Component {
           </CardActions>
           <CardActions>
             <div style={{width: "100%", marginTop: 10}}>
-              <Button style={{backgroundColor: '#3f51b5', width: "96%", color: "white", marginLeft: 10, marginTop: 10}}>
+              <Button style={{backgroundColor: '#3f51b5', width: "96%", color: "white", marginLeft: 10, marginTop: 10}} onClick={() => this.props.handleNewInputValidate()}>
                 VALIDATE
               </Button>
             </div>
           </CardActions>
         </div>
+        <Modal visible={this.props.isSuccessModalVisible} width="500" height="200" effect="fadeInUp" onClickAway={() => this.props.handleSuccessModalClose()}>
+          <div>
+            <h3 style={{textAlign: 'center', marginTop: 50}}>Shool creation sucess !</h3>
+          </div>
+          <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}} onClick={() => this.props.handleSuccessModalClose()}>
+            Close
+          </Button>
+        </Modal>
+        <Modal visible={this.props.isErrorModalVisible} width="500" height="200" effect="fadeInUp" onClickAway={() => this.props.handleErrorModalClose()}>
+          <div>
+            <h3 style={{textAlign: 'center', marginTop: 50}}>Shool creation failed !</h3>
+            <h3 style={{textAlign: 'center'}}>Shool name is already in use !</h3>
+
+          </div>
+          <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}} onClick={() => this.props.handleErrorModalClose()}>
+            Close
+          </Button>
+        </Modal>
       </Card>
     );
   }
