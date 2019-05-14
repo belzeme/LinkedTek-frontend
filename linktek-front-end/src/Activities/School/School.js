@@ -209,8 +209,7 @@ class School extends React.Component {
   }
 
   handleCreateNewSchool = () => {
-    axios
-    .post(`http://127.0.0.1:3010/school/create`, {name: this.state.newInputName, description: this.state.newInputDescription, country: this.state.selectedCountry})
+    axios.post(`http://127.0.0.1:3010/school/create`, {name: this.state.newInputName, description: this.state.newInputDescription, country: this.state.selectedCountry})
     .then(ret => this.createNewSchoolReturn(true, ret))
     .catch(ret => this.createNewSchoolReturn(false, ret));
   }
