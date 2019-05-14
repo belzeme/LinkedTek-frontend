@@ -14,6 +14,7 @@ import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from '../Login/Login.js';
 import ReactDOM from 'react-dom';
 import Inner from './content/schoolAndCompaniesInner.js';
+import axios from 'axios';
 import { mainListItems } from '../../Components/leftMenu';
 
 const drawerWidth = 240;
@@ -102,14 +103,7 @@ class School extends React.Component {
     newInputTypeSelected: 0,
     newInputName: '',
     newInputDescription: '',
-    countryList: [
-      'USA',
-      'RUSSIA',
-      'FRANCE',
-      'ITALIE',
-      'SPAIN',
-      'JAPAN',
-    ],
+    countryList: [''],
     selectedCountry: 0,
     schoolList: [
       'Epitech',
@@ -162,6 +156,15 @@ class School extends React.Component {
     filteredCountrySchools: 0,
     filteredCountryCompanies: 0,
   };
+
+  componentDidMount() {
+    axios.get(`http://127.0.0.1:3010/country/list`)
+    .then(ret => this.handleCountryList(ret));
+  }
+
+  handleCountryList(ret) {
+    this.setState({countryList: ret.data});
+  }
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
