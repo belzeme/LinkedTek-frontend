@@ -9,10 +9,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Snackbar from '../../Components/snackBar.js';
-import RegisterService from '../../Services/login.service.js';
 import ReactDOM from 'react-dom';
 import Modal from 'react-awesome-modal';
+import Login from './Login.js';
 import axios from 'axios';
 
 const styles = theme => ({
@@ -115,6 +114,10 @@ class Register extends Component {
     }
   }
 
+  handleAccountCreationSuccess() {
+    this.handleOkModalClose();
+    ReactDOM.render(<Login />, document.getElementById('root'));
+  }
 
   clickOnSubmitButton = (email, password) => {
     console.log("Email : " + this.state.email + '\nPassword : ' + this.state.password + '\nConfirmation : ' + this.state.confirmation);
@@ -175,7 +178,7 @@ class Register extends Component {
           <div>
             <h3 style={{marginTop: 60, textAlign: 'center'}}>Account creation success !</h3>
           </div>
-          <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white", marginLeft: 11, marginTop: 10 }} onClick={() => this.handleOkModalClose()}>
+          <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white", marginLeft: 11, marginTop: 10 }} onClick={() => this.handleAccountCreationSuccess()}>
             Close
           </Button>
         </Modal>

@@ -13,6 +13,8 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import ReactDOM from 'react-dom';
 import Register from './Register.js';
 import Actualities from '../Actualities/Actualities.js';
+import Modal from 'react-awesome-modal';
+import axios from 'axios';
 
 const styles = theme => ({
   main: {
@@ -53,7 +55,21 @@ class Login extends Component {
     this.state = {
       login: "",
       password: "",
+      token: '',
+      isConnectionFailedModalVisible: false,
     };
+  }
+
+  handleErrorMessage() {
+    if (this.state.login === '') {
+      return 'Error email field cannot be empty';
+    }
+    else if (this.state.password === '') {
+      return 'Error password field cannot be empty';
+    }
+    else {
+      return 'OK';
+    }
   }
 
   handleLoginChange(event)  {
@@ -64,8 +80,33 @@ class Login extends Component {
     this.setState({password: event.target.value});
   }
 
+  handleConnectionSuccess(ret) {
+    console.log('test : ' + ret.data.token);
+    this.setState({token: ret.data.token})
+    ReactDOM.render(<Actualities userEmail={this.state.login} />, document.getElementById('root'));
+  }
+
+  handleConnectionFailed() {
+    this.handleConnectionFailedModalShow();
+  }
+
+  handleConnectionFailedModalShow() {
+    this.setState({isConnectionFailedModalVisible: true});
+  }
+
+  handleConnectionFailedModalClose() {
+    this.setState({isConnectionFailedModalVisible: false});
+  }
+
   clickOnSubmitButton() {
-    ReactDOM.render(<Actualities />, document.getElementById('root'));
+    if (this.handleErrorMessage() !== 'OK') {
+      this.handleConnectionFailedModalShow();
+    }
+    else {
+      axios.post(`http://127.0.0.1:3010/auth/login`, {email: this.state.login, password: this.state.password})
+      .then(ret => this.handleConnectionSuccess(ret))
+      .catch(error => this.handleConnectionFailed());
+    }
   }
 
   clickOnRegisterButton() {
@@ -112,6 +153,15 @@ class Login extends Component {
               Register
             </Button>
         </Paper>
+        <Modal visible={this.state.isConnectionFailedModalVisible} width="500" height="200" effect="fadeInUp" onClickAway={() => this.handleConnectionFailedModalClose()}>
+          <div>
+            <h3 style={{marginTop: 40, textAlign: 'center'}}>Connection failed !</h3>
+            <h3 style={{textAlign: 'center'}}>An error occured on login or password</h3>
+          </div>
+          <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white", marginLeft: 11, marginTop: 10 }} onClick={() => this.handleConnectionFailedModalClose()}>
+            Close
+          </Button>
+        </Modal>
       </main>
     );
   }
