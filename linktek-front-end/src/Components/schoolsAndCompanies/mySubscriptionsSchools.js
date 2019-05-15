@@ -5,7 +5,6 @@ import CardHeader from '@material-ui/core/CardHeader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Dropdown from 'react-dropdown';
-import Modal from 'react-awesome-modal';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -74,7 +73,7 @@ class MySubscriptionsSchools extends React.Component {
           <List dense className={classes.root}>
             {this.props.schoolList.map((value, index) => (
               <ListItem key={value} style={{width: 495}}>
-                <ListItem button onClick={() => this.props.handleEditSchoolModalShow()}>
+                <ListItem button onClick={() => this.props.handleEditSchoolModalShow(index)}>
                   <div style={{marginRight: 40}}>
                     <p style={{fontSize: 15}}>
                       {this.handleSchoolIndex(index)}
@@ -93,14 +92,6 @@ class MySubscriptionsSchools extends React.Component {
             ))}
           </List>
         </div>
-        <Modal visible={this.props.isEditSchoolModalVisible} width="500" height="200" effect="fadeInUp" onClickAway={() => this.props.handleEditSchoolModalClose()}>
-          <div>
-            <h3 style={{textAlign: 'center', marginTop: 10}}>Edit School</h3>
-          </div>
-          <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}} onClick={() => this.props.handleEditSchoolModalClose()}>
-            Close
-          </Button>
-        </Modal>
       </Card>
     );
   }

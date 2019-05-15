@@ -14,6 +14,11 @@ import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from '../Login/Login.js';
 import ReactDOM from 'react-dom';
 import Inner from './content/schoolAndCompaniesInner.js';
+import Modal from 'react-awesome-modal';
+import TextField from '@material-ui/core/TextField';
+import CardActions from '@material-ui/core/CardActions';
+import CardHeader from '@material-ui/core/CardHeader';
+import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import { mainListItems } from '../../Components/leftMenu';
 
@@ -130,10 +135,12 @@ class School extends React.Component {
     isSuccessModalVisible: false,
     isErrorsModalVisible: false,
     isEditSchoolModalVisible: false,
+    isEditCompanyModalVisible: false,
+    editInputName: '',
+    editInputDesc: '',
   };
 
   addNewSchoolToState(value) {
-
 //    console.log('val : ' + value.name);
     let tmp = this.state.schoolList;
     tmp.push(value.name);
@@ -282,8 +289,12 @@ class School extends React.Component {
     }
   }
 
-  handleNewInputNameChanged = (event) => {
-    this.setState({ newInputName: event.target.value });
+  handleInputNameChanged = (event) => {
+    this.setState({ editInputName: event.target.value });
+  }
+
+  handleInputDescChanged = (event) => {
+    this.setState({ editInputDesc: event.target.value });
   }
 
   handleNewInputDescriptionChanged = (event) => {
@@ -298,8 +309,20 @@ class School extends React.Component {
     this.setState({isEditSchoolModalVisible: false});
   }
 
-  handleEditSchoolModalShow = () => {
+  handleEditSchoolModalShow = (index) => {
+    this.setState({editInputName: this.state.schoolList[index]});
+    this.setState({editInputDesc: this.state.schoolDescription[index]});
     this.setState({isEditSchoolModalVisible: true});
+  }
+
+  handleEditCompanyModalClose = () =>{
+    this.setState({isEditCompanyModalVisible: false});
+  }
+
+  handleEditCompanyModalShow = (index) => {
+    this.setState({editInputName: this.state.companyList[index]});
+    this.setState({editInputDesc: this.state.companyDescription[index]});
+    this.setState({isEditCompanyModalVisible: true});
   }
 
   handleFilterSchool(sucess, ret) {
@@ -307,6 +330,16 @@ class School extends React.Component {
     for (let value of Object.values(ret)) {
       if (i === 0) {
         Object.keys(value).map(k => this.addNewSchoolToState(value[k], k));
+      }
+      i++;
+    }
+  }
+
+  handleFilterCompany(sucess, ret) {
+    let i = 0;
+    for (let value of Object.values(ret)) {
+      if (i === 0) {
+        Object.keys(value).map(k => this.addNewCompanyToState(value[k], k));
       }
       i++;
     }
@@ -325,6 +358,13 @@ class School extends React.Component {
 
   handleFilteredCountryChangeCompanies = (value) => {
     this.setState({ filteredCountryCompanies: value});
+    axios.post(`http://127.0.0.1:3010/company/filter`, {name: value.value})
+    .then(ret => {
+      this.setState({companyList: []});
+      this.setState({companyDescription: []});
+      this.handleFilterCompany(true, ret);
+    })
+    .catch(error => console.log(error));
   }
 
   render() {
@@ -407,11 +447,80 @@ class School extends React.Component {
             isErrorModalVisible={this.state.isErrorModalVisible}
             handleErrorModalClose={this.handleErrorModalClose}
             handleSuccessModalClose={this.handleSuccessModalClose}
-            handleEditSchoolModalClose={this.handleEditSchoolModalClose}
-            isEditSchoolModalVisible={this.state.isEditSchoolModalVisible}
             handleEditSchoolModalShow={this.handleEditSchoolModalShow}
+            handleEditCompanyModalShow={this.handleEditCompanyModalShow}
           />
         </main>
+        <Modal visible={this.state.isEditCompanyModalVisible} width="500" height="420" effect="fadeInUp" onClickAway={() => this.handleEditCompanyModalClose()}>
+          <CardHeader
+            title="Edit Company"
+          />
+          <CardActions style={{marginLeft: 5, marginTop: 10 }}>
+            <TextField
+              id="standard-with-placeholder"
+              label="Company Name"
+              value={this.state.editInputName}
+              placeholder={this.state.editInputName}
+              className={classes.textField}
+              margin="normal"
+              style={{marginLeft: 10, width: "95%"}}
+              onChange={this.handleInputNameChanged}
+            />
+          </CardActions>
+          <CardActions style={{marginLeft: 5, marginTop: 10 }}>
+            <TextField
+              id="standard-with-placeholder"
+              label="Company description"
+              value={this.state.editInputDesc}
+              placeholder={this.state.editInputDesc}
+              className={classes.textField}
+              margin="normal"
+              multiline={true}
+              rows={1}
+              rowsMax={7}
+              onChange={this.handleInputDescChanged}
+              style={{marginLeft: 10, width: "95%"}}
+            />
+          </CardActions>
+          <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}} onClick={() => this.handleEditCompanyModalClose()}>
+            Edit
+          </Button>
+        </Modal>
+        <Modal visible={this.state.isEditSchoolModalVisible} width="500" height="420" effect="fadeInUp" onClickAway={() => this.handleEditSchoolModalClose()}>
+          <CardHeader
+            title="Edit School"
+          />
+          <CardActions style={{marginLeft: 5, marginTop: 10 }}>
+            <TextField
+              id="standard-with-placeholder"
+              label="Company Name"
+              value={this.state.editInputName}
+              placeholder={this.state.editInputName}
+              className={classes.textField}
+              margin="normal"
+              style={{marginLeft: 10, width: "95%"}}
+              onChange={this.handleInputNameChanged}
+            />
+          </CardActions>
+          <CardActions style={{marginLeft: 5, marginTop: 10 }}>
+            <TextField
+              id="standard-with-placeholder"
+              label="Company description"
+              value={this.state.editInputDesc}
+              placeholder={this.state.editInputDesc}
+              className={classes.textField}
+              margin="normal"
+              multiline={true}
+              rows={1}
+              rowsMax={7}
+              onChange={this.handleInputDescChanged}
+              style={{marginLeft: 10, width: "95%"}}
+            />
+          </CardActions>
+          <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}} onClick={() => this.handleEditSchoolModalClose()}>
+            Edit
+          </Button>
+        </Modal>
       </div>
     );
   }

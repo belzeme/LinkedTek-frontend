@@ -48,8 +48,6 @@ class SchoolAndCompaniesInner extends React.Component {
               countryList={this.props.countryList}
               filteredCountrySchools={this.props.filteredCountrySchools}
               handleFilteredCountryChangeSchools={this.props.handleFilteredCountryChangeSchools}
-              handleEditSchoolModalClose={this.props.handleEditSchoolModalClose}
-              isEditSchoolModalVisible={this.props.isEditSchoolModalVisible}
               handleEditSchoolModalShow={this.props.handleEditSchoolModalShow}
             />
           </Grid>
@@ -61,6 +59,7 @@ class SchoolAndCompaniesInner extends React.Component {
               countryList={this.props.countryList}
               filteredCountryCompanies={this.props.filteredCountryCompanies}
               handleFilteredCountryChangeCompanies={this.props.handleFilteredCountryChangeCompanies}
+              handleEditCompanyModalShow={this.props.handleEditCompanyModalShow}
             />
           </Grid>
         </Grid>

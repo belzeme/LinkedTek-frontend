@@ -73,7 +73,7 @@ class MySubscriptionsCompanies extends React.Component {
           <List dense className={classes.root}>
             {this.props.companyList.map((value, index) => (
               <ListItem key={value} style={{width: 480}}>
-                <ListItem button>
+                <ListItem button onClick={() => this.props.handleEditCompanyModalShow(index)}>
                   <div style={{marginRight: 40}}>
                     <p style={{fontSize: 15}}>
                       {this.handleCompanyIndex(index)}
