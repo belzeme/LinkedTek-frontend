@@ -129,6 +129,7 @@ class School extends React.Component {
     filteredCountryCompanies: 0,
     isSuccessModalVisible: false,
     isErrorsModalVisible: false,
+    isEditSchoolModalVisible: false,
   };
 
   addNewSchoolToState(value) {
@@ -293,6 +294,14 @@ class School extends React.Component {
     this.setState({ selectedCountry: value.value});
   }
 
+  handleEditSchoolModalClose = () =>{
+    this.setState({isEditSchoolModalVisible: false});
+  }
+
+  handleEditSchoolModalShow = () => {
+    this.setState({isEditSchoolModalVisible: true});
+  }
+
   handleFilterSchool(sucess, ret) {
     let i = 0;
     for (let value of Object.values(ret)) {
@@ -398,6 +407,9 @@ class School extends React.Component {
             isErrorModalVisible={this.state.isErrorModalVisible}
             handleErrorModalClose={this.handleErrorModalClose}
             handleSuccessModalClose={this.handleSuccessModalClose}
+            handleEditSchoolModalClose={this.handleEditSchoolModalClose}
+            isEditSchoolModalVisible={this.state.isEditSchoolModalVisible}
+            handleEditSchoolModalShow={this.handleEditSchoolModalShow}
           />
         </main>
       </div>

@@ -5,6 +5,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Dropdown from 'react-dropdown';
+import Modal from 'react-awesome-modal';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -72,15 +73,19 @@ class MySubscriptionsSchools extends React.Component {
         <div style={{maxHeight: 600, overflow: 'auto', marginTop: 20}}>
           <List dense className={classes.root}>
             {this.props.schoolList.map((value, index) => (
-              <ListItem key={value}>
-                <ListItem>
-                  <p style={{fontSize: 15, width: 100, marginRight: 20}}>
-                    {this.handleSchoolIndex(index)}
-                  </p>
-                  <p style={{fontSize: 14, width: 240, marginRight: 20}}>
-                    {this.handleSchoolDescription(index)}
-                  </p>
-                  <Button variant="outlined" color={this.schoolSubscribed(index)} className={classes.button} style={{marginRight: -120, width: 140}}>
+              <ListItem key={value} style={{width: 495}}>
+                <ListItem button onClick={() => this.props.handleEditSchoolModalShow()}>
+                  <div style={{marginRight: 40}}>
+                    <p style={{fontSize: 15}}>
+                      {this.handleSchoolIndex(index)}
+                    </p>
+                    <p style={{fontSize: 15}}>
+                      {this.handleSchoolDescription(index)}
+                    </p>
+                  </div>
+                </ListItem>
+                <ListItem style={{width: 150}}>
+                  <Button variant="outlined" color={this.schoolSubscribed(index)} className={classes.button} style={{width: 120}}>
                     {this.isUserSubscribed(index, classes) ? 'Unsubscribe' : 'Subscribe'}
                   </Button>
                 </ListItem>
@@ -88,6 +93,14 @@ class MySubscriptionsSchools extends React.Component {
             ))}
           </List>
         </div>
+        <Modal visible={this.props.isEditSchoolModalVisible} width="500" height="200" effect="fadeInUp" onClickAway={() => this.props.handleEditSchoolModalClose()}>
+          <div>
+            <h3 style={{textAlign: 'center', marginTop: 10}}>Edit School</h3>
+          </div>
+          <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}} onClick={() => this.props.handleEditSchoolModalClose()}>
+            Close
+          </Button>
+        </Modal>
       </Card>
     );
   }

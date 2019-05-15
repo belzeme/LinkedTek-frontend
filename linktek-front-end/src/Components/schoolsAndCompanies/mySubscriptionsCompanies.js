@@ -72,17 +72,21 @@ class MySubscriptionsCompanies extends React.Component {
         <div style={{maxHeight: 600, overflow: 'auto', marginTop: 20}}>
           <List dense className={classes.root}>
             {this.props.companyList.map((value, index) => (
-              <ListItem key={value}>
-                <ListItem>
-                  <p style={{fontSize: 15, width: 100, marginRight: 20}}>
-                    {this.handleCompanyIndex(index)}
-                  </p>
-                  <p style={{fontSize: 14, width: 240, marginRight: 20}}>
-                    {this.handleCompanyDescription(index)}
-                  </p>
-                  <Button variant="outlined" color={this.companySubscribed(index)} className={classes.button} style={{marginRight: -120, width: 140}}>
-                    {this.isUserSubscribed(index) ? 'Unsubscribe' : 'Subscribe'}
-                  </Button>
+              <ListItem key={value} style={{width: 480}}>
+                <ListItem button>
+                  <div style={{marginRight: 40}}>
+                    <p style={{fontSize: 15}}>
+                      {this.handleCompanyIndex(index)}
+                    </p>
+                    <p style={{fontSize: 15}}>
+                      {this.handleCompanyDescription(index)}
+                    </p>
+                    </div>
+                  </ListItem>
+                  <ListItem style={{width: 150}}>
+                    <Button variant="outlined" color={this.companySubscribed(index)} className={classes.button} style={{width: 120}}>
+                      {this.isUserSubscribed(index) ? 'Unsubscribe' : 'Subscribe'}
+                    </Button>
                 </ListItem>
               </ListItem>
             ))}
