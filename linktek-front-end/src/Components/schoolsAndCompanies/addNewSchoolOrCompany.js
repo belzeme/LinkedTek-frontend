@@ -38,6 +38,25 @@ const styles = theme => ({
 
 class AddNewSchoolOrCompany extends React.Component {
 
+  handleSuccessText() {
+    if (this.props.newInputTypeSelected === 0) {
+        return 'Shool creation failed !';
+    }
+    else {
+      return 'Company creation failed !';
+    }
+  }
+
+  handleErrorText() {
+    if (this.props.newInputTypeSelected === 0) {
+        return 'Shool creation sucess !';
+    }
+    else {
+      return 'Company creation success !';
+    }
+  }
+
+
   render() {
     const { classes } = this.props;
     return (
@@ -101,7 +120,7 @@ class AddNewSchoolOrCompany extends React.Component {
           </CardActions>
           <CardActions>
             <div style={{width: "100%", marginTop: 10}}>
-              <Button style={{backgroundColor: '#3f51b5', width: "96%", color: "white", marginLeft: 10, marginTop: 10}} onClick={() => this.props.handleNewInputValidate()}>
+              <Button style={{backgroundColor: '#3f51b5', width: "96%", color: "white", marginLeft: 10, marginTop: 10}} onClick={() => this.props.handleNewInputValidate(this.props)}>
                 VALIDATE
               </Button>
             </div>
@@ -109,7 +128,7 @@ class AddNewSchoolOrCompany extends React.Component {
         </div>
         <Modal visible={this.props.isSuccessModalVisible} width="500" height="200" effect="fadeInUp" onClickAway={() => this.props.handleSuccessModalClose()}>
           <div>
-            <h3 style={{textAlign: 'center', marginTop: 50}}>Shool creation sucess !</h3>
+            <h3 style={{textAlign: 'center', marginTop: 50}}>{this.handleSuccessText()}</h3>
           </div>
           <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}} onClick={() => this.props.handleSuccessModalClose()}>
             Close
@@ -117,9 +136,7 @@ class AddNewSchoolOrCompany extends React.Component {
         </Modal>
         <Modal visible={this.props.isErrorModalVisible} width="500" height="200" effect="fadeInUp" onClickAway={() => this.props.handleErrorModalClose()}>
           <div>
-            <h3 style={{textAlign: 'center', marginTop: 50}}>Shool creation failed !</h3>
-            <h3 style={{textAlign: 'center'}}>Shool name is already in use !</h3>
-
+            <h3 style={{textAlign: 'center', marginTop: 50}}>{this.handleErrorText()}</h3>
           </div>
           <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}} onClick={() => this.props.handleErrorModalClose()}>
             Close

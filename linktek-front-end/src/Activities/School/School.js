@@ -105,22 +105,8 @@ class School extends React.Component {
     newInputDescription: '',
     countryList: [''],
     selectedCountry: 0,
-    schoolList: [
-      'Epitech',
-      'Epita',
-      'ISEG',
-      'E-Artsup',
-      'Etna',
-      'Esme-Supdria',
-    ],
-    schoolDescription: [
-      'Post haec indumentum regale quaerebatur et ministris fucandae purpurae tortis confessisque pectoralem tuniculam sine manicis textam.',
-      'Maras nomine quidam inductus est ut appellant Christiani diaconus, cuius prolatae litterae scriptae.',
-      'Graeco sermone ad Tyrii textrini praepositum celerari speciem perurgebant quam autem.',
-      'Non indicabant denique etiam idem ad usque discrimen vitae vexatus nihil fateri conpulsus est.',
-      'Quanta autem vis amicitiae sit, ex hoc intellegi maxime potest, quod ex infinita societate generis humani, quam conciliavit ipsa natura.',
-      'Haec dum oriens diu perferret, caeli reserato tepore Constantius consulatu suo septies.'
-    ],
+    schoolList: [],
+    schoolDescription: [],
     schoolSubscribed: [
       true,
       false,
@@ -129,22 +115,8 @@ class School extends React.Component {
       false,
       false,
     ],
-    companyList: [
-      'Nano-Softare',
-      'Micro-Software',
-      'Mega-Softare',
-      'Ultra-Softare',
-      'Blop-Software',
-      'New-Software',
-    ],
-    companyDescription: [
-      'Per hoc minui studium suum existimans Paulus, ut erat in conplicandis negotiis artifex dirus, unde ei Catenae inditum est cognomentum.',
-      'Vicarium ipsum eos quibus praeerat adhuc defensantem ad sortem periculorum communium traxit.',
-      'Ille exitio urgente abrupto ferro eundem adoritur Paulum. et quia languente dextera.',
-      'Letaliter ferire non potuit, iam districtum mucronem in proprium latus inpegit. hocque deformi genere mortis excessit e vita iustissimus.',
-      'Inter quos Paulus eminebat notarius ortus in Hispania, glabro quidam sub vultu latens, odorandi vias periculorum occultas perquam sagax.',
-      'Auxerunt haec vulgi sordidioris audaciam, quod cum ingravesceret penuria commeatuum, famis et furoris inpulsu.'
-    ],
+    companyList: [],
+    companyDescription: [],
     companySubscribed: [
       false,
       true,
@@ -159,27 +131,62 @@ class School extends React.Component {
     isErrorsModalVisible: false,
   };
 
+  addNewSchoolToState(value) {
+    //console.log("NAME : " + value.name);
+    let tmp = this.state.schoolList;
+    tmp.push(value.name);
+    this.setState({schoolList: tmp});
 
-  componentDidMount() {
+    //console.log("DESC : " + value.description);
+    tmp = this.state.schoolDescription;
+    tmp.push(value.description);
+    this.setState({schoolDescription: tmp});
+  }
+
+  addNewCompanyToState(value) {
+    //console.log("NAME : " + value.name);
+    let tmp = this.state.companyList;
+    tmp.push(value.name);
+    this.setState({companyList: tmp});
+
+    //console.log("DESC : " + value.description);
+    tmp = this.state.companyDescription;
+    tmp.push(value.description);
+    this.setState({companyDescription: tmp});
+  }
+
+  componentWillMount() {
     axios.get(`http://127.0.0.1:3010/country/list`)
     .then(ret => this.handleCountryList(ret));
 
     axios.get(`http://127.0.0.1:3010/school/list`)
     .then(ret => this.handleSchoolList(ret));
+
+    axios.get(`http://127.0.0.1:3010/company/list`)
+    .then(ret => this.handleCompList(ret));
   }
 
   handleCountryList(ret) {
     this.setState({countryList: ret.data});
   }
 
-  handleBlop(ret) {
-    console.log(Object.keys(ret).map(k => ret[k]));
+  handleCompList(ret) {
+    let i = 0;
+    for (let value of Object.values(ret)) {
+      if (i === 0) {
+        Object.keys(value).map(k => this.addNewCompanyToState(value[k]));
+      }
+      i++;
+    }
   }
 
   handleSchoolList(ret) {
-    console.log("SCHOOL : " + Object.keys(ret).map(k => ret[k]));
+    let i = 0;
     for (let value of Object.values(ret)) {
-      console.log(Object.keys(value).map(k => value[k]));
+      if (i === 0) {
+        Object.keys(value).map(k => this.addNewSchoolToState(value[k]));
+      }
+      i++;
     }
   }
 
@@ -188,6 +195,19 @@ class School extends React.Component {
       this.handleSuccessModalShow();
     }
     else {
+      //console.log('ret : ' + ret);
+      this.handleErrorModalShow();
+    }
+  }
+
+  createNewCompReturn(value, ret) {
+    if (value === true) {
+      //console.log("TRUE");
+      console.log(ret);
+      this.handleSuccessModalShow();
+    }
+    else {
+      //console.log("FALSE");
       this.handleErrorModalShow();
     }
   }
@@ -208,10 +228,28 @@ class School extends React.Component {
     this.setState({ isErrorModalVisible: true });
   }
 
-  handleCreateNewSchool = () => {
-    axios.post(`http://127.0.0.1:3010/school/create`, {name: this.state.newInputName, description: this.state.newInputDescription, country: this.state.selectedCountry})
-    .then(ret => this.createNewSchoolReturn(true, ret))
-    .catch(ret => this.createNewSchoolReturn(false, ret));
+  handleCreateNewSchool = (props) => {
+    if ((this.state.newInputName === '' || this.state.newInputDescription === '' || this.state.selectedCountry === '') && this.state.newInputTypeSelected === 0) {
+      this.createNewSchoolReturn(false, 0);
+    }
+    else if ((this.state.newInputName === '' || this.state.newInputDescription === '' || this.state.selectedCountry === '') && this.state.newInputTypeSelected === 1) {
+      this.createNewCompReturn(false, 0);
+    }
+    if (this.state.newInputTypeSelected === 0) {
+      axios.post(`http://127.0.0.1:3010/school/create`, {name: this.state.newInputName, description: this.state.newInputDescription, country: this.state.selectedCountry})
+      .then(ret => {
+        this.createNewSchoolReturn(true, ret);
+      })
+      .catch(ret => this.createNewSchoolReturn(false, ret));
+    }
+    else {
+      //console.log("NAME : " + this.state.newInputName + '\nDESC: ' + this.state.newInputDescription + '\nCountry : ' + this.state.selectedCountry);
+      axios.post(`http://127.0.0.1:3010/company/create`, {name: this.state.newInputName, description: this.state.newInputDescription, country: this.state.selectedCountry})
+      .then(ret => {
+        this.createNewCompReturn(true, ret);
+      })
+      .catch(ret => this.createNewCompReturn(false, ret));
+    }
   }
 
   handleDrawerOpen = () => {
@@ -231,19 +269,38 @@ class School extends React.Component {
     }
   }
 
-  handleNewInputNameChanged = name => event => {
+  handleNewInputNameChanged = (event) => {
     this.setState({ newInputName: event.target.value });
   }
-  handleNewInputDescriptionChanged = name => event => {
+
+  handleNewInputDescriptionChanged = (event) => {
     this.setState({ newInputDescription: event.target.value });
   }
 
   handleSelectedCountryChange = (value) => {
-    this.setState({ selectedCountry: value});
+    this.setState({ selectedCountry: value.value});
+  }
+
+  handleFilterSchool(sucess, ret) {
+    let i = 0;
+    for (let value of Object.values(ret)) {
+      if (i === 0) {
+        Object.keys(value).map(k => this.addNewSchoolToState(value[k]));
+      }
+      i++;
+    }
   }
 
   handleFilteredCountryChangeSchools = (value) => {
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAA");
     this.setState({ filteredCountrySchools: value});
+    axios.post(`http://127.0.0.1:3010/school/filter`, {name: value.value})
+    .then(ret => {
+      console.log('ret', ret);
+      this.setState({ schoolList: ['']});
+      this.handleFilterSchool(true, ret);
+    })
+    .catch(error => console.log(error));
   }
 
   handleFilteredCountryChangeCompanies = (value) => {
@@ -321,7 +378,7 @@ class School extends React.Component {
             companySubscribed={this.state.companySubscribed}
             filteredCountrySchools={this.state.filteredCountrySchools}
             filteredCountryCompanies={this.state.filteredCountryCompanies}
-            handleFilteredCountryChangeSchool={this.handleFilteredCountryChangeSchools}
+            handleFilteredCountryChangeSchools={this.handleFilteredCountryChangeSchools}
             handleFilteredCountryChangeCompanies={this.handleFilteredCountryChangeCompanies}
             handleNewInputValidate={this.handleCreateNewSchool}
             newInputName={this.state.newInputName}
