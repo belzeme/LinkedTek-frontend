@@ -132,12 +132,12 @@ class School extends React.Component {
   };
 
   addNewSchoolToState(value) {
-    //console.log("NAME : " + value.name);
+
+//    console.log('val : ' + value.name);
     let tmp = this.state.schoolList;
     tmp.push(value.name);
     this.setState({schoolList: tmp});
 
-    //console.log("DESC : " + value.description);
     tmp = this.state.schoolDescription;
     tmp.push(value.description);
     this.setState({schoolDescription: tmp});
@@ -184,7 +184,7 @@ class School extends React.Component {
     let i = 0;
     for (let value of Object.values(ret)) {
       if (i === 0) {
-        Object.keys(value).map(k => this.addNewSchoolToState(value[k]));
+        Object.keys(value).map(k => this.addNewSchoolToState(value[k], k));
       }
       i++;
     }
@@ -228,27 +228,39 @@ class School extends React.Component {
     this.setState({ isErrorModalVisible: true });
   }
 
-  handleCreateNewSchool = (props) => {
-    if ((this.state.newInputName === '' || this.state.newInputDescription === '' || this.state.selectedCountry === '') && this.state.newInputTypeSelected === 0) {
-      this.createNewSchoolReturn(false, 0);
-    }
-    else if ((this.state.newInputName === '' || this.state.newInputDescription === '' || this.state.selectedCountry === '') && this.state.newInputTypeSelected === 1) {
-      this.createNewCompReturn(false, 0);
-    }
-    if (this.state.newInputTypeSelected === 0) {
-      axios.post(`http://127.0.0.1:3010/school/create`, {name: this.state.newInputName, description: this.state.newInputDescription, country: this.state.selectedCountry})
-      .then(ret => {
-        this.createNewSchoolReturn(true, ret);
-      })
-      .catch(ret => this.createNewSchoolReturn(false, ret));
+  handleCreateNewItemTests(type) {
+    if (type === 0) {
+      if (this.state.newInputName === '' || this.state.newInputDescription === '' || this.state.selectedCountry === '') {
+        this.setState({ isErrorModalVisible: true });
+        return 'KO';
+      }
     }
     else {
-      //console.log("NAME : " + this.state.newInputName + '\nDESC: ' + this.state.newInputDescription + '\nCountry : ' + this.state.selectedCountry);
-      axios.post(`http://127.0.0.1:3010/company/create`, {name: this.state.newInputName, description: this.state.newInputDescription, country: this.state.selectedCountry})
-      .then(ret => {
-        this.createNewCompReturn(true, ret);
-      })
-      .catch(ret => this.createNewCompReturn(false, ret));
+      if (this.state.newInputName === '' || this.state.newInputDescription === '' || this.state.selectedCountry === '') {
+        this.setState({ isErrorModalVisible: true });
+        return 'KO';
+      }
+    }
+    return 'OK';
+  }
+
+  handleCreateNewSchool = (props) => {
+    if (this.handleCreateNewItemTests(this.state.newInputTypeSelected) === 'OK') {
+      if (this.state.newInputTypeSelected === 0) {
+        axios.post(`http://127.0.0.1:3010/school/create`, {name: this.state.newInputName, description: this.state.newInputDescription, country: this.state.selectedCountry})
+        .then(ret => {
+          this.createNewSchoolReturn(true, ret);
+        })
+        .catch(ret => this.createNewSchoolReturn(false, ret));
+      }
+      else {
+        //console.log("NAME : " + this.state.newInputName + '\nDESC: ' + this.state.newInputDescription + '\nCountry : ' + this.state.selectedCountry);
+        axios.post(`http://127.0.0.1:3010/company/create`, {name: this.state.newInputName, description: this.state.newInputDescription, country: this.state.selectedCountry})
+        .then(ret => {
+          this.createNewCompReturn(true, ret);
+        })
+        .catch(ret => this.createNewCompReturn(false, ret));
+      }
     }
   }
 
@@ -285,19 +297,18 @@ class School extends React.Component {
     let i = 0;
     for (let value of Object.values(ret)) {
       if (i === 0) {
-        Object.keys(value).map(k => this.addNewSchoolToState(value[k]));
+        Object.keys(value).map(k => this.addNewSchoolToState(value[k], k));
       }
       i++;
     }
   }
 
   handleFilteredCountryChangeSchools = (value) => {
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAA");
-    this.setState({ filteredCountrySchools: value});
+    this.setState({filteredCountrySchools: value});
     axios.post(`http://127.0.0.1:3010/school/filter`, {name: value.value})
     .then(ret => {
-      console.log('ret', ret);
-      this.setState({ schoolList: ['']});
+      this.setState({schoolList: []});
+      this.setState({schoolDescription: []});
       this.handleFilterSchool(true, ret);
     })
     .catch(error => console.log(error));

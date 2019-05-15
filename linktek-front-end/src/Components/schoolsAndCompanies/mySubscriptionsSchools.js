@@ -81,7 +81,7 @@ class MySubscriptionsSchools extends React.Component {
                     {this.handleSchoolDescription(index)}
                   </p>
                   <Button variant="outlined" color={this.schoolSubscribed(index)} className={classes.button} style={{marginRight: -120, width: 140}}>
-                    {this.isUserSubscribed(index) ? 'Unsubscribe' : 'Subscribe'}
+                    {this.isUserSubscribed(index, classes) ? 'Unsubscribe' : 'Subscribe'}
                   </Button>
                 </ListItem>
               </ListItem>

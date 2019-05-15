@@ -40,19 +40,19 @@ class AddNewSchoolOrCompany extends React.Component {
 
   handleSuccessText() {
     if (this.props.newInputTypeSelected === 0) {
-        return 'Shool creation failed !';
+        return 'Shool creation success !';
     }
     else {
-      return 'Company creation failed !';
+      return 'Company creation success !';
     }
   }
 
   handleErrorText() {
     if (this.props.newInputTypeSelected === 0) {
-        return 'Shool creation sucess !';
+        return 'Shool creation failed !';
     }
     else {
-      return 'Company creation success !';
+      return 'Company creation failed !';
     }
   }
 
