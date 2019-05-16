@@ -90,7 +90,7 @@ class MySubscriptionsSchools extends React.Component {
                   </div>
                 </ListItem>
                 <ListItem style={{width: 150}}>
-                  <Button variant="outlined" color={this.schoolSubscribed(index)} className={classes.button} style={{width: 120}} onClick={() => this.props.handleUserSchoolSubscription(this.props.schoolList[index])}>
+                  <Button variant="outlined" color={this.schoolSubscribed(index)} className={classes.button} style={{width: 120}} onClick={() => this.props.handleUserSchoolOrCompanySubscription(this.props.schoolList[index], 'school')}>
                     {this.isUserSubscribed(index)}
                   </Button>
                 </ListItem>

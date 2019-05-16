@@ -165,6 +165,10 @@ class School extends React.Component {
     axios.post(`http://127.0.0.1:3010/account/subscription/list`, {email: this.props.userEmail, target: 'school'})
     .then(ret => this.handleUserSubscriptionsSchool(ret))
     .catch(error => console.log('error : ' + error));
+
+    axios.post(`http://127.0.0.1:3010/account/subscription/list`, {email: this.props.userEmail, target: 'company'})
+    .then(ret => this.handleUserSubscriptionsCompany(ret))
+    .catch(error => console.log('error : ' + error));
   }
 
   handleCountryList(ret) {
@@ -181,17 +185,35 @@ class School extends React.Component {
     }
   }
 
-  addItemToUserSubscriptions(value) {
-    let tmp = this.state.schoolSubscribed;
-    tmp.push(value.name);
-    this.setState({schoolSubscribed: tmp});
+  addItemToUserSubscriptions(value, type) {
+    if (type === 'school') {
+      let tmp = this.state.schoolSubscribed;
+      tmp.push(value.name);
+      this.setState({schoolSubscribed: tmp});
+    }
+    else if (type === 'company') {
+      console.log('company subs : ' + value.name);
+      let tmp = this.state.companySubscribed;
+      tmp.push(value.name);
+      this.setState({companySubscribed: tmp});
+    }
   }
 
   handleUserSubscriptionsSchool(ret) {
     let i = 0;
     for (let value of Object.values(ret)) {
       if (i === 0) {
-        Object.keys(value).map(k => this.addItemToUserSubscriptions(value[k]));
+        Object.keys(value).map(k => this.addItemToUserSubscriptions(value[k], 'school'));
+      }
+      i++;
+    }
+  }
+
+  handleUserSubscriptionsCompany(ret) {
+    let i = 0;
+    for (let value of Object.values(ret)) {
+      if (i === 0) {
+        Object.keys(value).map(k => this.addItemToUserSubscriptions(value[k], 'company'));
       }
       i++;
     }
@@ -334,9 +356,10 @@ class School extends React.Component {
     this.setState({isEditCompanyModalVisible: true});
   }
 
-  handleSchoolSubscription(value, ret, name, subscribe) {
+  handleSchoolorCompanySubscription(value, ret, name, subscribe) {
     if (value) {
       //success
+      console.log(ret);
       if (subscribe) {
         alert("You are now subscribed to " + name);
       }
@@ -357,28 +380,55 @@ class School extends React.Component {
     }
   }
 
-  handleUserSchoolSubscription = (schoolName) => {
-    let subscribed = false;
-    for (let i = 0; i < this.state.schoolSubscribed.length; i++) {
-      if (schoolName === this.state.schoolSubscribed[i]) {
-        //Unsubscribe
-        subscribed = true;
-        if (subscribed) {
-          axios.delete(`http://127.0.0.1:3010/account/subscription`, {data : {email: this.props.userEmail, target: 'school', name: schoolName}})
-          .then(ret => {
-            this.handleSchoolSubscription(true, ret, schoolName, false);
-          })
-          .catch(ret => this.handleSchoolSubscription(false, ret, schoolName, false));
+  handleUserSchoolOrCompanySubscription = (selectedName, type) => {
+    if (type === 'school') {
+      let subscribed = false;
+      for (let i = 0; i < this.state.schoolSubscribed.length; i++) {
+        if (selectedName === this.state.schoolSubscribed[i]) {
+          //Unsubscribe
+          subscribed = true;
+          if (subscribed) {
+            axios.delete(`http://127.0.0.1:3010/account/subscription`, {data : {email: this.props.userEmail, target: 'school', name: selectedName}})
+            .then(ret => {
+              this.handleSchoolorCompanySubscription(true, ret, selectedName, false);
+            })
+            .catch(ret => this.handleSchoolorCompanySubscription(false, ret, selectedName, false));
+          }
         }
       }
+      //Subscribe
+      if (!subscribed) {
+        axios.post(`http://127.0.0.1:3010/account/subscription`, {email: this.props.userEmail, target: 'school', name: selectedName})
+        .then(ret => {
+          this.handleSchoolorCompanySubscription(true, ret, selectedName, true);
+        })
+        .catch(ret => this.handleSchoolorCompanySubscription(false, ret, selectedName, true));
+      }
     }
-    //Subscribe
-    if (!subscribed) {
-      axios.post(`http://127.0.0.1:3010/account/subscription`, {email: this.props.userEmail, target: 'school', name: schoolName})
-      .then(ret => {
-        this.handleSchoolSubscription(true, ret, schoolName, true);
-      })
-      .catch(ret => this.handleSchoolSubscription(false, ret, schoolName, true));
+    else if (type === 'company') {
+      let subscribed = false;
+      for (let i = 0; i < this.state.companySubscribed.length; i++) {
+        if (selectedName === this.state.companySubscribed[i]) {
+          //Unsubscribe
+          subscribed = true;
+          if (subscribed) {
+            axios.delete(`http://127.0.0.1:3010/account/subscription`, {data : {email: this.props.userEmail, target: 'company', name: selectedName}})
+            .then(ret => {
+              this.handleSchoolorCompanySubscription(true, ret, selectedName, false);
+            })
+            .catch(ret => this.handleSchoolorCompanySubscription(false, ret, selectedName, false));
+          }
+        }
+      }
+      //Subscribe
+      if (!subscribed) {
+        console.log('name : ' + selectedName);
+        axios.post(`http://127.0.0.1:3010/account/subscription`, {email: this.props.userEmail, target: 'school', name: selectedName})
+        .then(ret => {
+          this.handleSchoolorCompanySubscription(true, ret, selectedName, true);
+        })
+        .catch(ret => this.handleSchoolorCompanySubscription(false, ret, selectedName, true));
+      }
     }
   }
 
@@ -506,7 +556,7 @@ class School extends React.Component {
             handleSuccessModalClose={this.handleSuccessModalClose}
             handleEditSchoolModalShow={this.handleEditSchoolModalShow}
             handleEditCompanyModalShow={this.handleEditCompanyModalShow}
-            handleUserSchoolSubscription={this.handleUserSchoolSubscription}
+            handleUserSchoolOrCompanySubscription={this.handleUserSchoolOrCompanySubscription}
           />
         </main>
         <Modal visible={this.state.isEditCompanyModalVisible} width="500" height="420" effect="fadeInUp" onClickAway={() => this.handleEditCompanyModalClose()}>

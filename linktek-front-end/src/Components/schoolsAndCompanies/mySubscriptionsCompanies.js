@@ -41,11 +41,17 @@ class MySubscriptionsCompanies extends React.Component {
   }
 
   isUserSubscribed(index) {
-    return this.props.companySubscribed[index];
+    let company = this.props.companyList[index];
+    for (let i = 0; i < this.props.companyList.length; i++) {
+        if (this.props.companySubscribed[i] === company) {
+          return 'Unsubscribe';
+        }
+    }
+    return 'Subscribe';
   }
 
   companySubscribed(index) {
-    if (this.isUserSubscribed(index)) {
+    if (this.isUserSubscribed(index) === 'Subscribe') {
       return "primary"
     }
     else {
@@ -84,10 +90,10 @@ class MySubscriptionsCompanies extends React.Component {
                     </div>
                   </ListItem>
                   <ListItem style={{width: 150}}>
-                    <Button variant="outlined" color={this.companySubscribed(index)} className={classes.button} style={{width: 120}}>
-                      {this.isUserSubscribed(index) ? 'Unsubscribe' : 'Subscribe'}
+                    <Button variant="outlined" color={this.companySubscribed(index)} className={classes.button} style={{width: 120}} onClick={() => this.props.handleUserSchoolOrCompanySubscription(this.props.companyList[index], 'company')}>
+                      {this.isUserSubscribed(index)}
                     </Button>
-                </ListItem>
+                  </ListItem>
               </ListItem>
             ))}
           </List>

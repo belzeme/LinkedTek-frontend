@@ -49,7 +49,7 @@ class SchoolAndCompaniesInner extends React.Component {
               filteredCountrySchools={this.props.filteredCountrySchools}
               handleFilteredCountryChangeSchools={this.props.handleFilteredCountryChangeSchools}
               handleEditSchoolModalShow={this.props.handleEditSchoolModalShow}
-              handleUserSchoolSubscription={this.props.handleUserSchoolSubscription}
+              handleUserSchoolOrCompanySubscription={this.props.handleUserSchoolOrCompanySubscription}
             />
           </Grid>
           <Grid item xs>
@@ -61,6 +61,7 @@ class SchoolAndCompaniesInner extends React.Component {
               filteredCountryCompanies={this.props.filteredCountryCompanies}
               handleFilteredCountryChangeCompanies={this.props.handleFilteredCountryChangeCompanies}
               handleEditCompanyModalShow={this.props.handleEditCompanyModalShow}
+              handleUserSchoolOrCompanySubscription={this.props.handleUserSchoolOrCompanySubscription}
             />
           </Grid>
         </Grid>
