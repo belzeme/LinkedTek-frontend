@@ -51,9 +51,8 @@ class AddRelationModule extends React.Component {
   };
 
   handleSearch(ret) {
-    console.log(ret);
-    console.log('data : ' + ret.data);
-    let data = ret.data;
+    this.setState({searchUserList: []});
+    this.setState({searchUserEmail: []});
     if (ret.data.length > 0) {
       for(let i = 0; i < ret.data.length; i++) {
         let tmp = this.state.searchUserList;
@@ -61,7 +60,7 @@ class AddRelationModule extends React.Component {
         tmp = this.state.searchUserEmail;
         tmp.push(ret.data[i].email);
       }
-      this.setState({expanded: !this.state.expanded});
+      this.setState({expanded: true});
     }
     else {
       alert('NO USER FOUND');
@@ -88,7 +87,7 @@ class AddRelationModule extends React.Component {
   };
 
   formatSeachJobModalTitle() {
-    return "Job : " + this.props.searchUserSelectedJob;
+    return "Email : " + this.props.searchUserSelectedJob;
   }
 
   formatSeachCompanyModalTitle() {
@@ -97,10 +96,6 @@ class AddRelationModule extends React.Component {
 
   formatSeachAgeModalTitle() {
     return "Age : " + this.props.searchUserSelectedAge;
-  }
-
-  formatSeachStateModalTitle() {
-    return "State : " + this.props.searchUserSelectstate;
   }
 
   render() {
@@ -153,7 +148,7 @@ class AddRelationModule extends React.Component {
             />
           </CardContent>
         </Collapse>
-        <Modal visible={this.props.searchUserModalVisible} width="400" height="600" effect="fadeInUp" onClickAway={() => this.props.handleSearchUserModalClose()}>
+        <Modal visible={this.props.searchUserModalVisible} width="400" height="530" effect="fadeInUp" onClickAway={() => this.props.handleSearchUserModalClose()}>
           <div>
             <h2 style={{display: 'flex', justifyContent: 'center'}}>{this.props.searchUserSelectedName}</h2>
             <Card className={classes.card}>
@@ -169,9 +164,6 @@ class AddRelationModule extends React.Component {
               <Divider />
               <ListItem divider>
                 <ListItemText primary={this.formatSeachCompanyModalTitle()}/>
-              </ListItem>
-              <ListItem>
-                <ListItemText primary={this.formatSeachStateModalTitle()}/>
               </ListItem>
               <Divider light />
               <ListItem>

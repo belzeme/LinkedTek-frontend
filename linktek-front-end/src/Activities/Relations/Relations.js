@@ -100,16 +100,16 @@ class Relations extends React.Component {
   state = {
     open: true,
     searchResult: ['USER 1', 'UUSER 2', 'USER 3', 'USER 4'],
-    userRelations: ['John Doe', 'Joane Doe', 'Aplus didée', 'blop blop'],
+    userRelations: [],
     relationSuggestion: ['Suggestion 1', 'Suggestion 2', 'Suggestion 3', 'Suggestion 4', 'Suggestion 5', 'Suggestion 6', 'Suggestion 7'],
     searchUserSelectedName: "",
-    searchUserSelectedCompany: 'Ultra software',
-    searchUserSelectedJob: 'Front-end developer',
-    searchUserSelectedAge: 33,
+    searchUserSelectedCompany: '',
+    searchUserSelectedJob: '',
+    searchUserSelectedAge: 0,
     searchUserModalVisible: false,
-    searchUserSelectstate: "USA",
+    searchUserSelectstate: "",
 
-    relationSelectedName: "Johb Doe",
+    relationSelectedName: "John Doe",
     relationSelectedCompany: 'Ultra software',
     relationSelectedJob: 'Front-end developer',
     relationSelectedAge: 33,
@@ -124,6 +124,25 @@ class Relations extends React.Component {
     relationSuggestionSelectstate: "Russia",
   };
 
+  componentWillMount() {
+    console.log("mail : " + this.props.userEmail);
+    axios.post(`http://127.0.0.1:3010/account/leader`, {email: this.props.userEmail})
+    .then(ret => this.handleSubscriptionList(ret))
+    .catch(error => console.log('error : ' + error));
+  }
+
+  handleSubscriptionList(ret) {
+    console.log(ret);
+  }
+
+  handleSearch(ret) {
+    console.log(ret);
+  }
+
+  handleSearchError(error) {
+    console.log('error : ' + error);
+  }
+
   handleDrawerOpen = () => {
     this.setState({ open: true });
   };
@@ -132,11 +151,16 @@ class Relations extends React.Component {
     this.setState({ open: false });
   };
 
-  handleSearchUserModalShow = () => {
+  handleSearchUserModalShow = (name, email) => {
+    this.setState({searchUserSelectedName: name});
+    this.setState({searchUserSelectedJob: email});
     this.setState({ searchUserModalVisible: true });
   }
 
   handleSearchUserModalClose = () => {
+    axios.post(`http://127.0.0.1:3010/account/leader`, {follower: this.props.userEmail, leader: this.state.searchUserSelectedJob})
+    .then(ret => this.handleSearch(ret))
+    .catch(error => this.handleSearchError(error));
     this.setState({ searchUserModalVisible: false });
   }
 
