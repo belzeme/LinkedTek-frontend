@@ -20,10 +20,10 @@ class SearchUserList extends React.Component {
     return (
       <div style={{maxHeight: 400, overflow: 'auto'}}>
         <List dense className={classes.root} >
-          {this.props.searchResult.map((value, index) => (
+          {this.props.searchUserList.map((value, index) => (
             <ListItem key={value} button onClick={() => this.props.handleSearchUserModalShow()}>
             <ListItemAvatar>
-              <ListItemText primary={"USER NAME"} secondary={"Work on blop company"} style={{height: 50}}/>
+              <ListItemText primary={this.props.searchUserList[index]} secondary={this.props.searchUserEmail[index]} style={{height: 50}}/>
             </ListItemAvatar>
             </ListItem>
           ))}

@@ -17,6 +17,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import UserPicture from '../../Images/profilePicture2.png';
+import axios from 'axios';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -43,10 +44,47 @@ const styles = theme => ({
 });
 
 class AddRelationModule extends React.Component {
-  state = { expanded: false };
+  state = {
+    expanded: false,
+    searchUserList: [],
+    searchUserEmail: [],
+  };
+
+  handleSearch(ret) {
+    console.log(ret);
+    console.log('data : ' + ret.data);
+    let data = ret.data;
+    if (ret.data.length > 0) {
+      for(let i = 0; i < ret.data.length; i++) {
+        let tmp = this.state.searchUserList;
+        tmp.push(ret.data[i].name);
+        tmp = this.state.searchUserEmail;
+        tmp.push(ret.data[i].email);
+      }
+      this.setState({expanded: !this.state.expanded});
+    }
+    else {
+      alert('NO USER FOUND');
+    }
+  }
+
+  handleSearchError(error) {
+    console.log('error : ' + error);
+  }
+
+  searchUserByName() {
+    axios.post(`http://127.0.0.1:3010/user/list`, {name: this.props.searchUserSelectedName})
+    .then(ret => this.handleSearch(ret))
+    .catch(error => this.handleSearchError(error));
+  }
 
   handleExpandClick = () => {
-    this.setState(state => ({ expanded: !state.expanded }));
+    if (this.props.searchUserSelectedName !== '') {
+      this.searchUserByName();
+    }
+    else {
+      alert('User name field cannot be empty !');
+    }
   };
 
   formatSeachJobModalTitle() {
@@ -81,6 +119,7 @@ class AddRelationModule extends React.Component {
               className={classes.textField}
               margin="normal"
               style={{marginLeft: 10, width: "95%"}}
+              onChange={this.props.handleSearchUserSelectedName}
             />
             <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white", marginLeft: 10, marginTop: 10}} onClick={this.handleExpandClick}>
               Search
@@ -109,6 +148,8 @@ class AddRelationModule extends React.Component {
             <SearchUserList
               searchResult={this.props.searchResult}
               handleSearchUserModalShow={this.props.handleSearchUserModalShow}
+              searchUserList={this.state.searchUserList}
+              searchUserEmail={this.state.searchUserEmail}
             />
           </CardContent>
         </Collapse>

@@ -32,6 +32,7 @@ class RelationInner extends React.Component {
               handleSearchUserModalClose={this.props.handleSearchUserModalClose}
               searchUserModalVisible={this.props.searchUserModalVisible}
               searchUserSelectstate={this.props.searchUserSelectstate}
+              handleSearchUserSelectedName={this.props.handleSearchUserSelectedName}
             />
            </Grid>
            <Grid item xs>

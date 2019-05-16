@@ -14,6 +14,7 @@ import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from '../Login/Login.js';
 import ReactDOM from 'react-dom';
 import Inner from './content/relationsInner.js';
+import axios from 'axios';
 import { mainListItems } from '../../Components/leftMenu';
 
 const drawerWidth = 240;
@@ -101,7 +102,7 @@ class Relations extends React.Component {
     searchResult: ['USER 1', 'UUSER 2', 'USER 3', 'USER 4'],
     userRelations: ['John Doe', 'Joane Doe', 'Aplus didée', 'blop blop'],
     relationSuggestion: ['Suggestion 1', 'Suggestion 2', 'Suggestion 3', 'Suggestion 4', 'Suggestion 5', 'Suggestion 6', 'Suggestion 7'],
-    searchUserSelectedName: "John Doe",
+    searchUserSelectedName: "",
     searchUserSelectedCompany: 'Ultra software',
     searchUserSelectedJob: 'Front-end developer',
     searchUserSelectedAge: 33,
@@ -153,6 +154,10 @@ class Relations extends React.Component {
 
   handleSelectedSuggestionModalClose = () => {
     this.setState({ realtionSuggestionModalVisible: false });
+  }
+
+  handleSearchUserSelectedName = (event) => {
+    this.setState({ searchUserSelectedName: event.target.value });
   }
 
   render() {
@@ -223,6 +228,7 @@ class Relations extends React.Component {
               handleSearchUserModalClose={this.handleSearchUserModalClose}
               searchUserModalVisible={this.state.searchUserModalVisible}
               searchUserSelectstate={this.state.searchUserSelectstate}
+              handleSearchUserSelectedName={this.handleSearchUserSelectedName}
 
               relationSelectedName={this.state.relationSelectedName}
               relationSelectedCompany={this.state.relationSelectedCompany}
