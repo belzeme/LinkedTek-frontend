@@ -54,6 +54,7 @@ class Register extends Component {
       email: "",
       password: "",
       confirmation: "",
+      name: "",
       isModalVisible: false,
       isReturnServerOKModalVisible: false,
       isReturnServerKOModalVisible: false,
@@ -62,6 +63,11 @@ class Register extends Component {
 
   handleEmailChange(event)  {
     this.setState({email: event.target.value});
+  }
+
+  handleNameChange(event)  {
+    console.log('test : ' + event.target.value);
+    this.setState({name: event.target.value});
   }
 
   handlePasswordChange(event)  {
@@ -100,6 +106,9 @@ class Register extends Component {
     if (this.state.email === '') {
       return 'Error email field cannot be empty';
     }
+    else if (this.state.name === '') {
+      return 'Error user name field cannot be empty';
+    }
     else if (this.state.password === '') {
       return 'Error password field cannot be empty';
     }
@@ -120,13 +129,13 @@ class Register extends Component {
   }
 
   clickOnSubmitButton = (email, password) => {
-    console.log("Email : " + this.state.email + '\nPassword : ' + this.state.password + '\nConfirmation : ' + this.state.confirmation);
+    //console.log("Email : " + this.state.email + '\nPassword : ' + this.state.password + '\nConfirmation : ' + this.state.confirmation);
 
     if (this.handleErrorMessage() !== 'OK') {
       this.handleModalShow()
     }
     else {
-      axios.post(`http://127.0.0.1:3010/auth/register`, {email: this.state.email, password: this.state.password})
+      axios.post(`http://127.0.0.1:3010/auth/register`, {email: this.state.email, password: this.state.password, name: this.state.name})
       .then(ret => this.handleOkModalShow())
       .catch(error => this.handleKoModalShow());
     }
@@ -147,6 +156,10 @@ class Register extends Component {
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
               <Input id="email" name="email" autoComplete="email" autoFocus onChange={(event) => this.handleEmailChange(event)}/>
+            </FormControl>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="email">Name</InputLabel>
+              <Input id="email" name="name" autoComplete="name" autoFocus onChange={(event) => this.handleNameChange(event)}/>
             </FormControl>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="password">Password</InputLabel>

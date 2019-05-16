@@ -19,37 +19,37 @@ import Messages from '../Activities/Messages/Messages.js';
 
 export const mainListItems = (
   <div>
-    <ListItem button onClick={() => {ReactDOM.render(<Actualities />, document.getElementById('root')); }}>
+    <ListItem button onClick={() => {ReactDOM.render(<Actualities userEmail={localStorage.getItem('userEmail')}/>, document.getElementById('root')); }}>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Actuality feed" />
     </ListItem>
-    <ListItem button onClick={() => {ReactDOM.render(<SchoolAndCompanies />, document.getElementById('root')); }}>
+    <ListItem button onClick={() => {ReactDOM.render(<SchoolAndCompanies userEmail={localStorage.getItem('userEmail')}/>, document.getElementById('root')); }}>
       <ListItemIcon>
         <School />
       </ListItemIcon>
       <ListItemText primary="Schools & Companies" />
     </ListItem>
-    <ListItem button onClick={() => {ReactDOM.render(<Profile />, document.getElementById('root')); }}>
+    <ListItem button onClick={() => {ReactDOM.render(<Profile userEmail={localStorage.getItem('userEmail')}/>, document.getElementById('root')); }}>
       <ListItemIcon>
         <UserIcon />
       </ListItemIcon>
       <ListItemText primary="Profile" />
     </ListItem>
-    <ListItem button onClick={() => {ReactDOM.render(<Post />, document.getElementById('root')); }}>
+    <ListItem button onClick={() => {ReactDOM.render(<Post userEmail={localStorage.getItem('userEmail')}/>, document.getElementById('root')); }}>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>
       <ListItemText primary="Posts management" />
     </ListItem>
-    <ListItem button onClick={() => {ReactDOM.render(<Relations />, document.getElementById('root')); }}>
+    <ListItem button onClick={() => {ReactDOM.render(<Relations userEmail={localStorage.getItem('userEmail')}/>, document.getElementById('root')); }}>
       <ListItemIcon>
       <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Relations" />
     </ListItem>
-    <ListItem button onClick={() => {ReactDOM.render(<Messages />, document.getElementById('root')); }}>
+    <ListItem button onClick={() => {ReactDOM.render(<Messages userEmail={localStorage.getItem('userEmail')}/>, document.getElementById('root')); }}>
       <ListItemIcon>
       <Message />
       </ListItemIcon>

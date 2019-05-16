@@ -109,6 +109,7 @@ class Actualities extends React.Component {
 
   componentDidMount() {
     console.log('user : ' + this.props.userEmail);
+    localStorage.setItem('userEmail', this.props.userEmail);
   }
 
   handleDrawerOpen = () => {
