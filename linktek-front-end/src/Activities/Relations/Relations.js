@@ -125,8 +125,7 @@ class Relations extends React.Component {
   };
 
   componentWillMount() {
-    console.log("mail : " + this.props.userEmail);
-    axios.post(`http://127.0.0.1:3010/account/leader`, {email: this.props.userEmail})
+    axios.post(`http://127.0.0.1:3010/account/leader/list`, {email: this.props.userEmail})
     .then(ret => this.handleSubscriptionList(ret))
     .catch(error => console.log('error : ' + error));
   }

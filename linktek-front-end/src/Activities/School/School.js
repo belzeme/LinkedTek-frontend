@@ -423,7 +423,7 @@ class School extends React.Component {
       //Subscribe
       if (!subscribed) {
         console.log('name : ' + selectedName);
-        axios.post(`http://127.0.0.1:3010/account/subscription`, {email: this.props.userEmail, target: 'school', name: selectedName})
+        axios.post(`http://127.0.0.1:3010/account/subscription`, {email: this.props.userEmail, target: 'company', name: selectedName})
         .then(ret => {
           this.handleSchoolorCompanySubscription(true, ret, selectedName, true);
         })
