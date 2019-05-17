@@ -157,6 +157,7 @@ class Relations extends React.Component {
   }
 
   handleSearch(ret) {
+    alert('Relation added !');
     console.log(ret);
   }
 
@@ -179,6 +180,10 @@ class Relations extends React.Component {
   }
 
   handleSearchUserModalClose = () => {
+    this.setState({ searchUserModalVisible: false });
+  }
+
+  handleSearchUserModalCloseValidated = () => {
     axios.post(`http://127.0.0.1:3010/account/leader`, {follower: this.props.userEmail, leader: this.state.searchUserSelectedJob})
     .then(ret => this.handleSearch(ret))
     .catch(error => this.handleSearchError(error));
@@ -205,8 +210,12 @@ class Relations extends React.Component {
     this.setState({ relationSelectedModalVisible: true });
   }
 
-  handleRelationModalClose = () => {
+  handleRelationModalCloseValidated = () => {
     this.handleRemoveRelation();
+    this.setState({ relationSelectedModalVisible: false });
+  }
+
+  handleRelationModalClose = () => {
     this.setState({ relationSelectedModalVisible: false });
   }
 
@@ -291,6 +300,7 @@ class Relations extends React.Component {
               searchUserModalVisible={this.state.searchUserModalVisible}
               searchUserSelectstate={this.state.searchUserSelectstate}
               handleSearchUserSelectedName={this.handleSearchUserSelectedName}
+              handleSearchUserModalCloseValidated={this.handleSearchUserModalCloseValidated}
 
               relationSelectedName={this.state.relationSelectedName}
               relationSelectedCompany={this.state.relationSelectedCompany}
@@ -303,6 +313,8 @@ class Relations extends React.Component {
               userRelationMails={this.state.userRelationMails}
               handleRemoveRelation={this.handleRemoveRelation}
               handleRelationEmailChange={this.handleRelationEmailChange}
+              relationEmail={this.state.relationEmail}
+              handleRelationModalCloseValidated={this.handleRelationModalCloseValidated}
 
               relationSuggestionSelectedName={this.state.relationSuggestionSelectedName}
               relationSuggestionSelectedCompany={this.state.relationSuggestionSelectedCompany}

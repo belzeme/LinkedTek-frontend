@@ -170,8 +170,8 @@ class AddRelationModule extends React.Component {
                 <ListItemText primary={this.formatSeachAgeModalTitle()}/>
               </ListItem>
             </List>
-            <div style={{display: 'flex', justifyContent: 'center', marginTop: 20}}>
-              <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white" }} onClick={this.props.handleSearchUserModalClose}>
+            <div style={{display: 'flex', justifyContent: 'center'}}>
+              <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white" }} onClick={this.props.handleSearchUserModalCloseValidated}>
                 Add as relation
               </Button>
             </div>

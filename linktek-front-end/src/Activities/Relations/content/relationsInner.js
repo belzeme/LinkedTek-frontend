@@ -32,6 +32,7 @@ class RelationInner extends React.Component {
               handleSearchUserModalClose={this.props.handleSearchUserModalClose}
               searchUserModalVisible={this.props.searchUserModalVisible}
               searchUserSelectstate={this.props.searchUserSelectstate}
+              handleSearchUserModalCloseValidated={this.props.handleSearchUserModalCloseValidated}
               handleSearchUserSelectedName={this.props.handleSearchUserSelectedName}
             />
            </Grid>
@@ -49,6 +50,7 @@ class RelationInner extends React.Component {
               userRelationMails={this.props.userRelationMails}
               handleRemoveRelation={this.handleRemoveRelation}
               handleRelationEmailChange={this.props.handleRelationEmailChange}
+              handleRelationModalCloseValidated={this.props.handleRelationModalCloseValidated}
             />
            </Grid>
            <Grid item xs>

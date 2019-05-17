@@ -93,7 +93,7 @@ class DisplayRelationsModule extends React.Component {
               </ListItem>
             </List>
             <div style={{display: 'flex', justifyContent: 'center', marginTop: 20}}>
-              <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white" }} onClick={this.props.handleRelationModalClose}>
+              <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white" }} onClick={this.props.handleRelationModalCloseValidated}>
                 Remove relation
               </Button>
             </div>
