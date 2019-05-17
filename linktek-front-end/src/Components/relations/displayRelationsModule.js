@@ -54,15 +54,13 @@ class DisplayRelationsModule extends React.Component {
         <div style={{maxHeight: 400, overflow: 'auto'}}>
           <List dense className={classes.root}>
             {this.props.userRelations.map((value, index) => (
-              <ListItem key={index} button onClick={() => this.props.handleRelationModalShow(this.props.userRelationMails[index])}>
-              <ListItemAvatar style={{marginRight: 30}}>
-                <Avatar
-                  src={UserAvatarImage}
-                />
-              </ListItemAvatar>
-              <ListItemAvatar >
+              <ListItem key={index} button onClick={() => this.props.handleRelationModalShow(this.props.userRelationMails[index])} style={{width: 480}}>
+                <ListItemAvatar style={{marginRight: 30}}>
+                  <Avatar
+                    src={UserAvatarImage}
+                  />
+                </ListItemAvatar>
                 <ListItemText primary={this.props.userRelations[index]} secondary={this.props.userRelationMails[index]} style={{height: 50}}/>
-              </ListItemAvatar>
               </ListItem>
             ))}
           </List>

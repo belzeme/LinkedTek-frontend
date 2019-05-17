@@ -53,15 +53,13 @@ class RelationSuggestionsModule extends React.Component {
         <div style={{maxHeight: 400, overflow: 'auto'}}>
          <List dense className={classes.root}>
           {this.props.relationSuggestion.map((value, index) => (
-            <ListItem key={value} button onClick={() => this.props.handleSelectedSuggestionModalShow()}>
+            <ListItem key={value} button onClick={() => this.props.handleSelectedSuggestionModalShow()} style={{width: 480}}>
               <ListItemAvatar style={{marginRight: 30}}>
                 <Avatar
                   src={UserAvatarImage}
                 />
               </ListItemAvatar>
-              <ListItemAvatar>
-                <ListItemText primary={this.props.relationSuggestion[index]} secondary={"Work on blop company"} style={{height: 50}}/>
-              </ListItemAvatar>
+              <ListItemText primary={this.props.relationSuggestion[index]} secondary={"Work on blop company"} style={{height: 50}}/>
             </ListItem>
           ))}
         </List>
