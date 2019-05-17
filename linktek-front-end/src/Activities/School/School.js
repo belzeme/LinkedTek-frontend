@@ -135,7 +135,6 @@ class School extends React.Component {
     let tmp = this.state.updateInput;
     tmp[0].value = this.state.editInputName;
     tmp[1].value = this.state.editInputDesc;
-    console.log('name : ' + this.state.editInputName + ' DESC : ' + this.state.editInputDesc);
     this.setState({updateInput: tmp});
   }
 
@@ -380,6 +379,7 @@ class School extends React.Component {
     .then(ret => {
         console.log(ret);
         alert('Company udated with sucess !');
+        this.shouldComponentUpdate();
     })
     .catch(ret => {
       console.log(ret)

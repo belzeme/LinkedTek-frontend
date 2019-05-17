@@ -5,6 +5,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Dropdown from 'react-dropdown';
+import ListItemText from '@material-ui/core/ListItemText';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -78,22 +79,11 @@ class MySubscriptionsSchools extends React.Component {
         <div style={{maxHeight: 600, overflow: 'auto', marginTop: 20}}>
           <List dense className={classes.root}>
             {this.props.schoolList.map((value, index) => (
-              <ListItem key={value} style={{width: 495}}>
-                <ListItem button onClick={() => this.props.handleEditSchoolModalShow(index)}>
-                  <div style={{marginRight: 40}}>
-                    <p style={{fontSize: 15}}>
-                      {this.handleSchoolIndex(index)}
-                    </p>
-                    <p style={{fontSize: 15}}>
-                      {this.handleSchoolDescription(index)}
-                    </p>
-                  </div>
-                </ListItem>
-                <ListItem style={{width: 150}}>
-                  <Button variant="outlined" color={this.schoolSubscribed(index)} className={classes.button} style={{width: 120}} onClick={() => this.props.handleUserSchoolOrCompanySubscription(this.props.schoolList[index], 'school')}>
-                    {this.isUserSubscribed(index)}
-                  </Button>
-                </ListItem>
+              <ListItem key={index} style={{width: 495}}>
+                <ListItemText primary={this.handleSchoolIndex(index)} secondary={this.handleSchoolDescription(index)} onClick={() => this.props.handleEditSchoolModalShow(index)}/>
+                <Button variant="outlined" color={this.schoolSubscribed(index)} className={classes.button} style={{width: 120}} onClick={() => this.props.handleUserSchoolOrCompanySubscription(this.props.schoolList[index], 'school')}>
+                  {this.isUserSubscribed(index)}
+                </Button>
               </ListItem>
             ))}
           </List>
