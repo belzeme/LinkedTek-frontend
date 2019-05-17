@@ -2,7 +2,6 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
@@ -36,9 +35,7 @@ class TimelineList extends React.Component {
                 src={this.props.namesState[index] === 'School' ? SchoolPicture : WorkPicture}
               />
             </ListItemAvatar>
-            <ListItemSecondaryAction>
-              <ListItemText primary={this.props.names[index]} secondary={"01.01.1900 - 01.01.1901"} />
-            </ListItemSecondaryAction>
+            <ListItemText primary={this.props.names[index]} secondary={"01.01.1900 - 01.01.1901"} />
           </ListItem>
         ))}
       </List>

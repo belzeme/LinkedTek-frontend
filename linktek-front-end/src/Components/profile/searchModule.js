@@ -104,9 +104,7 @@ class SearchModule extends React.Component {
             <List dense className={classes.root} style={{marginLeft: "auto", marginRight: "auto"}}>
               {this.props.searchResultName.map((value, index) => (
                 <ListItem key={value} button>
-                  <ListItemAvatar >
-                    <ListItemText primary={this.props.searchResultName[index]} secondary={this.props.searchResultJobTitle[index]} style={{height: 50}} onClick={() => this.props.handleUserModalShow()}/>
-                  </ListItemAvatar>
+                  <ListItemText primary={this.props.searchResultName[index]} secondary={this.props.searchResultJobTitle[index]} style={{height: 50}} onClick={() => this.props.handleUserModalShow()}/>
                 </ListItem>
               ))}
             </List>

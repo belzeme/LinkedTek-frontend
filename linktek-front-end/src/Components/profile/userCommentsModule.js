@@ -81,8 +81,6 @@ class UserCommentsModule extends React.Component {
                     <p style={{color: 'grey', fontStyle: 'italic', marginLeft: 10}}>{this.handleRowTitle(value)}</p>
                     <p style={{color: 'grey', fontStyle: 'italic', marginLeft: 10}}>{this.handleRowContent(value)}</p>
                   </div>
-                </ListItem>
-                <ListItem>
                   <div style={{marginTop: -15}}>
                     <p>{this.props.userName} Comment</p>
                     <p style={{marginLeft: 10}}>{this.handleCommentDate(value)}</p>

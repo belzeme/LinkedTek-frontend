@@ -138,7 +138,6 @@ class TimelineModule extends React.Component {
                   id="date"
                   label="Since"
                   type="date"
-                  sele
                   className={classes.textField}
                   style={{marginLeft: 10, marginTop: 20, width: "95%"}}
                   onChange={this.props.handleCurrentJobStartDate('Date')}
@@ -199,7 +198,6 @@ class TimelineModule extends React.Component {
                 id="date"
                 label="Start date"
                 type="date"
-                sele
                 className={classes.textField}
                 style={{marginLeft: 10, marginTop: 20, width: "95%"}}
                 onChange={this.props.handleCurrentJobStartDate('Date')}
@@ -212,7 +210,6 @@ class TimelineModule extends React.Component {
                 id="date"
                 label="Stop date"
                 type="date"
-                sele
                 className={classes.textField}
                 style={{marginLeft: 10, marginTop: 20, width: "95%"}}
                 onChange={this.props.handleCurrentJobStartDate('Date')}
