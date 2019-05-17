@@ -17,9 +17,6 @@ class SchoolAndCompaniesInner extends React.Component {
   state = {
   };
 
-  getAlert() {
-    alert('WORK !');
-  }
   render() {
     const { classes } = this.props;
 
