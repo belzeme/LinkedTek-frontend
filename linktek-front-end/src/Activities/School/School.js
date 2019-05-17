@@ -107,6 +107,7 @@ class School extends React.Component {
     newInputTypes: ['School', 'Company'],
     newInputTypeSelected: 0,
     newInputName: '',
+    oldInutName: '',
     newInputDescription: '',
     countryList: [''],
     selectedCountry: 0,
@@ -124,7 +125,23 @@ class School extends React.Component {
     isEditCompanyModalVisible: false,
     editInputName: '',
     editInputDesc: '',
+    updateInput: [
+      {label: "name", value: ""},
+      {label: "description", value: ""}
+    ],
   };
+
+  handleInputProperties() {
+    let tmp = this.state.updateInput;
+    tmp[0].value = this.state.editInputName;
+    tmp[1].value = this.state.editInputDesc;
+    console.log('name : ' + this.state.editInputName + ' DESC : ' + this.state.editInputDesc);
+    this.setState({updateInput: tmp});
+  }
+
+  setOldInputName = (oldName) => {
+    this.setState({oldInutName: oldName});
+  }
 
   addNewSchoolToState(value) {
 //    console.log('val : ' + value.name);
@@ -335,11 +352,44 @@ class School extends React.Component {
     this.setState({ selectedCountry: value.value});
   }
 
-  handleEditSchoolModalClose = () =>{
+  handleEditSchoolModalClose = () => {
     this.setState({isEditSchoolModalVisible: false});
   }
 
+  handleEditSchoolModalCloseValidated = () => {
+    this.handleInputProperties();
+    axios.patch(`http://127.0.0.1:3010/school`, {name: this.state.oldInutName, properties: this.state.updateInput})
+    .then(ret => {
+        console.log(ret);
+        alert('School udated with sucess !');
+    })
+    .catch(ret => {
+      console.log(ret)
+      alert('School updated failed !');
+    });
+    this.setState({isEditSchoolModalVisible: false});
+  }
+
+  handleEditCompanyModalClose = () => {
+    this.setState({isEditSchoolModalVisible: false});
+  }
+
+  handleEditCompanyModalCloseValidated = () => {
+    this.handleInputProperties();
+    axios.patch(`http://127.0.0.1:3010/company`, {name: this.state.oldInutName, properties: this.state.updateInput})
+    .then(ret => {
+        console.log(ret);
+        alert('Company udated with sucess !');
+    })
+    .catch(ret => {
+      console.log(ret)
+      alert('Company updated failed !');
+    });
+    this.setState({isEditCompanyModalVisible: false});
+  }
+
   handleEditSchoolModalShow = (index) => {
+    this.setOldInputName(this.state.schoolSubscribed[index]);
     this.setState({editInputName: this.state.schoolList[index]});
     this.setState({editInputDesc: this.state.schoolDescription[index]});
     this.setState({isEditSchoolModalVisible: true});
@@ -350,6 +400,7 @@ class School extends React.Component {
   }
 
   handleEditCompanyModalShow = (index) => {
+    this.setOldInputName(this.state.companySubscribed[index]);
     this.setState({editInputName: this.state.companyList[index]});
     this.setState({editInputDesc: this.state.companyDescription[index]});
     this.setState({isEditCompanyModalVisible: true});
@@ -565,7 +616,6 @@ class School extends React.Component {
             <TextField
               id="standard-with-placeholder"
               label="Company Name"
-              value={this.state.editInputName}
               placeholder={this.state.editInputName}
               className={classes.textField}
               margin="normal"
@@ -576,8 +626,7 @@ class School extends React.Component {
           <CardActions style={{marginLeft: 5, marginTop: 10 }}>
             <TextField
               id="standard-with-placeholder"
-              label="Company description"
-              value={this.state.editInputDesc}
+              label="Company Description"
               placeholder={this.state.editInputDesc}
               className={classes.textField}
               margin="normal"
@@ -588,7 +637,7 @@ class School extends React.Component {
               style={{marginLeft: 10, width: "95%"}}
             />
           </CardActions>
-          <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}} onClick={() => this.handleEditCompanyModalClose()}>
+          <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}} onClick={() => this.handleEditCompanyModalCloseValidated()}>
             Edit
           </Button>
         </Modal>
@@ -599,8 +648,7 @@ class School extends React.Component {
           <CardActions style={{marginLeft: 5, marginTop: 10 }}>
             <TextField
               id="standard-with-placeholder"
-              label="Company Name"
-              value={this.state.editInputName}
+              label="School Name"
               placeholder={this.state.editInputName}
               className={classes.textField}
               margin="normal"
@@ -611,8 +659,7 @@ class School extends React.Component {
           <CardActions style={{marginLeft: 5, marginTop: 10 }}>
             <TextField
               id="standard-with-placeholder"
-              label="Company description"
-              value={this.state.editInputDesc}
+              label="Schhol Description"
               placeholder={this.state.editInputDesc}
               className={classes.textField}
               margin="normal"
@@ -623,7 +670,7 @@ class School extends React.Component {
               style={{marginLeft: 10, width: "95%"}}
             />
           </CardActions>
-          <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}} onClick={() => this.handleEditSchoolModalClose()}>
+          <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}} onClick={() => this.handleEditSchoolModalCloseValidated()}>
             Edit
           </Button>
         </Modal>
