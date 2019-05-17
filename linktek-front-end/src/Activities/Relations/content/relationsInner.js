@@ -46,6 +46,9 @@ class RelationInner extends React.Component {
               handleRelationModalClose={this.props.handleRelationModalClose}
               relationSelectedModalVisible={this.props.relationSelectedModalVisible}
               searchUserSelectstate={this.props.relationSelectstate}
+              userRelationMails={this.props.userRelationMails}
+              handleRemoveRelation={this.handleRemoveRelation}
+              handleRelationEmailChange={this.props.handleRelationEmailChange}
             />
            </Grid>
            <Grid item xs>

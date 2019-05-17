@@ -99,8 +99,9 @@ const styles = theme => ({
 class Relations extends React.Component {
   state = {
     open: true,
-    searchResult: ['USER 1', 'UUSER 2', 'USER 3', 'USER 4'],
+    searchResult: [],
     userRelations: [],
+    userRelationMails: [],
     relationSuggestion: ['Suggestion 1', 'Suggestion 2', 'Suggestion 3', 'Suggestion 4', 'Suggestion 5', 'Suggestion 6', 'Suggestion 7'],
     searchUserSelectedName: "",
     searchUserSelectedCompany: '',
@@ -109,12 +110,13 @@ class Relations extends React.Component {
     searchUserModalVisible: false,
     searchUserSelectstate: "",
 
-    relationSelectedName: "John Doe",
-    relationSelectedCompany: 'Ultra software',
-    relationSelectedJob: 'Front-end developer',
-    relationSelectedAge: 33,
+    relationSelectedName: "",
+    relationSelectedCompany: '',
+    relationSelectedJob: '',
+    relationSelectedAge: 0,
     relationSelectedModalVisible: false,
-    relationSelectstate: "USA",
+    relationSelectstate: "",
+    relationEmail: '',
 
     relationSuggestionSelectedName: "Aplus Didée",
     relationSuggestionSelectedCompany: 'Mega software',
@@ -126,12 +128,32 @@ class Relations extends React.Component {
 
   componentWillMount() {
     axios.post(`http://127.0.0.1:3010/account/leader/list`, {email: this.props.userEmail})
-    .then(ret => this.handleSubscriptionList(ret))
+    .then(ret => this.handleRelationList(ret))
     .catch(error => console.log('error : ' + error));
   }
 
-  handleSubscriptionList(ret) {
+  addItemToUserRelations(value){
+    //console.log('name : ' + value.name);
+    //console.log('email : ' + value.email);
+    let tmp = this.state.userRelations;
+    tmp.push(value.name);
+    this.setState({userRelations: tmp});
+    tmp = this.state.userRelationMails;
+    tmp.push(value.email);
+    this.setState({userRelationMails: tmp});
+  }
+
+  handleRelationList(ret) {
     console.log(ret);
+    this.setState({userRelations: []});
+    this.setState({userRelationMails: []});
+    let i = 0;
+    for (let value of Object.values(ret)) {
+      if (i === 0) {
+        Object.keys(value).map(k => this.addItemToUserRelations(value[k]));
+      }
+      i++;
+    }
   }
 
   handleSearch(ret) {
@@ -163,11 +185,28 @@ class Relations extends React.Component {
     this.setState({ searchUserModalVisible: false });
   }
 
-  handleRelationModalShow = () => {
+  removeRelation(value) {
+    alert('Remove relation done !');
+  }
+
+  removeRelationError(error) {
+    console.log(error);
+    alert('Remove relation error !');
+  }
+
+  handleRemoveRelation() {
+    axios.delete(`http://127.0.0.1:3010/account/leader`, {data: {follower: this.props.userEmail, leader: this.state.relationEmail}})
+    .then(ret => this.removeRelation(ret))
+    .catch(error => this.removeRelationError(error));
+  }
+
+  handleRelationModalShow = (value) => {
+    this.setState({ relationEmail: value });
     this.setState({ relationSelectedModalVisible: true });
   }
 
   handleRelationModalClose = () => {
+    this.handleRemoveRelation();
     this.setState({ relationSelectedModalVisible: false });
   }
 
@@ -261,6 +300,9 @@ class Relations extends React.Component {
               handleRelationModalClose={this.handleRelationModalClose}
               relationSelectedModalVisible={this.state.relationSelectedModalVisible}
               relationSelectstate={this.state.relationSelectstate}
+              userRelationMails={this.state.userRelationMails}
+              handleRemoveRelation={this.handleRemoveRelation}
+              handleRelationEmailChange={this.handleRelationEmailChange}
 
               relationSuggestionSelectedName={this.state.relationSuggestionSelectedName}
               relationSuggestionSelectedCompany={this.state.relationSuggestionSelectedCompany}
