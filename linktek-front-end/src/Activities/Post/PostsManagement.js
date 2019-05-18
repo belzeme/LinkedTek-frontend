@@ -14,6 +14,10 @@ import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from '../Login/Login.js';
 import ReactDOM from 'react-dom';
 import Inner from './content/postsManagementInner.js'
+import Modal from 'react-awesome-modal';
+import Grid from '@material-ui/core/Grid';
+import CardHeader from '@material-ui/core/CardHeader';
+import Button from '@material-ui/core/Button';
 import { mainListItems } from '../../Components/leftMenu';
 import axios from 'axios';
 
@@ -101,26 +105,8 @@ class Post extends React.Component {
     open: true,
     newPostTitle: '',
     newPostContent: '',
-    myPosts: [
-      ["01.01.2001", "10H00", "Artung !!!", "Enean sagittis, justo a tincidunt pharetra, ipsum ex pretium libero, eu placerat felis felis vitae arcu. Aliquam sit amet accumsan dui, fermentum posuere magna. Donec sed nulla finibus, semper turpis eu, vestibulum lacus."],
-      ['01.01.2001', '11H44', 'Blop', 'Aliquam consectetur ultricies urna vitae consectetur. Morbi varius condimentum eros at vehicula. Proin faucibus id tortor sed cursus. Proin non laoreet mauris.'],
-      ['01.01.2001', '15h25', 'Itsum !', 'Cras bibendum, mi vitae condimentum tincidunt, eros quam semper erat, sit amet maximus justo ante ut ipsum. Phasellus sit amet placerat leo. Aliquam congue libero in velit imperdiet ornare.'],
-      ['01.01.2001', '19h00', 'Quisquet su ameth', 'Etiam imperdiet purus vel tempus ullamcorper. Ut vel lacus metus. Nam congue mauris ac urna facilisis imperdiet. Donec in ante at arcu ultricies interdum. Nunc risus est, dapibus in lobortis in, sagittis vel magna. Quisque et risus massa.'],
-      ['01.01.2001', '22h10', 'Proin eleifend', 'Phasellus pretium dui quis faucibus convallis. Integer mattis sapien quis ligula pellentesque, id mattis massa commodo. Aliquam eget erat eros. Ut leo urna, gravida vel rhoncus vitae, tristique quis massa. '],
-      ['02.01.2001', '08h08', 'Venenatis !', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis nibh quis ex varius facilisis. Nunc fringilla arcu sit amet velit bibendum vehicula.'],
-      ['02.01.2001', '08h55', 'Accumsan nisl lacinia !!!', 'Donec pretium felis non luctus scelerisque. Etiam facilisis eros sit amet odio facilisis tincidunt. Phasellus fermentum nec tortor nec feugiat. Curabitur finibus leo quis posuere laoreet.'],
-      ['02.01.2001', '11h12', 'Etiam convallis risus diam', 'Pellentesque id lacus suscipit metus dignissim rutrum. Etiam felis urna, faucibus eget urna sed, cursus porttitor metus. Sed non ligula in tellus ornare molestie. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.'],
-    ],
-    myComments: [
-      ["01.01.2001", "10H00", 'Suspendisse ac enim lorem.', '01.01.2001', '9h50', 'Nunc eget scelerisque', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac elit molestie, cursus justo eget, vehicula lorem. Sed quis arcu a eros ultrices commodo. Nulla ac scelerisque mauris. Vivamus vel tortor at ante elementum tempus.', 'User 1'],
-      ['01.01.2001', '11H44', 'Vivamus condimentum nunc id lacinia consequat.', '01.01.2001', '10h00', 'Aenean porttitor eget', 'Quisque semper mattis dui, eu pellentesque ex. Phasellus sollicitudin arcu eget orci faucibus scelerisque. Aliquam aliquet erat vitae laoreet lobortis.', 'User 2'],
-      ['01.01.2001', '15h25', 'Proin sed leo ligula.', '01.01.2001', '12h12', 'Acondimentum lacus', 'Maecenas posuere convallis felis ut rutrum. Donec consectetur vestibulum elit id aliquet. Mauris scelerisque velit vel magna lacinia, ac efficitur massa dapibus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis pretium metus ut risus porttitor congue.', 'User 3'],
-      ['01.01.2001', '19h00', 'Duis interdum scelerisque mi, in rhoncus sem pellentesque id.', '01.01.2001', '21h09', 'Aliquam vitae dictum  !!', 'Donec et ligula lorem. Morbi aliquam suscipit massa eget facilisis. Phasellus finibus dolor et nisi vehicula, ut vestibulum est bibendum.', 'User 4'],
-      ['01.01.2001', '22h10', 'Integer laoreet blandit suscipit. Integer hendrerit libero felis. Pellentesque laoreet a lacus in gravida.', '01.01.2001', '22h05', 'Mauris at lacus sapien !', 'Sed pretium erat ac nunc placerat cursus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.', 'User 5'],
-      ['02.01.2001', '08h08', 'Nam facilisis turpis quis consequat viverra. Sed elementum elit sit amet auctor blandit. Sed ac dui at dolor vulputate sollicitudin in ut sapien. Maecenas nec viverra massa.', '02.01.2001', '07h50', 'Rosodales lorem', 'Suspendisse aliquam ultrices orci, vel bibendum leo convallis dictum. Suspendisse feugiat purus et ex maximus consectetur. Duis dolor mi, tempor id tincidunt nec, tempus eu orci.', 'User 3'],
-      ['02.01.2001', '08h55', 'Praesent mattis interdum augue, sed sollicitudin felis venenatis in. Praesent massa sapien, interdum vel elit non, imperdiet pellentesque nunc.', '02.01.2001', '07h45', 'Quisque ac faucibus velit', ' Sed vehicula aliquam turpis, sed suscipit nulla efficitur blandit. Sed ligula felis, pellentesque sed nisi nec, blandit porta diam. Vivamus eu tincidunt tellus, nec porta leo.', 'User 1'],
-      ['02.01.2001', '11h12', 'Vivamus accumsan lacinia massa et euismod.', '02.01.2001', '11h11', 'Pellentesque feugiat mi !!!', 'Morbi at libero tincidunt, finibus mauris ac, auctor neque. Aliquam eu sem vel purus pretium venenatis.', 'User 4'],
-    ],
+    myPosts: [],
+    myComments: [],
     contact: [
       '',
       'John Doe',
@@ -135,14 +121,100 @@ class Post extends React.Component {
       'Toto EEE',
       'Toto FFF',
     ],
+    isModalDeletePostConfirmationVisible: false,
     selectedContact: 0,
     editPostModalVisible: false,
     editCommentModalVisible: false,
     editPostContent: '',
     editPostTitle: '',
     editComment: '',
+    currentMessageId: '',
+    updatePost: [
+      {label: "title", value: ""},
+      {label: "content", value: ""}
+    ],
   };
 
+  componentWillMount() {
+    axios.post(`http://127.0.0.1:3010/post/list`, {email: this.props.userEmail})
+    .then(ret => {
+      console.log(ret)
+      this.setState({myPosts: []});
+      this.handlePostList(ret);
+    })
+    .catch(error => console.log(error));
+  }
+
+  handlePostProperties() {
+    let tmp = this.state.updatePost;
+    tmp[0].value = this.state.editPostTitle;
+    tmp[1].value = this.state.editPostContent;
+    this.setState({updatePost: tmp});
+  }
+
+  handlePostList(ret) {
+    let i = 0;
+    for (let value of Object.values(ret)) {
+      if (i === 0) {
+        Object.keys(value).map(k => this.addPropsToState(value[k]));
+      }
+      i++;
+    }
+  }
+
+  addPropsToState(row) {
+    let ret = this.state.myPosts;
+    //console.log('id : ' + row.id);
+    let tmp = [
+      {id: row.id, creation_time: row.creation_time, title: row.title, content: row.content},
+    ];
+    ret.push(tmp);
+    this.setState({myPosts: ret});
+  }
+
+  handleRemovePost() {
+    axios.delete(`http://127.0.0.1:3010/post`, {data: {id: this.state.currentMessageId}})
+    .then(ret => {
+      //console.log(ret);
+      this.handleDeletePostModalConfirmationClose();
+      alert('Post deleted with success !');
+    })
+    .catch(error => {
+      //console.log(error);
+      this.handleDeletePostModalConfirmationClose();
+      alert('Error, post not deleted !');
+    });
+  }
+
+  handleEditPostValidation = () => {
+    //console.log('Title : ' + this.state.editPostTitle + '\nComment : ' + this.state.editPostContent + '\nID : ' + this.state.currentMessageId);
+    this.handlePostProperties();
+    axios.patch(`http://127.0.0.1:3010/post`, {id: this.state.currentMessageId, properties: this.state.updatePost})
+    .then(ret => {
+      //console.log(ret);
+      this.setState({editPostModalVisible: false});
+      alert('Post edited with success !');
+    })
+    .catch(error => {
+      //console.log(error);
+      this.setState({editPostModalVisible: false});
+      alert('Error, post had not been edited !');
+    });
+
+  }
+
+  removePost = () => {
+    this.setState({editPostModalVisible: false});
+    this.handleDeletePostModalConfirmationShow();
+  }
+
+  handleDeletePostModalConfirmationShow = () => {
+    this.setState({isModalDeletePostConfirmationVisible: true});
+  }
+
+  handleDeletePostModalConfirmationClose = () => {
+    this.setState({isModalDeletePostConfirmationVisible: false});
+  }
   handleDrawerOpen = () => {
     this.setState({ open: true });
   };
@@ -163,9 +235,11 @@ class Post extends React.Component {
     this.setState({ selectedContact: value});
   }
 
-  handleEditPostModalShow = (value) => {
-    this.setState({ editPostContent: value[3]});
-    this.setState({ editPostTitle: value[2]});
+  handleEditPostModalShow = (index) => {
+    let tmp = Object.values(this.state.myPosts[index]);
+    this.setState({ editPostContent: tmp[0].content});
+    this.setState({ editPostTitle: tmp[0].title});
+    this.setState({currentMessageId: tmp[0].id});
     this.setState({ editPostModalVisible: true});
   }
 
@@ -173,7 +247,7 @@ class Post extends React.Component {
     this.setState({ editPostModalVisible: false});
     this.setState({ editPostContent: ''});
     this.setState({ editPostTitle: ''});
-
+    this.setState({currentMessageId: ''});
   }
 
   handleEditCommentModalShow = (value) => {
@@ -286,8 +360,30 @@ class Post extends React.Component {
             handleEditComment={this.handleEditComment}
             editComment={this.state.editComment}
             handleNewPost={this.handleNewPost}
+            removePost={this.removePost}
+            handleEditPostValidation={this.handleEditPostValidation}
           />
         </main>
+        <Modal visible={this.state.isModalDeletePostConfirmationVisible} width="500" height="230" effect="fadeInUp" onClickAway={() => this.handleDeletePostModalConfirmationClose()}>
+          <CardHeader
+            title="Remove Post"
+          />
+          <div>
+            <h3 style={{textAlign: 'center', marginTop: 20}}>This action cannot be undone, continue ?</h3>
+          </div>
+          <Grid container spacing={24} style={{marginLeft: "auto", marginRight: "auto"}}>
+            <Grid item xs>
+              <Button style={{backgroundColor: '#3f51b5', width: "90%", color: "white", marginTop: 10, marginLeft: 10}} onClick={() => this.handleRemovePost()}>
+                Yes
+              </Button>
+            </Grid>
+            <Grid item xs>
+              <Button style={{backgroundColor: '#3f51b5', width: "90%", color: "white", marginTop: 10, marginLeft: -10}} onClick={() => this.handleDeletePostModalConfirmationClose()}>
+                NO
+              </Button>
+            </Grid>
+          </Grid>
+        </Modal>
       </div>
     );
   }

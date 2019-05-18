@@ -35,16 +35,19 @@ const styles = theme => ({
 
 class MyPostsModule extends React.Component {
 
-  handlePostDate(value) {
-   return value[0] + ' : ' + value[1];
+  handlePostDate(index) {
+    let tmp = Object.values(this.props.myPosts[index]);
+    return tmp[0].creation_time;
  }
 
-  handleRowTitle(value) {
-   return value[2];
+  handleRowTitle(index) {
+    let tmp = Object.values(this.props.myPosts[index]);
+    return tmp[0].title;
  }
 
-  handleRowContent(value) {
-   return value[3];
+  handleRowContent(index) {
+    let tmp = Object.values(this.props.myPosts[index]);
+    return tmp[0].content;
  }
 
   render() {
@@ -59,18 +62,18 @@ class MyPostsModule extends React.Component {
           <List dense className={classes.root}>
             {this.props.myPosts.map((value, index) => (
               <Paper key={index} style={{marginBottom: 10, maxWidth: 450, minWidth: 450, marginLeft: 20}}>
-                <ListItem key={value} button onClick={() => this.props.handleEditPostModalShow(value)}>
+                <ListItem key={index} button onClick={() => this.props.handleEditPostModalShow(index)}>
                   <div>
-                    <ListItemText primary={this.handlePostDate(value)} style={{height: 80}}/>
-                    <p style={{marginTop: -40}}>{this.handleRowTitle(value)}</p>
-                    <p style={{color: 'grey'}}>{this.handleRowContent(value)}</p>
+                    <ListItemText primary={this.handlePostDate(index)} style={{height: 80}}/>
+                    <p style={{marginTop: -40}}>{this.handleRowTitle(index)}</p>
+                    <p style={{color: 'grey'}}>{this.handleRowContent(index)}</p>
                   </div>
                 </ListItem>
               </Paper>
             ))}
           </List>
         </div>
-        <Modal visible={this.props.editPostModalVisible} width="500" height="390" effect="fadeInUp" onClickAway={() => this.props.handleEditPostModalClose()}>
+        <Modal visible={this.props.editPostModalVisible} width="500" height="430" effect="fadeInUp" onClickAway={() => this.props.handleEditPostModalClose()}>
           <CardHeader
             title="Edit Post"
           />
@@ -101,8 +104,11 @@ class MyPostsModule extends React.Component {
               style={{marginLeft: 10, width: "95%"}}
             />
           </div>
-          <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}}>
+          <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}} onClick={() => this.props.handleEditPostValidation()}>
             Edit Post
+          </Button>
+          <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 10}} onClick={() => this.props.removePost()}>
+            Remove Post
           </Button>
         </Modal>
       </Card>
