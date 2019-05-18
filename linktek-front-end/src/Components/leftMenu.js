@@ -8,7 +8,6 @@ import PeopleIcon from '@material-ui/icons/People';
 import UserIcon from '@material-ui/icons/Face';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import Message from '@material-ui/icons/Chat';
-
 import ReactDOM from 'react-dom';
 import Actualities from '../Activities/Actualities/Actualities.js';
 import SchoolAndCompanies from '../Activities/School/School.js';

@@ -15,6 +15,7 @@ import Login from '../Login/Login.js';
 import ReactDOM from 'react-dom';
 import Inner from './content/postsManagementInner.js'
 import { mainListItems } from '../../Components/leftMenu';
+import axios from 'axios';
 
 const drawerWidth = 240;
 
@@ -197,6 +198,19 @@ class Post extends React.Component {
     this.setState({ editComment: event.target.value});
   }
 
+  handleNewPost = () => {
+    //console.log("Mail : " + this.props.userEmail + '\nTitle: ' + this.state.newPostTitle + '\nContent : ' + this.state.newPostContent);
+    axios.post(`http://127.0.0.1:3010/post`, {email: this.props.userEmail, title: this.state.newPostTitle, content: this.state.newPostContent})
+    .then(ret => {
+      //console.log(ret);
+      alert('Post success !');
+    })
+    .catch(ret => {
+      //console.log(ret)
+      alert('Post failed !');
+    });
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -271,6 +285,7 @@ class Post extends React.Component {
             handleEditPostTitle={this.handleEditPostTitle}
             handleEditComment={this.handleEditComment}
             editComment={this.state.editComment}
+            handleNewPost={this.handleNewPost}
           />
         </main>
       </div>

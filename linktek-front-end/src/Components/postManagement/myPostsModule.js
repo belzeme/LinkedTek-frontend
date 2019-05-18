@@ -53,7 +53,7 @@ class MyPostsModule extends React.Component {
     return (
       <Card className={classes.card}>
         <CardHeader
-          title="My Post & Comments"
+          title="My Post"
         />
         <div style={{maxHeight: 600, overflow: 'auto', marginTop: 20}}>
           <List dense className={classes.root}>

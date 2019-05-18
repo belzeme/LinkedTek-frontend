@@ -71,7 +71,7 @@ class AddPostModule extends React.Component {
           </CardActions>
           <CardActions>
             <div style={{width: "100%"}}>
-              <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 10}}>
+              <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 10}} onClick={() => this.props.handleNewPost()}>
                 Post
               </Button>
             </div>
