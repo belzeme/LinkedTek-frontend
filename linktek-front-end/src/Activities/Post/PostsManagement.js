@@ -107,20 +107,7 @@ class Post extends React.Component {
     newPostContent: '',
     myPosts: [],
     myComments: [],
-    contact: [
-      '',
-      'John Doe',
-      'Aplus Didée',
-      'Joanne Doe',
-      'User Ulop',
-      'Blop User',
-      'Toto AAA',
-      'Toto BBB',
-      'Toto CCC',
-      'Toto DDD',
-      'Toto EEE',
-      'Toto FFF',
-    ],
+    contact: [],
     isModalDeletePostConfirmationVisible: false,
     selectedContact: 0,
     editPostModalVisible: false,
@@ -128,6 +115,8 @@ class Post extends React.Component {
     editPostContent: '',
     editPostTitle: '',
     editComment: '',
+    userRelations: [],
+    userRelationMails: [],
     currentMessageId: '',
     updatePost: [
       {label: "title", value: ""},
@@ -143,6 +132,42 @@ class Post extends React.Component {
       this.handlePostList(ret);
     })
     .catch(error => console.log(error));
+
+    axios.post(`http://127.0.0.1:3010/account/leader/list`, {email: this.props.userEmail})
+    .then(ret => this.handleRelationList(ret))
+    .catch(error => console.log('error : ' + error));
+  }
+
+  addItemToUserRelations(value){
+    //console.log('name : ' + value.name);
+    //console.log('email : ' + value.email);
+    let tmp = this.state.userRelations;
+    tmp.push(value.name);
+    this.setState({userRelations: tmp});
+    tmp = this.state.userRelationMails;
+    tmp.push(value.email);
+    this.setState({userRelationMails: tmp});
+  }
+
+  handleRelationList(ret) {
+    console.log(ret);
+    this.setState({userRelations: []});
+    this.setState({userRelationMails: []});
+    this.setState({contact: []});
+    let i = 0;
+    for (let value of Object.values(ret)) {
+      if (i === 0) {
+        Object.keys(value).map(k => this.addItemToUserRelations(value[k]));
+      }
+      i++;
+    }
+    let tmp = this.state.contact;
+    let next;
+    for (let j = 0; j < this.state.userRelations.length; j++) {
+      next = this.state.userRelations[j] + ' : ' + this.state.userRelationMails[j];
+      tmp.push(next);
+    }
+    this.setState({contact: tmp});
   }
 
   handlePostProperties() {
@@ -362,6 +387,7 @@ class Post extends React.Component {
             handleNewPost={this.handleNewPost}
             removePost={this.removePost}
             handleEditPostValidation={this.handleEditPostValidation}
+            userEmail={this.props.userEmail}
           />
         </main>
         <Modal visible={this.state.isModalDeletePostConfirmationVisible} width="500" height="230" effect="fadeInUp" onClickAway={() => this.handleDeletePostModalConfirmationClose()}>

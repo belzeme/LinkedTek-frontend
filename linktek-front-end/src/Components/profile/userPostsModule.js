@@ -41,17 +41,20 @@ class UserPostsModule extends React.Component {
     return this.props.userName + ' Posts';
   }
 
-  handlePostDate(value) {
-   return value[0] + ' : ' + value[1];
-  }
+  handlePostDate(index) {
+    let tmp = Object.values(this.props.userPosts[index]);
+    return tmp[0].creation_time;
+ }
 
-  handleRowTitle(value) {
-   return value[2];
-  }
+  handleRowTitle(index) {
+    let tmp = Object.values(this.props.userPosts[index]);
+    return tmp[0].title;
+ }
 
-  handleRowContent(value) {
-   return value[3];
-  }
+  handleRowContent(index) {
+    let tmp = Object.values(this.props.userPosts[index]);
+    return tmp[0].content;
+ }
 
   render() {
     const { classes } = this.props;
@@ -67,9 +70,9 @@ class UserPostsModule extends React.Component {
               <Paper key={index} style={{marginBottom: 10, maxWidth: 450, minWidth: 450, marginLeft: 20}}>
                 <ListItem key={value} button onClick={() => {ReactDOM.render(<ActualityDetails />, document.getElementById('root'));}}>
                   <div>
-                    <ListItemText primary={this.handlePostDate(value)} style={{height: 80}}/>
-                    <p style={{marginTop: -40}}>{this.handleRowTitle(value)}</p>
-                    <p style={{color: 'grey'}}>{this.handleRowContent(value)}</p>
+                    <ListItemText primary={this.handlePostDate(index)} style={{height: 80}}/>
+                    <p style={{marginTop: -40}}>{this.handleRowTitle(index)}</p>
+                    <p style={{color: 'grey'}}>{this.handleRowContent(index)}</p>
                   </div>
                 </ListItem>
               </Paper>

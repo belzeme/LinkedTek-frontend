@@ -14,6 +14,7 @@ import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from '../Login/Login.js';
 import ReactDOM from 'react-dom';
 import Inner from './content/userProfileInner.js';
+import axios from 'axios';
 import { mainListItems } from '../../Components/leftMenu';
 
 const drawerWidth = 240;
@@ -98,33 +99,51 @@ const styles = theme => ({
 class UserProfile extends React.Component {
   state = {
     open: true,
-    userName: 'John Doe',
-    userJob: 'Software Developer',
-    userState: 'USA',
-    userCompany: 'NanoSoft',
-    userAge: '24',
+    userName: '',
+    userJob: 'Undefined',
+    userState: 'Undefined',
+    userCompany: 'Undefined',
+    userAge: '0',
     deleteRelationModalVisible: false,
-    userPosts: [
-      ["01.01.2001", "10H00", "Artung !!!", "Enean sagittis, justo a tincidunt pharetra, ipsum ex pretium libero, eu placerat felis felis vitae arcu. Aliquam sit amet accumsan dui, fermentum posuere magna. Donec sed nulla finibus, semper turpis eu, vestibulum lacus."],
-      ['01.01.2001', '11H44', 'Blop', 'Aliquam consectetur ultricies urna vitae consectetur. Morbi varius condimentum eros at vehicula. Proin faucibus id tortor sed cursus. Proin non laoreet mauris.'],
-      ['01.01.2001', '15h25', 'Itsum !', 'Cras bibendum, mi vitae condimentum tincidunt, eros quam semper erat, sit amet maximus justo ante ut ipsum. Phasellus sit amet placerat leo. Aliquam congue libero in velit imperdiet ornare.'],
-      ['01.01.2001', '19h00', 'Quisquet su ameth', 'Etiam imperdiet purus vel tempus ullamcorper. Ut vel lacus metus. Nam congue mauris ac urna facilisis imperdiet. Donec in ante at arcu ultricies interdum. Nunc risus est, dapibus in lobortis in, sagittis vel magna. Quisque et risus massa.'],
-      ['01.01.2001', '22h10', 'Proin eleifend', 'Phasellus pretium dui quis faucibus convallis. Integer mattis sapien quis ligula pellentesque, id mattis massa commodo. Aliquam eget erat eros. Ut leo urna, gravida vel rhoncus vitae, tristique quis massa. '],
-      ['02.01.2001', '08h08', 'Venenatis !', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis nibh quis ex varius facilisis. Nunc fringilla arcu sit amet velit bibendum vehicula.'],
-      ['02.01.2001', '08h55', 'Accumsan nisl lacinia !!!', 'Donec pretium felis non luctus scelerisque. Etiam facilisis eros sit amet odio facilisis tincidunt. Phasellus fermentum nec tortor nec feugiat. Curabitur finibus leo quis posuere laoreet.'],
-      ['02.01.2001', '11h12', 'Etiam convallis risus diam', 'Pellentesque id lacus suscipit metus dignissim rutrum. Etiam felis urna, faucibus eget urna sed, cursus porttitor metus. Sed non ligula in tellus ornare molestie. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.'],
-    ],
-    userComments: [
-      ["01.01.2001", "10H00", 'Suspendisse ac enim lorem.', '01.01.2001', '9h50', 'Nunc eget scelerisque', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac elit molestie, cursus justo eget, vehicula lorem. Sed quis arcu a eros ultrices commodo. Nulla ac scelerisque mauris. Vivamus vel tortor at ante elementum tempus.', 'User 1'],
-      ['01.01.2001', '11H44', 'Vivamus condimentum nunc id lacinia consequat.', '01.01.2001', '10h00', 'Aenean porttitor eget', 'Quisque semper mattis dui, eu pellentesque ex. Phasellus sollicitudin arcu eget orci faucibus scelerisque. Aliquam aliquet erat vitae laoreet lobortis.', 'User 2'],
-      ['01.01.2001', '15h25', 'Proin sed leo ligula.', '01.01.2001', '12h12', 'Acondimentum lacus', 'Maecenas posuere convallis felis ut rutrum. Donec consectetur vestibulum elit id aliquet. Mauris scelerisque velit vel magna lacinia, ac efficitur massa dapibus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis pretium metus ut risus porttitor congue.', 'User 3'],
-      ['01.01.2001', '19h00', 'Duis interdum scelerisque mi, in rhoncus sem pellentesque id.', '01.01.2001', '21h09', 'Aliquam vitae dictum  !!', 'Donec et ligula lorem. Morbi aliquam suscipit massa eget facilisis. Phasellus finibus dolor et nisi vehicula, ut vestibulum est bibendum.', 'User 4'],
-      ['01.01.2001', '22h10', 'Integer laoreet blandit suscipit. Integer hendrerit libero felis. Pellentesque laoreet a lacus in gravida.', '01.01.2001', '22h05', 'Mauris at lacus sapien !', 'Sed pretium erat ac nunc placerat cursus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.', 'User 5'],
-      ['02.01.2001', '08h08', 'Nam facilisis turpis quis consequat viverra. Sed elementum elit sit amet auctor blandit. Sed ac dui at dolor vulputate sollicitudin in ut sapien. Maecenas nec viverra massa.', '02.01.2001', '07h50', 'Rosodales lorem', 'Suspendisse aliquam ultrices orci, vel bibendum leo convallis dictum. Suspendisse feugiat purus et ex maximus consectetur. Duis dolor mi, tempor id tincidunt nec, tempus eu orci.', 'User 3'],
-      ['02.01.2001', '08h55', 'Praesent mattis interdum augue, sed sollicitudin felis venenatis in. Praesent massa sapien, interdum vel elit non, imperdiet pellentesque nunc.', '02.01.2001', '07h45', 'Quisque ac faucibus velit', ' Sed vehicula aliquam turpis, sed suscipit nulla efficitur blandit. Sed ligula felis, pellentesque sed nisi nec, blandit porta diam. Vivamus eu tincidunt tellus, nec porta leo.', 'User 1'],
-      ['02.01.2001', '11h12', 'Vivamus accumsan lacinia massa et euismod.', '02.01.2001', '11h11', 'Pellentesque feugiat mi !!!', 'Morbi at libero tincidunt, finibus mauris ac, auctor neque. Aliquam eu sem vel purus pretium venenatis.', 'User 4'],
-    ],
+    userPosts: [],
+    userComments: [],
   };
+
+  componentWillMount() {
+    console.log(this.props.searchUserMail);
+    axios.post(`http://127.0.0.1:3010/post/list`, {email: this.props.searchUserMail})
+    .then(ret => this.handleSearchPosts(ret))
+    .catch(error => console.log('error : ' + error));
+  }
+
+  handleSearchPosts(ret) {
+    let i = 0;
+    for (let value of Object.values(ret)) {
+      if (i === 0) {
+        Object.keys(value).map(k => this.addPropsToState(value[k]));
+      }
+      i++;
+    }
+  }
+
+  removeRelation(value) {
+    alert('Remove relation done !');
+  }
+
+  removeRelationError(error) {
+    console.log(error);
+    alert('Remove relation error !');
+  }
+
+  addPropsToState(row) {
+    let ret = this.state.userPosts;
+    //console.log('id : ' + row.id);
+    let tmp = [
+      {id: row.id, creation_time: row.creation_time, title: row.title, content: row.content},
+    ];
+    ret.push(tmp);
+    this.setState({userPosts: ret});
+  }
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -135,6 +154,9 @@ class UserProfile extends React.Component {
   };
 
   handleDeleteRelationClose = () => {
+    axios.delete(`http://127.0.0.1:3010/account/leader`, {data: {follower: this.props.userEmail, leader: this.props.searchUserMail}})
+    .then(ret => this.removeRelation(ret))
+    .catch(error => this.removeRelationError(error));
     this.setState({ deleteRelationModalVisible: false });
   }
 
@@ -197,10 +219,10 @@ class UserProfile extends React.Component {
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
             <Typography variant="h4" gutterBottom component="h3">
-              {this.state.userName} Profile
+              {this.props.searchUserName} Profile
             </Typography>
             <Inner
-              userName={this.state.userName}
+              userName={this.props.searchUserName}
               userAge={this.state.userAge}
               userState={this.state.userState}
               userCompany={this.state.userCompany}

@@ -31,6 +31,7 @@ class PostManagementInner extends React.Component {
               selectedContact={this.props.selectedContact}
               handleSelectedContactChange={this.props.handleSelectedContactChange}
               handleNewPost={this.props.handleNewPost}
+              userEmail={this.props.userEmail}
             />
           </Grid>
           <Grid item xs>

@@ -34,6 +34,11 @@ const styles = theme => ({
 
 class AddPostModule extends React.Component {
 
+  handleUserProfile() {
+    var words = this.props.selectedContact.label.split(' : ');
+    ReactDOM.render(<UserProfile searchUserName={words[0]} searchUserMail={words[1]} userEmail={this.props.userEmail}/>, document.getElementById('root'));
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -94,7 +99,7 @@ class AddPostModule extends React.Component {
           </CardActions>
           <CardActions>
             <div style={{width: "100%"}}>
-              <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20, marginBottom: 28}} onClick={() => {ReactDOM.render(<UserProfile />, document.getElementById('root')); }}>
+              <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20, marginBottom: 28}} onClick={() => this.handleUserProfile()}>
                 View Posts
               </Button>
             </div>
