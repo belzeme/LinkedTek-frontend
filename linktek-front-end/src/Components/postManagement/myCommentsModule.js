@@ -84,7 +84,7 @@ class MyCommentsModule extends React.Component {
                   <p style={{color: 'grey', fontStyle: 'italic', marginLeft: 10, marginTop: -10}}>{this.handleRowContent(index)}</p>
                 </div>
               </ListItem>
-              <ListItem button onClick={() => this.props.handleEditCommentModalShow(value)}>
+              <ListItem button onClick={() => this.props.handleEditCommentModalShow(index)}>
                 <div style={{marginTop: -15}}>
                   <p>My Comment</p>
                   <p style={{marginLeft: 10}}>{this.handleCommentDate(index)}</p>
@@ -95,7 +95,7 @@ class MyCommentsModule extends React.Component {
           ))}
         </List>
       </div>
-      <Modal visible={this.props.editCommentModalVisible} width="500" height="320" effect="fadeInUp" onClickAway={() => this.props.handleEditCommentModalClose()}>
+      <Modal visible={this.props.editCommentModalVisible} width="500" height="380" effect="fadeInUp" onClickAway={() => this.props.handleEditCommentModalClose()}>
         <CardHeader
           title="Edit Comment"
         />
@@ -117,6 +117,9 @@ class MyCommentsModule extends React.Component {
         </div>
         <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}}>
           Edit Comment
+        </Button>
+        <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}} onClick={() => this.props.removeComment()}>
+          Delete Comment
         </Button>
       </Modal>
     </Card>

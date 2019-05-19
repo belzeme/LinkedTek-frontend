@@ -104,6 +104,7 @@ class Post extends React.Component {
   state = {
     open: true,
     newPostTitle: '',
+    isModalDeleteCommentConfirmationVisible: false,
     newPostContent: '',
     myPosts: [],
     myComments: [],
@@ -122,6 +123,7 @@ class Post extends React.Component {
       {label: "title", value: ""},
       {label: "content", value: ""}
     ],
+    currentCommentId: '',
   };
 
   componentWillMount() {
@@ -160,6 +162,7 @@ class Post extends React.Component {
       postOwner: val[3].name,
       myComment: val[2].content,
       myCommentDate: val[2].creation_time,
+      myCommentId: val[2].id
     }];
     tmpComment.push(tmp);
     this.setState({myComment: tmpComment});
@@ -173,6 +176,11 @@ class Post extends React.Component {
       }
       i++;
     }
+  }
+
+  removeComment = () => {
+    this.setState({editCommentModalVisible: false});
+    this.handleDeleteCommentModalConfirmationShow();
   }
 
   addItemToUserRelations(value){
@@ -245,6 +253,20 @@ class Post extends React.Component {
     });
   }
 
+  handleRemoveComment() {
+    axios.delete(`http://127.0.0.1:3010/comment`, {data: {id: this.state.currentCommentId}})
+    .then(ret => {
+      //console.log(ret);
+      this.handleDeleteCommentModalConfirmationClose();
+      alert('Comment deleted with success !');
+    })
+    .catch(error => {
+      //console.log(error);
+      this.handleDeleteCommentModalConfirmationClose();
+      alert('Error, comment not deleted !');
+    });
+  }
+
   handleEditPostValidation = () => {
     //console.log('Title : ' + this.state.editPostTitle + '\nComment : ' + this.state.editPostContent + '\nID : ' + this.state.currentMessageId);
     this.handlePostProperties();
@@ -274,6 +296,15 @@ class Post extends React.Component {
   handleDeletePostModalConfirmationClose = () => {
     this.setState({isModalDeletePostConfirmationVisible: false});
   }
+
+  handleDeleteCommentModalConfirmationClose = () => {
+    this.setState({isModalDeleteCommentConfirmationVisible: false});
+  }
+
+  handleDeleteCommentModalConfirmationShow = () => {
+    this.setState({isModalDeleteCommentConfirmationVisible: true});
+  }
+
   handleDrawerOpen = () => {
     this.setState({ open: true });
   };
@@ -309,14 +340,17 @@ class Post extends React.Component {
     this.setState({currentMessageId: ''});
   }
 
-  handleEditCommentModalShow = (value) => {
+  handleEditCommentModalShow = (index) => {
+    let tmp = Object.values(this.state.myComments[index]);
+    this.setState({ editComment: tmp[0].myComment});
+    this.setState({ currentCommentId: tmp[0].myCommentId});
     this.setState({ editCommentModalVisible: true});
-    this.setState({ editComment: value[2]});
   }
 
   handleEditCommentModalClose = () => {
-    this.setState({ editCommentModalVisible: false});
     this.setState({ editComment: ''});
+    this.setState({ currentCommentId: 0});
+    this.setState({ editCommentModalVisible: false});
   }
 
   handleEditPostContent = name => event => {
@@ -422,6 +456,7 @@ class Post extends React.Component {
             removePost={this.removePost}
             handleEditPostValidation={this.handleEditPostValidation}
             userEmail={this.props.userEmail}
+            removeComment={this.removeComment}
           />
         </main>
         <Modal visible={this.state.isModalDeletePostConfirmationVisible} width="500" height="230" effect="fadeInUp" onClickAway={() => this.handleDeletePostModalConfirmationClose()}>
@@ -439,6 +474,26 @@ class Post extends React.Component {
             </Grid>
             <Grid item xs>
               <Button style={{backgroundColor: '#3f51b5', width: "90%", color: "white", marginTop: 10, marginLeft: -10}} onClick={() => this.handleDeletePostModalConfirmationClose()}>
+                NO
+              </Button>
+            </Grid>
+          </Grid>
+        </Modal>
+        <Modal visible={this.state.isModalDeleteCommentConfirmationVisible} width="500" height="230" effect="fadeInUp" onClickAway={() => this.handleDeleteCommentModalConfirmationClose()}>
+          <CardHeader
+            title="Remove Comment"
+          />
+          <div>
+            <h3 style={{textAlign: 'center', marginTop: 20}}>This action cannot be undone, continue ?</h3>
+          </div>
+          <Grid container spacing={24} style={{marginLeft: "auto", marginRight: "auto"}}>
+            <Grid item xs>
+              <Button style={{backgroundColor: '#3f51b5', width: "90%", color: "white", marginTop: 10, marginLeft: 10}} onClick={() => this.handleRemoveComment()}>
+                Yes
+              </Button>
+            </Grid>
+            <Grid item xs>
+              <Button style={{backgroundColor: '#3f51b5', width: "90%", color: "white", marginTop: 10, marginLeft: -10}} onClick={() => this.handleDeleteCommentModalConfirmationClose()}>
                 NO
               </Button>
             </Grid>

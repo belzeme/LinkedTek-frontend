@@ -53,6 +53,10 @@ class FeedModule extends React.Component {
     return value[2];
   }
 
+  handleLoadActualityDetails(index) {
+    ReactDOM.render(<ActualityDetails userEmail={this.props.userEmail}/>, document.getElementById('root'));
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -61,7 +65,7 @@ class FeedModule extends React.Component {
         <List dense className={classes.root}>
           {this.props.feed.map((value, index) => (
             <Paper key={index} style={{marginBottom: 10, maxWidth: 800, minWidth: 800}}>
-              <ListItem key={value} button onClick={() => {ReactDOM.render(<ActualityDetails userEmail={this.props.userEmail}/>, document.getElementById('root')); }}>
+              <ListItem key={index} button onClick={() => this.handleLoadActualityDetails(index)}>
                 <div>
                   <ListItemText primary={this.handleFeedRowDate(value)} secondary={this.handleFeedRowFrom(value)} style={{height: 80}}/>
                   <p style={{marginTop: -20}}>{this.handleFeedRowTitle(value)}</p>
