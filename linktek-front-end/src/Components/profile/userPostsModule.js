@@ -68,7 +68,7 @@ class UserPostsModule extends React.Component {
           <List dense className={classes.root}>
             {this.props.userPosts.map((value, index) => (
               <Paper key={index} style={{marginBottom: 10, maxWidth: 450, minWidth: 450, marginLeft: 20}}>
-                <ListItem key={value} button onClick={() => {ReactDOM.render(<ActualityDetails />, document.getElementById('root'));}}>
+                <ListItem key={index} button onClick={() => {ReactDOM.render(<ActualityDetails userEmail={this.props.userEmail} postId={this.props.handlePostId(index)}/>, document.getElementById('root'));}}>
                   <div>
                     <ListItemText primary={this.handlePostDate(index)} style={{height: 80}}/>
                     <p style={{marginTop: -40}}>{this.handleRowTitle(index)}</p>

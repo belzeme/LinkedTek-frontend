@@ -51,6 +51,7 @@ class RelationInner extends React.Component {
               handleRemoveRelation={this.handleRemoveRelation}
               handleRelationEmailChange={this.props.handleRelationEmailChange}
               handleRelationModalCloseValidated={this.props.handleRelationModalCloseValidated}
+              relationEmail={this.props.relationEmail}
             />
            </Grid>
            <Grid item xs>

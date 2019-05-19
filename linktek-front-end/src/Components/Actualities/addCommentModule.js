@@ -55,7 +55,7 @@ class AddCommentModule extends React.Component {
               onChange={this.props.handleCommentChange('newComment')}
               style={{marginLeft: 10, width: "95%"}}
             />
-            <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white", marginLeft: 10, marginTop: 10}}>
+            <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white", marginLeft: 10, marginTop: 10}} onClick={() => this.props.handleAddNewComment()}>
               Add comment
             </Button>
           </div>

@@ -73,7 +73,7 @@ class UserCommentsModule extends React.Component {
           <List dense className={classes.root}>
             {this.props.userComments.map((value, index) => (
               <Paper key={index} style={{marginBottom: 10, maxWidth: 450, minWidth: 450, marginLeft: 20}}>
-                <ListItem key={value}>
+                <ListItem key={index}>
                   <div>
                     <p>Original Post</p>
                     <p style={{color: 'grey', fontStyle: 'italic', marginLeft: 10}}>{this.handlePostFrom(value)}</p>

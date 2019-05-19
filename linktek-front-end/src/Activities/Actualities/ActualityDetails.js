@@ -14,6 +14,7 @@ import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from '../Login/Login.js';
 import ReactDOM from 'react-dom';
 import Inner from './content/actualityDetailsInner.js';
+import axios from 'axios';
 import { mainListItems } from '../../Components/leftMenu';
 
 const drawerWidth = 240;
@@ -120,6 +121,25 @@ class ActualityDetails extends React.Component {
     this.setState({ newComment: event.target.value});
   }
 
+  handleAddNewComment = () => {
+    if (this.state.newComment === '') {
+      alert('Error, new comment field cannot be empty !');
+    }
+    else {
+      //console.log('Email : ' + tmp + '\nId: ' + this.props.postId + '\nComment : ' + this.state.newComment);
+      axios.post(`http://127.0.0.1:3010/comment`, {email: localStorage.getItem('userEmail'), id: this.props.postId, content: this.state.newComment})
+      .then(ret => {
+        //console.log(ret);
+        alert('Comment post with success !');
+      })
+      .catch(error => {
+        console.log(error);
+        alert('Comment post failed !');
+      });
+    }
+  }
+
+
   render() {
     const { classes } = this.props;
 
@@ -184,6 +204,7 @@ class ActualityDetails extends React.Component {
             commentsFrom={this.state.commentsFrom}
             newComment={this.state.newComment}
             handleCommentChange={this.handleCommentChange}
+            handleAddNewComment={this.handleAddNewComment}
           />
         </main>
       </div>

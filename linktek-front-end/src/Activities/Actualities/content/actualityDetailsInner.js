@@ -40,6 +40,7 @@ class ActualityDetailsInner extends React.Component {
             <AddCommentModule
               newComment={this.props.newComment}
               handleCommentChange={this.props.handleCommentChange}
+              handleAddNewComment={this.props.handleAddNewComment}
             />
            </Grid>
          </Grid>

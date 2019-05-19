@@ -41,6 +41,8 @@ class UserProfileInner extends React.Component {
                 <UserPostsModule
                   userName={this.props.userName}
                   userPosts={this.props.userPosts}
+                  userEmail={this.props.userEmail}
+                  handlePostId={this.props.handlePostId}
                 />
               </Paper>
            </Grid>

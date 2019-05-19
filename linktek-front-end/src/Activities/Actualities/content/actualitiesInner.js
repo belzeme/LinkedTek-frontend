@@ -21,6 +21,7 @@ class ActualitiesInner extends React.Component {
       <div className={classes.root}>
         <FeedModule
           feed={this.props.feed}
+          userEmail={this.props.userEmail}
         />
       </div>
     );

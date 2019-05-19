@@ -176,6 +176,7 @@ class Actualities extends React.Component {
           </Typography>
           <Inner
             feed={this.state.feed}
+            userEmail={this.props.userEmail}
           />
         </main>
       </div>

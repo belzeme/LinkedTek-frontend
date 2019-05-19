@@ -29,7 +29,7 @@ const styles = theme => ({
 class DisplayRelationsModule extends React.Component {
 
   formatRelationJobModalTitle() {
-    return "Job : " + this.props.relationSelectedJob;
+    return "Mail : " + this.props.relationEmail;
   }
 
   formatRelationCompanyModalTitle() {
@@ -54,7 +54,7 @@ class DisplayRelationsModule extends React.Component {
         <div style={{maxHeight: 400, overflow: 'auto'}}>
           <List dense className={classes.root}>
             {this.props.userRelations.map((value, index) => (
-              <ListItem key={index} button onClick={() => this.props.handleRelationModalShow(this.props.userRelationMails[index])} style={{width: 480}}>
+              <ListItem key={index} button onClick={() => this.props.handleRelationModalShow(index)} style={{width: 480}}>
                 <ListItemAvatar style={{marginRight: 30}}>
                   <Avatar
                     src={UserAvatarImage}
@@ -92,7 +92,7 @@ class DisplayRelationsModule extends React.Component {
             </List>
             <div style={{display: 'flex', justifyContent: 'center', marginTop: 20}}>
               <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white" }} onClick={this.props.handleRelationModalCloseValidated}>
-                Remove relation
+                View profile
               </Button>
             </div>
           </div>

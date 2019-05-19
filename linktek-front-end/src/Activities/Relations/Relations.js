@@ -12,6 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from '../Login/Login.js';
+import UserProfile from '../Profile/UserProfile.js';
 import ReactDOM from 'react-dom';
 import Inner from './content/relationsInner.js';
 import axios from 'axios';
@@ -205,14 +206,16 @@ class Relations extends React.Component {
     .catch(error => this.removeRelationError(error));
   }
 
-  handleRelationModalShow = (value) => {
-    this.setState({ relationEmail: value });
+  handleRelationModalShow = (index) => {
+    this.setState({ relationEmail: this.state.userRelationMails[index]});
+    this.setState({ relationSelectedName: this.state.userRelations[index]});
     this.setState({ relationSelectedModalVisible: true });
   }
 
   handleRelationModalCloseValidated = () => {
-    this.handleRemoveRelation();
-    this.setState({ relationSelectedModalVisible: false });
+    //this.handleRemoveRelation();
+    ReactDOM.render(<UserProfile searchUserName={this.state.relationSelectedName} searchUserMail={this.state.relationEmail} userEmail={this.props.userEmail} />, document.getElementById('root'));
+    //this.setState({ relationSelectedModalVisible: false });
   }
 
   handleRelationModalClose = () => {
