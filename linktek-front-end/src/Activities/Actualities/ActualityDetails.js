@@ -103,22 +103,40 @@ class ActualityDetails extends React.Component {
     from: 'User 1',
     date: '01.01.2001 : 15H20',
     content: 'enean sagittis, justo a tincidunt pharetra, ipsum ex pretium libero, eu placerat felis felis vitae arcu. Aliquam sit amet accumsan dui, fermentum posuere magna. Donec sed nulla finibus, semper turpis eu, vestibulum lacus.',
-    comments:[
-      'Quantum patre etiam hunc illo hoc tantum munita ad erudiretur sit etiam ad dicam est potuit deditšnihil mecum patris patre.',
-      'Urbes habitaculis agrestibus opibus nominibus veteres conditoris viribus quae inposita quae construxit quam institutores enim urbes enim enim appellentur.',
-      'Construxit firmas nomina arbitrium eis nominibus nominibus Assyria veteres praesens pleraeque hominum ex inposita lingua et ad non conditoris in et.',
-      'Sermo mentionem haberi videretur eam in incidisset arbitratu atque Marci filio in sermonem Marci enim paucis altero loquentes inquit.',
-      'C disputationis mortem ab libro ab quasi quas altero tamquam secum Scaevola quasi tamquam haberi memoriae cum eam cum paucis mandavi.',
-      'Amicis quidquid quibus sunt simus si sumenda quidquid quidem de de Ex si accedunt statuerimus hoc vel ab Ex iis concedere res aut hoc eorum quidem velint numero si Ex.',
-      'Et saeculis magnis Phoenice Phoenice et saeculis nominum plena hanc in Libano et gratiarum nominum in adclinis venustatis Libano in et quibus pares quibus Libano magnis adclinis Emissa condita Berytus.'
-    ],
-    commentsFrom: ['John Doe', 'Aplus didée', 'Joane Doe', 'Mister blop', 'Jean Valjean', 'Encore un', 'Le dernier'],
-    commentsDate: ['01.01.2001 : 15H25', '01.01.2001 : 16h02', '01.01.2001 : 16h20', '01.01.2001 : 17H40', '01.01.2001 : 18H22', '01.01.2001 : 19H37', '01.01.2001 : 23H48'],
+    comments:[],
     newComment: '',
   };
 
   handleCommentChange = name => event => {
     this.setState({ newComment: event.target.value});
+  }
+
+  componentWillMount() {
+    axios.post(`http://127.0.0.1:3010/post/comment/list`, {id: this.props.postId})
+    .then(ret => {
+      //console.log(ret);
+      this.setState({comments: []});
+      this.handleCommentList(ret);
+    })
+    .catch(error => console.log(error));
+  }
+
+  addItemToComments(value){
+    let ret = this.state.comments;
+    let tmp = [{date: value.comment.creation_time, content: value.comment.content, from: (value.user.name ? value.user.name : 'Random User')}];
+    ret.push(tmp);
+    this.setState({comments: ret});
+  }
+
+  handleCommentList(ret) {
+    this.setState({comments: []});
+    let i = 0;
+    for (let value of Object.values(ret)) {
+      if (i === 0) {
+        Object.keys(value).map(k => this.addItemToComments(value[k]));
+      }
+      i++;
+    }
   }
 
   handleAddNewComment = () => {
@@ -200,8 +218,6 @@ class ActualityDetails extends React.Component {
             date={this.state.date}
             content={this.state.content}
             comments={this.state.comments}
-            commentsDate={this.state.commentsDate}
-            commentsFrom={this.state.commentsFrom}
             newComment={this.state.newComment}
             handleCommentChange={this.handleCommentChange}
             handleAddNewComment={this.handleAddNewComment}

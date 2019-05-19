@@ -34,12 +34,19 @@ class CommentsModule extends React.Component {
   state = {
   };
 
+  handleContent(index) {
+    let tmp = Object.values(this.props.comments[index]);
+    return tmp[0].content;
+  }
+
   handleCommentFrom(index) {
-    return 'From : ' + this.props.commentsFrom[index];
+    let tmp = Object.values(this.props.comments[index]);
+    return 'From : ' + tmp[0].from;
   }
 
   handleCommentDate(index) {
-    return 'Date : ' + this.props.commentsDate[index];
+    let tmp = Object.values(this.props.comments[index]);
+    return 'Date : ' + tmp[0].date;
   }
 
   render() {
@@ -53,9 +60,9 @@ class CommentsModule extends React.Component {
           <List dense className={classes.root}>
             {this.props.comments.map((value, index) => (
               <Paper key={index} style={{marginBottom: 10, maxWidth: 450, minWidth: 450}}>
-                <ListItem key={value}>
+                <ListItem key={index}>
                   <div>
-                    <ListItemText primary={value} style={{height: 'auto'}}/>
+                    <ListItemText primary={this.handleContent(index)} style={{height: 'auto'}}/>
                     <p style={{fontSize: 13}}>{this.handleCommentFrom(index)}</p>
                     <p style={{fontSize: 13, marginTop: -10, color: 'grey'}}>{this.handleCommentDate(index)}</p>
                   </div>

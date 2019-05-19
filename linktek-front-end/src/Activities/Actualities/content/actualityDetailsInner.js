@@ -32,8 +32,6 @@ class ActualityDetailsInner extends React.Component {
            <Grid item xs>
             <CommentsModule
               comments={this.props.comments}
-              commentsDate={this.props.commentsDate}
-              commentsFrom={this.props.commentsFrom}
             />
            </Grid>
            <Grid item xs>

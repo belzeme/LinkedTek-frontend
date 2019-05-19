@@ -145,7 +145,7 @@ class Relations extends React.Component {
   }
 
   handleRelationList(ret) {
-    console.log(ret);
+    //console.log(ret);
     this.setState({userRelations: []});
     this.setState({userRelationMails: []});
     let i = 0;
