@@ -34,29 +34,35 @@ const styles = theme => ({
 
 class MyCommentsModule extends React.Component {
 
- handlePostDate(value) {
-   return value[3] + ' : ' + value[4];
- }
+  handlePostDate(index) {
+    let tmp = Object.values(this.props.myComments[index]);
+    return 'Date : ' + tmp[0].postDate;
+  }
 
- handleCommentDate(value) {
-  return value[0] + ' : ' + value[1];
- }
+  handleCommentDate(index) {
+    let tmp = Object.values(this.props.myComments[index]);
+    return tmp[0].myCommentDate;
+  }
 
-  handleRowTitle(value) {
-   return value[5];
- }
+  handleRowTitle(index) {
+    let tmp = Object.values(this.props.myComments[index]);
+    return 'Title : ' + tmp[0].postTitle;
+  }
 
-  handleRowContent(value) {
-   return value[6];
- }
+  handleRowContent(index) {
+    let tmp = Object.values(this.props.myComments[index]);
+    return 'Content : ' + tmp[0].postContent;
+  }
 
- handlePostFrom(value) {
-   return 'From : ' + value[7];
- }
+  handlePostFrom(index) {
+    let tmp = Object.values(this.props.myComments[index]);
+    return 'From : ' + tmp[0].postOwner;
+  }
 
- handleRowComment(value) {
-   return value[2];
- }
+  handleRowComment(index) {
+    let tmp = Object.values(this.props.myComments[index]);
+    return tmp[0].myComment;
+  }
 
  render() {
    const { classes } = this.props;
@@ -69,20 +75,20 @@ class MyCommentsModule extends React.Component {
         <List dense className={classes.root}>
           {this.props.myComments.map((value, index) => (
             <Paper key={index} style={{marginBottom: 10, maxWidth: 450, minWidth: 450, marginLeft: 20}}>
-              <ListItem key={value}>
+              <ListItem key={index}>
                 <div>
                   <p>Original Post</p>
-                  <p style={{color: 'grey', fontStyle: 'italic', marginLeft: 10}}>{this.handlePostFrom(value)}</p>
-                  <p style={{color: 'grey', fontStyle: 'italic', marginLeft: 10, marginTop: -10}}>{this.handlePostDate(value)}</p>
-                  <p style={{color: 'grey', fontStyle: 'italic', marginLeft: 10}}>{this.handleRowTitle(value)}</p>
-                  <p style={{color: 'grey', fontStyle: 'italic', marginLeft: 10}}>{this.handleRowContent(value)}</p>
+                  <p style={{color: 'grey', fontStyle: 'italic', marginLeft: 10}}>{this.handlePostFrom(index)}</p>
+                  <p style={{color: 'grey', fontStyle: 'italic', marginLeft: 10, marginTop: -10}}>{this.handlePostDate(index)}</p>
+                  <p style={{color: 'grey', fontStyle: 'italic', marginLeft: 10}}>{this.handleRowTitle(index)}</p>
+                  <p style={{color: 'grey', fontStyle: 'italic', marginLeft: 10, marginTop: -10}}>{this.handleRowContent(index)}</p>
                 </div>
               </ListItem>
               <ListItem button onClick={() => this.props.handleEditCommentModalShow(value)}>
                 <div style={{marginTop: -15}}>
                   <p>My Comment</p>
-                  <p style={{marginLeft: 10}}>{this.handleCommentDate(value)}</p>
-                  <p style={{marginLeft: 10}}>{this.handleRowComment(value)}</p>
+                  <p style={{marginLeft: 10}}>{this.handleCommentDate(index)}</p>
+                  <p style={{marginLeft: 10}}>{this.handleRowComment(index)}</p>
                 </div>
               </ListItem>
             </Paper>

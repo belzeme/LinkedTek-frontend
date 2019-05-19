@@ -133,9 +133,46 @@ class Post extends React.Component {
     })
     .catch(error => console.log(error));
 
+    axios.post(`http://127.0.0.1:3010/comment/user`, {email: this.props.userEmail})
+    .then(ret => {
+      this.setState({myComments: []});
+      this.handleUserCommentsList(ret);
+    })
+    .catch(error => console.log(error));
+
     axios.post(`http://127.0.0.1:3010/account/leader/list`, {email: this.props.userEmail})
-    .then(ret => this.handleRelationList(ret))
+    .then(ret => {
+      this.setState({userRelations: []});
+      this.setState({userRelationMails: []});
+      this.setState({contact: []});
+      this.handleRelationList(ret);
+    })
     .catch(error => console.log('error : ' + error));
+  }
+
+  addItemToCommentList(ret) {
+    let tmpComment = this.state.myComments;
+    let val = Object.values(ret);
+    let tmp = [{
+      postTitle: val[0].title,
+      postContent: val[0].content,
+      postDate: val[0].creation_time,
+      postOwner: val[3].name,
+      myComment: val[2].content,
+      myCommentDate: val[2].creation_time,
+    }];
+    tmpComment.push(tmp);
+    this.setState({myComment: tmpComment});
+  }
+
+  handleUserCommentsList(ret) {
+    let i = 0;
+    for (let value of Object.values(ret)) {
+      if (i === 0) {
+        Object.keys(value).map(k => this.addItemToCommentList(value[k]));
+      }
+      i++;
+    }
   }
 
   addItemToUserRelations(value){
@@ -150,10 +187,7 @@ class Post extends React.Component {
   }
 
   handleRelationList(ret) {
-    console.log(ret);
-    this.setState({userRelations: []});
-    this.setState({userRelationMails: []});
-    this.setState({contact: []});
+    //console.log(ret);
     let i = 0;
     for (let value of Object.values(ret)) {
       if (i === 0) {
