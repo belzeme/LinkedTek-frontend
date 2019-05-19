@@ -99,10 +99,10 @@ const styles = theme => ({
 class ActualityDetails extends React.Component {
   state = {
     open: true,
-    postTitle: 'Artung !!!',
-    from: 'User 1',
-    date: '01.01.2001 : 15H20',
-    content: 'enean sagittis, justo a tincidunt pharetra, ipsum ex pretium libero, eu placerat felis felis vitae arcu. Aliquam sit amet accumsan dui, fermentum posuere magna. Donec sed nulla finibus, semper turpis eu, vestibulum lacus.',
+    postTitle: '',
+    from: '',
+    date: '',
+    content: '',
     comments:[],
     newComment: '',
   };
@@ -112,6 +112,7 @@ class ActualityDetails extends React.Component {
   }
 
   componentWillMount() {
+    this.handlePostValues();
     axios.post(`http://127.0.0.1:3010/post/comment/list`, {id: this.props.postId})
     .then(ret => {
       //console.log(ret);
@@ -137,6 +138,13 @@ class ActualityDetails extends React.Component {
       }
       i++;
     }
+  }
+
+  handlePostValues() {
+    this.setState({postTitle: this.props.postTitle});
+    this.setState({content: this.props.postContent});
+    this.setState({date: this.props.postDate});
+    this.setState({from: this.props.postOwner});
   }
 
   handleAddNewComment = () => {
@@ -210,7 +218,7 @@ class ActualityDetails extends React.Component {
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Typography variant="h4" gutterBottom component="h3">
-            Actualities Feed
+            Actualities Details
           </Typography>
           <Inner
             postTitle={this.state.postTitle}

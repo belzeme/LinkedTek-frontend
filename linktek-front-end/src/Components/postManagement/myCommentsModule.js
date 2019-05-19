@@ -115,7 +115,7 @@ class MyCommentsModule extends React.Component {
             style={{marginLeft: 10, width: "95%"}}
           />
         </div>
-        <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}}>
+        <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}} onClick={() => this.props.handleEditCommentValidation()}>
           Edit Comment
         </Button>
         <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}} onClick={() => this.props.removeComment()}>

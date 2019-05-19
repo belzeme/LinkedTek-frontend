@@ -111,7 +111,7 @@ class UserProfile extends React.Component {
   };
 
   componentWillMount() {
-    console.log(this.props.searchUserMail);
+    //console.log(this.props.searchUserMail);
     axios.post(`http://127.0.0.1:3010/post/list`, {email: this.props.searchUserMail})
     .then(ret => this.handleSearchPosts(ret))
     .catch(error => console.log('error : ' + error));
@@ -139,7 +139,7 @@ class UserProfile extends React.Component {
 
   addPropsToState(row) {
     let ret = this.state.userPosts;
-    //console.log('id : ' + row.id);
+    //console.log(row);
     let tmp = [
       {id: row.id, creation_time: row.creation_time, title: row.title, content: row.content},
     ];
@@ -170,7 +170,6 @@ class UserProfile extends React.Component {
     let tmp = Object.values(this.state.userPosts[index]);
     return tmp[0].id;
   }
-
 
   render() {
     const { classes } = this.props;
@@ -241,6 +240,7 @@ class UserProfile extends React.Component {
               userComments={this.state.userComments}
               userEmail={this.state.userEmail}
               handlePostId={this.handlePostId}
+              handlePostOwner={this.handlePostOwner}
             />
         </main>
       </div>

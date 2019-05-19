@@ -57,6 +57,8 @@ class PostManagementInner extends React.Component {
               handleEditComment={this.props.handleEditComment}
               editComment={this.props.editComment}
               removeComment={this.props.removeComment}
+              handleEditCommentModalValidation={this.props.handleEditCommentModalValidation}
+              handleEditCommentValidation={this.props.handleEditCommentValidation}
             />
           </Grid>
         </Grid>

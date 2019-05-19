@@ -43,7 +43,7 @@ class UserPostsModule extends React.Component {
 
   handlePostDate(index) {
     let tmp = Object.values(this.props.userPosts[index]);
-    return tmp[0].creation_time;
+    return 'Date : ' + tmp[0].creation_time;
  }
 
   handleRowTitle(index) {
@@ -54,6 +54,17 @@ class UserPostsModule extends React.Component {
   handleRowContent(index) {
     let tmp = Object.values(this.props.userPosts[index]);
     return tmp[0].content;
+ }
+
+ loadActualityDetails(index) {
+   ReactDOM.render(<ActualityDetails
+     userEmail={this.props.userEmail}
+     postId={this.props.handlePostId(index)}
+     postTitle={this.handleRowTitle(index)}
+     postContent={this.handleRowContent(index)}
+     postDate={this.handlePostDate(index)}
+     postOwner={this.props.userName}
+     />, document.getElementById('root'));
  }
 
   render() {
@@ -68,7 +79,7 @@ class UserPostsModule extends React.Component {
           <List dense className={classes.root}>
             {this.props.userPosts.map((value, index) => (
               <Paper key={index} style={{marginBottom: 10, maxWidth: 450, minWidth: 450, marginLeft: 20}}>
-                <ListItem key={index} button onClick={() => {ReactDOM.render(<ActualityDetails userEmail={this.props.userEmail} postId={this.props.handlePostId(index)}/>, document.getElementById('root'));}}>
+                <ListItem key={index} button onClick={() => this.loadActualityDetails(index)}>
                   <div>
                     <ListItemText primary={this.handlePostDate(index)} style={{height: 80}}/>
                     <p style={{marginTop: -40}}>{this.handleRowTitle(index)}</p>

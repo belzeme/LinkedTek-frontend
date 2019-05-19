@@ -103,7 +103,7 @@ class Relations extends React.Component {
     searchResult: [],
     userRelations: [],
     userRelationMails: [],
-    relationSuggestion: ['Suggestion 1', 'Suggestion 2', 'Suggestion 3', 'Suggestion 4', 'Suggestion 5', 'Suggestion 6', 'Suggestion 7'],
+    relationSuggestion: [],
     searchUserSelectedName: "",
     searchUserSelectedCompany: '',
     searchUserSelectedJob: '',
@@ -130,6 +130,14 @@ class Relations extends React.Component {
   componentWillMount() {
     axios.post(`http://127.0.0.1:3010/account/leader/list`, {email: this.props.userEmail})
     .then(ret => this.handleRelationList(ret))
+    .catch(error => console.log('error : ' + error));
+
+    console.log('email : ' + this.props.userEmail);
+    axios.post(`http://127.0.0.1:3010/account/suggestion`, {email: this.props.userEmail})
+    .then(ret => {
+      console.log("Suggestions");
+      console.log(ret);
+    })
     .catch(error => console.log('error : ' + error));
   }
 

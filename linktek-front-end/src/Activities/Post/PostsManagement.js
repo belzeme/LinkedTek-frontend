@@ -219,6 +219,9 @@ class Post extends React.Component {
     this.setState({updatePost: tmp});
   }
 
+  handleCommentProperties() {
+  }
+
   handlePostList(ret) {
     let i = 0;
     for (let value of Object.values(ret)) {
@@ -281,7 +284,21 @@ class Post extends React.Component {
       this.setState({editPostModalVisible: false});
       alert('Error, post had not been edited !');
     });
+  }
 
+  handleEditCommentValidation = () => {
+//    this.handleCommentProperties();
+//    axios.patch(`http://127.0.0.1:3010/comment`, {id: this.state.currentCommentId, properties: this.state.updatePost})
+//    .then(ret => {
+//      //console.log(ret);
+//      this.setState({editCommentModalVisible: false});
+//      alert('Post edited with success !');
+//    })
+//    .catch(error => {
+//      //console.log(error);
+//      this.setState({editCommentModalVisible: false});
+//      alert('Error, post had not been edited !');
+//    });
   }
 
   removePost = () => {
@@ -348,6 +365,13 @@ class Post extends React.Component {
   }
 
   handleEditCommentModalClose = () => {
+    this.setState({ editComment: ''});
+    this.setState({ currentCommentId: 0});
+    this.setState({ editCommentModalVisible: false});
+  }
+
+  handleEditCommentModalValidation = () => {
+    this.handleCommentProperties();
     this.setState({ editComment: ''});
     this.setState({ currentCommentId: 0});
     this.setState({ editCommentModalVisible: false});
@@ -457,6 +481,8 @@ class Post extends React.Component {
             handleEditPostValidation={this.handleEditPostValidation}
             userEmail={this.props.userEmail}
             removeComment={this.removeComment}
+            handleEditCommentModalValidation={this.handleEditCommentModalValidation}
+            handleEditCommentValidation={this.handleEditCommentValidation}
           />
         </main>
         <Modal visible={this.state.isModalDeletePostConfirmationVisible} width="500" height="230" effect="fadeInUp" onClickAway={() => this.handleDeletePostModalConfirmationClose()}>
