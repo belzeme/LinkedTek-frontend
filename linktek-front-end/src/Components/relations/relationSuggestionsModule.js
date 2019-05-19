@@ -43,6 +43,17 @@ class RelationSuggestionsModule extends React.Component {
   formatSelectedSuggestionStateModalTitle() {
     return "State : " + this.props.relationSuggestionSelectstate;
   }
+
+  handleRelationSuggestionName(index) {
+    let tmp = Object.values(this.props.relationSuggestion[index]);
+    return tmp[0].name;
+  }
+
+  handleRelationSuggestionMail(index) {
+    let tmp = Object.values(this.props.relationSuggestion[index]);
+    return tmp[0].mail;
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -59,7 +70,7 @@ class RelationSuggestionsModule extends React.Component {
                   src={UserAvatarImage}
                 />
               </ListItemAvatar>
-              <ListItemText primary={this.props.relationSuggestion[index]} secondary={"Work on blop company"} style={{height: 50}}/>
+              <ListItemText primary={this.handleRelationSuggestionName(index)} secondary={this.handleRelationSuggestionMail(index)} style={{height: 50}}/>
             </ListItem>
           ))}
         </List>

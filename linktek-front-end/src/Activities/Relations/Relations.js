@@ -132,13 +132,33 @@ class Relations extends React.Component {
     .then(ret => this.handleRelationList(ret))
     .catch(error => console.log('error : ' + error));
 
-    console.log('email : ' + this.props.userEmail);
     axios.post(`http://127.0.0.1:3010/account/suggestion`, {email: this.props.userEmail})
     .then(ret => {
-      console.log("Suggestions");
       console.log(ret);
+      this.setState({relationSuggestion : []});
+      this.handleSuggestionList(ret);
     })
     .catch(error => console.log('error : ' + error));
+  }
+
+  handleSuggestionList(ret) {
+    //console.log(ret);
+    let i = 0;
+    for (let value of Object.values(ret)) {
+      if (i === 0) {
+        Object.keys(value).map(k => this.addItemToSuggestion(value[k]));
+      }
+      i++;
+    }
+  }
+
+  addItemToSuggestion(value){
+    //console.log(value);
+    let ret = this.state.relationSuggestion;
+    let tmp = [{name: value.name, mail: value.email}];
+    ret.push(tmp);
+    this.setState({relationSuggestion: ret});
+
   }
 
   addItemToUserRelations(value){
