@@ -75,8 +75,6 @@ class ProfileInner extends React.Component {
            <Grid item xs>
            <Paper className={classes.paper}>
             <SearchModule
-              searchResultJobTitle={this.props.searchResultJobTitle}
-              searchResultName={this.props.searchResultName}
               handleUserModalShow={this.props.handleUserModalShow}
               handleUserModalClose={this.props.handleUserModalClose}
               userModalVisible={this.props.userModalVisible}
@@ -85,6 +83,9 @@ class ProfileInner extends React.Component {
               searchUserJob={this.props.searchUserJob}
               searchUserAge={this.props.searchUserAge}
               searchUserCompany={this.props.searchUserCompany}
+              handleSearchUserName={this.props.handleSearchUserName}
+              handleSearchUser={this.props.handleSearchUser}
+              searchUserList={this.props.searchUserList}
               />
            </Paper>
            </Grid>

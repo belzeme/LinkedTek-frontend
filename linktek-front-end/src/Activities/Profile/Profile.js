@@ -116,9 +116,7 @@ class Profile extends React.Component {
     result: ['Jean valjean', 'Jean valjean'],
     resultPicture: ['../Images/profilePicture1.png', '../Images/profilePicture2.png'],
     companies: ['Lateral Software', 'Eco-Software', 'Mobile Software', 'NanoSoft'],
-    searchResultName: ['Name 1', 'Name 2', 'Name 3', 'Name 4'],
-    searchResultJobTitle: ['Software Developer', 'Software engineer', 'Software Architect', 'Business Developer'],
-    searchUserName: "User Name",
+    searchUserName: "",
     searchUserCompany: "User Company",
     searchUserCountry: "User Country",
     searchUserJob: "User Job Title",
@@ -128,6 +126,26 @@ class Profile extends React.Component {
     countries: [],
     selectedCountry: 'France',
     country: 'France',
+    searchUserList: [{name: '', mail: ''}],
+  };
+
+  handleSearchUser = (ret) => {
+    this.setState({searchUserList: []});
+    if (ret.data.length > 0) {
+      for(let i = 0; i < ret.data.length; i++) {
+        let tmpList = this.state.searchUserList;
+        let tmp = [{name : ret.data[i].name, mail: ret.data[i].email}];
+        tmpList.push(tmp);
+        this.setState({searchUserList: tmpList});
+      }
+    }
+    else {
+      alert('NO USER FOUND');
+    }
+  }
+
+  handleSearchUserName = (event) => {
+    this.setState({searchUserName: event.target.value});
   };
 
   handleDrawerOpen = () => {
@@ -308,8 +326,6 @@ class Profile extends React.Component {
             jobInputModalVisible={this.state.jobInputModalVisible}
             handleCurrentJobStartDate={this.handleCurrentJobStartDate}
             handleProfilePictureChange={this.handleProfilePictureChange}
-            searchResultName={this.state.searchResultName}
-            searchResultJobTitle={this.state.searchResultJobTitle}
             handleUserModalShow={this.handleUserModalShow}
             handleUserModalClose={this.handleUserModalClose}
             userModalVisible={this.state.userModalVisible}
@@ -330,6 +346,9 @@ class Profile extends React.Component {
             selectedCountry={this.state.selectedCountry}
             handleSelectedCountryChange={this.handleSelectedCountryChange}
             updateCountry={this.updateCountry}
+            handleSearchUserName={this.handleSearchUserName}
+            searchUserList={this.state.searchUserList}
+            handleSearchUser={this.handleSearchUser}
           />
         </main>
       </div>

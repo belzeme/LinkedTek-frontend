@@ -18,7 +18,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import UserPicture from '../../Images/profilePicture1.png';
 import Divider from '@material-ui/core/Divider';
-
+import axios from 'axios';
 
 const styles = theme => ({
   card: {
@@ -50,15 +50,29 @@ class SearchModule extends React.Component {
   state = { expanded: false };
 
   handleExpandClick = () => {
-    this.setState(state => ({ expanded: !state.expanded }));
+    if (this.props.searchUserName !== '') {
+      this.searchUserByName();
+    }
+    else {
+      alert('User name field cannot be empty !');
+    }
+    this.setState(state => ({ expanded: true }));
   };
 
-  handleJobTitle(job, company) {
-    return job + ' for ' + company + ' company';
-  };
+  getUserName(index) {
+    let tmp = Object.values(this.props.searchUserList[index]);
+    return tmp[0].name;
+  }
 
-  handleJobStartTime = (date) => {
-    return 'Since: ' + date;
+  getUserMail(index) {
+    let tmp = Object.values(this.props.searchUserList[index]);
+    return tmp[0].mail;
+  }
+
+  searchUserByName() {
+    axios.post(`http://127.0.0.1:3010/user/list`, {name: this.props.searchUserName})
+    .then(ret => this.props.handleSearchUser(ret))
+    .catch(error => console.log(error));
   }
 
   render() {
@@ -76,6 +90,7 @@ class SearchModule extends React.Component {
               placeholder={'Enter name here ...'}
               className={classes.textField}
               margin="normal"
+              onChange={this.props.handleSearchUserName}
               style={{marginLeft: 10, width: "95%"}}
             />
             <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white", marginLeft: 10, marginTop: 10}} onClick={this.handleExpandClick}>
@@ -101,9 +116,9 @@ class SearchModule extends React.Component {
               title="Search Results"
             />
             <List dense className={classes.root} style={{marginLeft: "auto", marginRight: "auto"}}>
-              {this.props.searchResultName.map((value, index) => (
+              {this.props.searchUserList.map((value, index) => (
                 <ListItem key={value} button>
-                  <ListItemText primary={this.props.searchResultName[index]} secondary={this.props.searchResultJobTitle[index]} style={{height: 50}} onClick={() => this.props.handleUserModalShow()}/>
+                  <ListItemText primary={this.getUserName(index)} secondary={this.getUserMail(index)} style={{height: 50}} onClick={() => this.props.handleUserModalShow()}/>
                 </ListItem>
               ))}
             </List>
