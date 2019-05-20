@@ -58,7 +58,17 @@ class FeedModule extends React.Component {
   }
 
   handleLoadActualityDetails(index) {
-    ReactDOM.render(<ActualityDetails userEmail={this.props.userEmail}/>, document.getElementById('root'));
+    let tmp = Object.values(this.props.feed[index]);
+    console.log('test : ' + tmp[0].postId);
+
+    ReactDOM.render(<ActualityDetails
+      userEmail={this.props.userEmail}
+      postId={tmp[0].postId}
+      postTitle={tmp[0].postTitle}
+      postContent={tmp[0].postContent}
+      postDate={tmp[0].postDate}
+      postOwner={tmp[0].postOwnerName}
+      />, document.getElementById('root'));
   }
 
   render() {

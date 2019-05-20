@@ -113,13 +113,17 @@ class ActualityDetails extends React.Component {
 
   componentWillMount() {
     this.handlePostValues();
+    console.log('ID : ' + this.props.postId);
     axios.post(`http://127.0.0.1:3010/post/comment/list`, {id: this.props.postId})
     .then(ret => {
-      //console.log(ret);
+      console.log(ret);
       this.setState({comments: []});
       this.handleCommentList(ret);
     })
-    .catch(error => console.log(error));
+    .catch(error => {
+      console.log('Comment error');
+      console.log(error);
+    });
   }
 
   addItemToComments(value){
@@ -152,7 +156,7 @@ class ActualityDetails extends React.Component {
       alert('Error, new comment field cannot be empty !');
     }
     else {
-      //console.log('Email : ' + tmp + '\nId: ' + this.props.postId + '\nComment : ' + this.state.newComment);
+      console.log('Email : ' + this.props.email + '\nId: ' + this.props.postId + '\nComment : ' + this.state.newComment);
       axios.post(`http://127.0.0.1:3010/comment`, {email: localStorage.getItem('userEmail'), id: this.props.postId, content: this.state.newComment})
       .then(ret => {
         //console.log(ret);

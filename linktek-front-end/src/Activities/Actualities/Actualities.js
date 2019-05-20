@@ -99,7 +99,7 @@ const styles = theme => ({
 class Actualities extends React.Component {
   state = {
     open: true,
-    actualityFeed: [{postTitle: '', postDate: '', postContent: '', postOwnerName: '', postOwnerMail: '', postOwnerId: ''}],
+    actualityFeed: [{postTitle: '', postDate: '', postContent: '', postId: '', postOwnerName: '', postOwnerMail: '', postOwnerId: ''}],
   };
 
   componentWillMount() {
@@ -129,6 +129,7 @@ class Actualities extends React.Component {
         postTitle: value.data.title,
         postDate: value.data.creation_time,
         postContent: value.data.content,
+        postId: value.data.id,
         postOwnerName: value.user.name,
         postOwnerMail: value.user.email,
         postOwnerId: value.user.id
