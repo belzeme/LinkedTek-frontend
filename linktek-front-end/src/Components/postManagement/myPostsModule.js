@@ -73,7 +73,7 @@ class MyPostsModule extends React.Component {
             ))}
           </List>
         </div>
-        <Modal visible={this.props.editPostModalVisible} width="500" height="430" effect="fadeInUp" onClickAway={() => this.props.handleEditPostModalClose()}>
+        <Modal visible={this.props.editPostModalVisible} width="500" height="500" effect="fadeInUp" onClickAway={() => this.props.handleEditPostModalClose()}>
           <CardHeader
             title="Edit Post"
           />
@@ -106,6 +106,9 @@ class MyPostsModule extends React.Component {
           </div>
           <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 20}} onClick={() => this.props.handleEditPostValidation()}>
             Edit Post
+          </Button>
+          <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 10}} onClick={() => this.props.loadActualityDetails()}>
+            View post detail
           </Button>
           <Button style={{backgroundColor: '#3f51b5', width: "97%", color: "white", marginLeft: 10, marginTop: 10}} onClick={() => this.props.removePost()}>
             Remove Post

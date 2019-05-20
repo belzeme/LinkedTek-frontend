@@ -46,6 +46,7 @@ class PostManagementInner extends React.Component {
               handleEditPostTitle={this.props.handleEditPostTitle}
               removePost={this.props.removePost}
               handleEditPostValidation={this.props.handleEditPostValidation}
+              loadActualityDetails={this.props.loadActualityDetails}
             />
           </Grid>
           <Grid item xs>

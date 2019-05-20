@@ -245,6 +245,8 @@ class School extends React.Component {
   }
 
   createNewSchoolReturn(value, ret) {
+    console.log('CREATE NEW SCHOOL');
+    console.log(ret);
     if (value === true) {
       this.handleSuccessModalShow();
     }
@@ -285,6 +287,9 @@ class School extends React.Component {
   handleCreateNewItemTests(type) {
     if (type === 0) {
       if (this.state.newInputName === '' || this.state.newInputDescription === '' || this.state.selectedCountry === '') {
+        console.log('name : ' + this.state.newInputName);
+        console.log('desc : ' + this.state.newInputDescription);
+        console.log('country : ' + this.state.selectedCountry);
         this.setState({ isErrorModalVisible: true });
         return 'KO';
       }
@@ -299,6 +304,7 @@ class School extends React.Component {
   }
 
   handleCreateNewSchool = (props) => {
+    console.log(this.handleCreateNewItemTests(this.state.newInputTypeSelected));
     if (this.handleCreateNewItemTests(this.state.newInputTypeSelected) === 'OK') {
       if (this.state.newInputTypeSelected === 0) {
         axios.post(`http://127.0.0.1:3010/school/create`, {name: this.state.newInputName, description: this.state.newInputDescription, country: this.state.selectedCountry})
@@ -337,6 +343,10 @@ class School extends React.Component {
 
   handleInputNameChanged = (event) => {
     this.setState({ editInputName: event.target.value });
+  }
+
+  handleNewInputNameChanged = (event) => {
+    this.setState({ newInputName: event.target.value });
   }
 
   handleInputDescChanged = (event) => {
@@ -440,6 +450,7 @@ class School extends React.Component {
           if (subscribed) {
             axios.delete(`http://127.0.0.1:3010/account/subscription`, {data : {email: this.props.userEmail, target: 'school', name: selectedName}})
             .then(ret => {
+              console.log(ret);
               this.handleSchoolorCompanySubscription(true, ret, selectedName, false);
             })
             .catch(ret => this.handleSchoolorCompanySubscription(false, ret, selectedName, false));

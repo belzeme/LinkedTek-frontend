@@ -18,6 +18,7 @@ import Modal from 'react-awesome-modal';
 import Grid from '@material-ui/core/Grid';
 import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
+import ActualityDetails from '../Actualities/ActualityDetails.js';
 import { mainListItems } from '../../Components/leftMenu';
 import axios from 'axios';
 
@@ -124,6 +125,11 @@ class Post extends React.Component {
       {label: "content", value: ""}
     ],
     currentCommentId: '',
+    postId: '',
+    postTitle: '',
+    postContent: '',
+    postDate: '',
+    postOwner: '',
   };
 
   componentWillMount() {
@@ -342,19 +348,66 @@ class Post extends React.Component {
     this.setState({ selectedContact: value});
   }
 
+  handlePostDate(index) {
+    let tmp = Object.values(this.state.myPosts[index]);
+    return 'Date : ' + tmp[0].creation_time;
+  }
+
+  handleRowTitle(index) {
+    let tmp = Object.values(this.state.myPosts[index]);
+    console.log(tmp[0].title);
+    return tmp[0].title;
+  }
+
+  handleRowContent(index) {
+    let tmp = Object.values(this.state.myPosts[index]);
+    return tmp[0].content;
+  }
+
+  handlePostOwner(index) {
+    return this.props.userName;
+  }
+
+  handlePostId(index) {
+    let tmp = Object.values(this.state.myPosts[index]);
+    return tmp[0].id;
+  }
+
+  loadActualityDetails = () => {
+    ReactDOM.render(<ActualityDetails
+      userEmail={this.props.userEmail}
+      postId={this.state.postId}
+      postTitle={this.state.postTitle}
+      postContent={this.state.postContent}
+      postDate={this.state.postDate}
+      postOwner={this.props.userName}
+      />, document.getElementById('root'));
+      this.handleEditPostModalClose();
+  }
+
   handleEditPostModalShow = (index) => {
     let tmp = Object.values(this.state.myPosts[index]);
     this.setState({ editPostContent: tmp[0].content});
     this.setState({ editPostTitle: tmp[0].title});
-    this.setState({currentMessageId: tmp[0].id});
+    this.setState({ currentMessageId: tmp[0].id});
+    this.setState({ postId: this.handlePostId(index)});
+    this.setState({ postContent: this.handleRowContent(index)});
+    this.setState({ postTitle: this.handleRowTitle(index)});
+    this.setState({ postDate: this.handlePostDate(index)});
+    this.setState({ postOwner: this.handlePostOwner(index)});
     this.setState({ editPostModalVisible: true});
   }
 
   handleEditPostModalClose = () => {
-    this.setState({ editPostModalVisible: false});
+    this.setState({ postId: 0});
+    this.setState({ postContent: ''});
+    this.setState({ postTitle: ''});
+    this.setState({ postDate: ''});
+    this.setState({ postOwner: ''});
     this.setState({ editPostContent: ''});
     this.setState({ editPostTitle: ''});
     this.setState({currentMessageId: ''});
+    this.setState({ editPostModalVisible: false});
   }
 
   handleEditCommentModalShow = (index) => {
@@ -483,6 +536,7 @@ class Post extends React.Component {
             removeComment={this.removeComment}
             handleEditCommentModalValidation={this.handleEditCommentModalValidation}
             handleEditCommentValidation={this.handleEditCommentValidation}
+            loadActualityDetails={this.loadActualityDetails}
           />
         </main>
         <Modal visible={this.state.isModalDeletePostConfirmationVisible} width="500" height="230" effect="fadeInUp" onClickAway={() => this.handleDeletePostModalConfirmationClose()}>
