@@ -56,6 +56,7 @@ class Login extends Component {
       login: "",
       password: "",
       token: '',
+      userName: '',
       isConnectionFailedModalVisible: false,
     };
   }
@@ -80,10 +81,32 @@ class Login extends Component {
     this.setState({password: event.target.value});
   }
 
+  addUserName(value) {
+    if (value.email === this.state.login) {
+      this.setState({userName: value.name});
+    }
+  }
+
+  handleUserConnection(ret) {
+    let i = 0;
+    for (let value of Object.values(ret)) {
+      if (i === 0) {
+        Object.keys(value).map(k => this.addUserName(value[k]));
+      }
+      i++;
+    }
+    ReactDOM.render(<Actualities userEmail={this.state.login} userName={this.state.userName} />, document.getElementById('root'));
+  }
+
   handleConnectionSuccess(ret) {
-    console.log('test : ' + ret.data.token);
-    this.setState({token: ret.data.token})
-    ReactDOM.render(<Actualities userEmail={this.state.login} />, document.getElementById('root'));
+    this.setState({token: ret.data.token});
+    axios.post(`http://127.0.0.1:3010/user/list`, {email: this.state.login})
+    .then(ret => {
+      this.handleUserConnection(ret);
+    })
+    .catch(error => {
+      console.log(ret);
+    });
   }
 
   handleConnectionFailed() {

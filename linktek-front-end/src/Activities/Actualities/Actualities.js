@@ -104,6 +104,7 @@ class Actualities extends React.Component {
 
   componentWillMount() {
     localStorage.setItem('userEmail', this.props.userEmail);
+    localStorage.setItem('userName', this.props.userName);
     axios.post(`http://127.0.0.1:3010/account/feed`, {email: this.props.userEmail})
     .then(ret => {
       this.setState({actualityFeed: []});
