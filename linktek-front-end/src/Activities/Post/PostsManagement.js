@@ -380,7 +380,7 @@ class Post extends React.Component {
       postTitle={this.state.postTitle}
       postContent={this.state.postContent}
       postDate={this.state.postDate}
-      postOwner={this.props.userName}
+      postOwner={localStorage.getItem('userEmail')}
       />, document.getElementById('root'));
       this.handleEditPostModalClose();
   }
