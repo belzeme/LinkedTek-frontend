@@ -36,7 +36,7 @@ const styles = theme => ({
   },
 });
 
-class InboxModule extends React.Component {
+class OutboxModule extends React.Component {
 
   handleFeedRowFrom(value) {
     return 'From : ' + value[1];
@@ -63,7 +63,7 @@ class InboxModule extends React.Component {
     return (
       <Card className={classes.card}>
         <CardHeader
-          title="Inbox"
+          title="Outbox"
         />
         <div style={{maxHeight: 600, overflow: 'auto', marginTop: 20}}>
           <List dense className={classes.root}>
@@ -140,4 +140,4 @@ class InboxModule extends React.Component {
   }
 }
 
-export default withStyles(styles)(InboxModule);
+export default withStyles(styles)(OutboxModule);
