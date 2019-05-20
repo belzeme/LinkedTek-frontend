@@ -124,6 +124,10 @@ class Post extends React.Component {
       {label: "title", value: ""},
       {label: "content", value: ""}
     ],
+    updateComment: [
+      {label: "title", value: ""},
+      {label: "content", value: ""}
+    ],
     currentCommentId: '',
     postId: '',
     postTitle: '',
@@ -226,6 +230,10 @@ class Post extends React.Component {
   }
 
   handleCommentProperties() {
+    let tmp = this.state.updateComment;
+    tmp[0].value = 'Comment';
+    tmp[1].value = this.state.editComment;
+    this.setState({updatePost: tmp});
   }
 
   handlePostList(ret) {
@@ -293,18 +301,18 @@ class Post extends React.Component {
   }
 
   handleEditCommentValidation = () => {
-//    this.handleCommentProperties();
-//    axios.patch(`http://127.0.0.1:3010/comment`, {id: this.state.currentCommentId, properties: this.state.updatePost})
-//    .then(ret => {
-//      //console.log(ret);
-//      this.setState({editCommentModalVisible: false});
-//      alert('Post edited with success !');
-//    })
-//    .catch(error => {
-//      //console.log(error);
-//      this.setState({editCommentModalVisible: false});
-//      alert('Error, post had not been edited !');
-//    });
+    this.handleCommentProperties();
+    axios.patch(`http://127.0.0.1:3010/comment`, {id: this.state.currentCommentId, properties: this.state.updateComment})
+   .then(ret => {
+      //console.log(ret);
+      this.setState({editCommentModalVisible: false});
+      alert('Comment edited with success !');
+    })
+    .catch(error => {
+      //console.log(error);
+      this.setState({editCommentModalVisible: false});
+      alert('Comment, post had not been edited !');
+    });
   }
 
   removePost = () => {
