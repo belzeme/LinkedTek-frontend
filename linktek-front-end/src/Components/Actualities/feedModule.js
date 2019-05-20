@@ -37,20 +37,24 @@ const styles = theme => ({
 class FeedModule extends React.Component {
   state = { expanded: false };
 
-  handleFeedRowFrom(value) {
-    return 'From : ' + value[1];
+  handleFeedRowFrom(index) {
+    let tmp = Object.values(this.props.feed[index]);
+    return 'From : ' + tmp[0].postOwnerName;
   }
 
-  handleFeedRowDate(value) {
-    return value[3] + ' : ' + value[4];
+  handleFeedRowDate(index) {
+    let tmp = Object.values(this.props.feed[index]);
+    return tmp[0].postDate;
   }
 
-  handleFeedRowTitle(value) {
-    return value[0];
+  handleFeedRowTitle(index) {
+    let tmp = Object.values(this.props.feed[index]);
+    return tmp[0].postTitle;
   }
 
-  handleFeedRowContent(value) {
-    return value[2];
+  handleFeedRowContent(index) {
+    let tmp = Object.values(this.props.feed[index]);
+    return tmp[0].postContent;
   }
 
   handleLoadActualityDetails(index) {
@@ -67,9 +71,9 @@ class FeedModule extends React.Component {
             <Paper key={index} style={{marginBottom: 10, maxWidth: 800, minWidth: 800}}>
               <ListItem key={index} button onClick={() => this.handleLoadActualityDetails(index)}>
                 <div>
-                  <ListItemText primary={this.handleFeedRowDate(value)} secondary={this.handleFeedRowFrom(value)} style={{height: 80}}/>
-                  <p style={{marginTop: -20}}>{this.handleFeedRowTitle(value)}</p>
-                  <p style={{color: 'grey'}}>{this.handleFeedRowContent(value)}</p>
+                  <ListItemText primary={this.handleFeedRowDate(index)} secondary={this.handleFeedRowFrom(index)} style={{height: 80}}/>
+                  <p style={{marginTop: -20}}>{this.handleFeedRowTitle(index)}</p>
+                  <p style={{color: 'grey'}}>{this.handleFeedRowContent(index)}</p>
                 </div>
               </ListItem>
             </Paper>

@@ -14,6 +14,7 @@ import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from '../Login/Login.js';
 import ReactDOM from 'react-dom';
 import Inner from './content/actualitiesInner.js';
+import axios from 'axios';
 import { mainListItems } from '../../Components/leftMenu';
 
 const drawerWidth = 240;
@@ -98,18 +99,43 @@ const styles = theme => ({
 class Actualities extends React.Component {
   state = {
     open: true,
-    feed: [
-      ["Artung !!!", "User 1", "enean sagittis, justo a tincidunt pharetra, ipsum ex pretium libero, eu placerat felis felis vitae arcu. Aliquam sit amet accumsan dui, fermentum posuere magna. Donec sed nulla finibus, semper turpis eu, vestibulum lacus. ", "01.01.2001", "15H20"],
-      ["Youwiiiiii", "User 2", "Etiam quis convallis nibh. Nullam ligula sem, tempus sit amet finibus vel, pulvinar nec felis. Nunc cursus eget ex nec dictum. Donec sodales dictum mi nec luctus.", "01.01.2001", "15H22"],
-      ["OMG", "User 3", "ellentesque congue, ligula vel ultricies finibus, ex elit dignissim lorem, eget mollis magna mi vel odio. Vivamus auctor et dolor non vulputate. In vel erat tempus, consectetur nulla sit amet, posuere sem.", "01.01.2001", '18h00'],
-      ["QSddd ", "User 2", "Morbi sollicitudin sed metus at scelerisque. Donec varius in sapien sed aliquam. Quisque consectetur neque eu consequat pellentesque. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus ornare eros eget sem venenatis imperdiet. Etiam est neque, facilisis in convallis vitae, lacinia at dui. Vivamus id tortor pharetra, rhoncus quam ac, ornare orci.", "01.01.2001", '19h00'],
-      ["Bqs dff", "User 3", "ellentesque congue, ligula vel ultricies finibus, ex elit dignissim lorem, eget mollis magna mi vel odio. Vivamus auctor et dolor non vulputate. In vel erat tempus, consectetur nulla sit amet, posuere sem.", "01.01.2001", '18h00'],
-    ],
+    actualityFeed: [{postTitle: '', postDate: '', postContent: '', postOwnerName: '', postOwnerMail: '', postOwnerId: ''}],
   };
 
-  componentDidMount() {
-    console.log('user : ' + this.props.userEmail);
+  componentWillMount() {
     localStorage.setItem('userEmail', this.props.userEmail);
+    axios.post(`http://127.0.0.1:3010/account/feed`, {email: this.props.userEmail})
+    .then(ret => {
+      this.setState({actualityFeed: []});
+      this.handleFeed(ret)
+    })
+    .catch(error => console.log(error));
+  }
+
+  handleFeed(ret) {
+    let i = 0;
+    for (let value of Object.values(ret)) {
+      if (i === 0) {
+        Object.keys(value).map(k => this.addItemToFeed(value[k]));
+      }
+      i++;
+    }
+  }
+
+  addItemToFeed(value) {
+    if (value.data.target === 'Post') {
+      let tmpFeed = this.state.actualityFeed;
+      let tmp = [{
+        postTitle: value.data.title,
+        postDate: value.data.creation_time,
+        postContent: value.data.content,
+        postOwnerName: value.user.name,
+        postOwnerMail: value.user.email,
+        postOwnerId: value.user.id
+      }];
+      tmpFeed.push(tmp);
+      this.setState({actualityFeed: tmpFeed});
+    }
   }
 
   handleDrawerOpen = () => {
@@ -175,7 +201,7 @@ class Actualities extends React.Component {
             Actualities Feed
           </Typography>
           <Inner
-            feed={this.state.feed}
+            feed={this.state.actualityFeed}
             userEmail={this.props.userEmail}
           />
         </main>
