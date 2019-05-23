@@ -45,6 +45,7 @@ class MessagesInner extends React.Component {
                handleReplyMessageModalClose={this.props.handleReplyMessageModalClose}
                messageSender={this.props.messageSender}
                handleReplyMessageContentChange={this.props.handleReplyMessageContentChange}
+               outbox={this.props.outbox}
              />
           </Grid>
            <Grid item xs>

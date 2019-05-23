@@ -14,6 +14,7 @@ import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from '../Login/Login.js';
 import ReactDOM from 'react-dom';
 import Inner from './content/messagesInner.js';
+import axios from 'axios';
 import { mainListItems } from '../../Components/leftMenu';
 
 const drawerWidth = 240;
@@ -106,14 +107,9 @@ class Messages extends React.Component {
       ["Bqs dff", "User 3", "ellentesque congue, ligula vel ultricies finibus, ex elit dignissim lorem, eget mollis magna mi vel odio. Vivamus auctor et dolor non vulputate. In vel erat tempus, consectetur nulla sit amet, posuere sem.", "01.01.2001", '18h00'],
     ],
     sendTo: 'Undefined',
-    contact: [
-      '',
-      'John Doe',
-      'Aplus Didée',
-      'Joanne Doe',
-      'User Ulop',
-      'Blop User',
-    ],
+    contact: [],
+    contactDetails: [],
+    outbox: [],
     selectedContact: 0,
     newMessageTitle: '',
     newMessageContent: '',
@@ -122,6 +118,56 @@ class Messages extends React.Component {
     modalReplyMessageVisible: false,
     messageSender: 'John Doe',
   };
+
+  componentWillMount() {
+    axios.post(`http://127.0.0.1:3010/account/leader/list`, {email: this.props.userEmail})
+    .then(ret => this.handleRelationList(ret))
+    .catch(error => console.log('error : ' + error));
+
+    axios.post(`http://127.0.0.1:3010/account/outbox`, {email: this.props.userEmail})
+    .then(ret => this.handleOutBox(ret))
+    .catch(error => console.log('error : ' + error));
+  }
+
+  handleRelationList(ret) {
+    let i = 0;
+    for (let value of Object.values(ret)) {
+      if (i === 0) {
+        Object.keys(value).map(k => this.addItemToUserRelations(value[k]));
+      }
+      i++;
+    }
+  }
+
+  handleOutBox(ret) {
+    console.log(ret);
+    let i = 0;
+    for (let value of Object.values(ret)) {
+      if (i === 0) {
+        Object.keys(value).map(k => this.addItemToOutbox(value[k]));
+      }
+      i++;
+    }
+  }
+
+  addItemToOutbox(value) {
+    let tmpOutbox = this.state.outbox;
+    let tmp = [{title: value.title, content: value.content, id: value.id, date: value.creation_time}];
+    tmpOutbox.push(tmp);
+    this.setState({outbox: tmpOutbox});
+  }
+
+  addItemToUserRelations(value){
+    let contact = this.state.contact;
+    let details = this.state.contactDetails;
+    let tmpContact = value.name;
+    let tmpMail = value.email;
+
+    contact.push(tmpContact);
+    details.push({name: tmpContact, mail: tmpMail});
+    this.setState({contact: contact});
+    this.setState({contactDetails: details});
+  }
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -143,8 +189,36 @@ class Messages extends React.Component {
     this.setState({ newMessageContent: event.target.value});
   }
 
-  sendNewMessage = () => {
+  getUserEmail() {
+    if (this.state.newMessageTitle === '' || this.state.newMessageContent === '') {
+      return -1;
+    }
+    let contact = this.state.contact;
+    for (let i = 0; i < contact.length; i++) {
+      if (this.state.contact[i] === this.state.selectedContact.value) {
+        return i;
+      }
+    }
+    return -1;
+  }
 
+  handleSendMessage() {
+    alert('Message send with success !');
+    this.setState({newMessageTitle: ''});
+    this.setState({newMessageContent: ''});
+    this.setState({selectedContact: 0});
+  }
+
+  sendNewMessage = () => {
+    let index = this.getUserEmail();
+    if (index >= 0) {
+      axios.post(`http://127.0.0.1:3010/account/message`, {sender: this.props.userEmail, receiver: this.state.contactDetails[index].mail, title: this.state.newMessageTitle, content: this.state.newMessageContent})
+      .then(ret => this.handleSendMessage())
+      .catch(error => console.log('error : ' + error));
+    }
+    else {
+      alert("Message cannot be sent !");
+    }
   }
 
   handleDeleteMessageModalShow = () => {
@@ -238,6 +312,7 @@ class Messages extends React.Component {
             handleReplyMessageModalClose={this.handleReplyMessageModalClose}
             messageSender={this.state.messageSender}
             handleReplyMessageContentChange={this.handleReplyMessageContentChange}
+            outbox={this.state.outbox}
           />
         </main>
       </div>
