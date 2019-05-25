@@ -19,7 +19,7 @@ class RelationInner extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.root}>
+      <div className={classes.root} style={{marginTop: 30}}>
          <Grid container spacing={24} style={{marginLeft: "auto", marginRight: "auto"}}>
            <Grid item xs>
             <AddRelationModule

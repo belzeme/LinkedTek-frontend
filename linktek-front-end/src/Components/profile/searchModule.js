@@ -117,7 +117,7 @@ class SearchModule extends React.Component {
             />
             <List dense className={classes.root} style={{marginLeft: "auto", marginRight: "auto"}}>
               {this.props.searchUserList.map((value, index) => (
-                <ListItem key={value} button>
+                <ListItem key={index} button>
                   <ListItemText primary={this.getUserName(index)} secondary={this.getUserMail(index)} style={{height: 50}} onClick={() => this.props.handleUserModalShow()}/>
                 </ListItem>
               ))}

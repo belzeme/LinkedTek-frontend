@@ -23,7 +23,7 @@ class MessagesInner extends React.Component {
          <Grid container spacing={24} style={{marginLeft: "auto", marginRight: "auto"}}>
            <Grid item xs>
             <InboxModule
-              messages={this.props.messages}
+              inbox={this.props.inbox}
               modalDeleteMessageVisible={this.props.modalDeleteMessageVisible}
               modalReplyMessageVisible={this.props.modalReplyMessageVisible}
               handleDeleteMessageModalShow={this.props.handleDeleteMessageModalShow}
@@ -36,7 +36,6 @@ class MessagesInner extends React.Component {
            </Grid>
            <Grid item xs>
              <OutboxModule
-               messages={this.props.messages}
                modalDeleteMessageVisible={this.props.modalDeleteMessageVisible}
                modalReplyMessageVisible={this.props.modalReplyMessageVisible}
                handleDeleteMessageModalShow={this.props.handleDeleteMessageModalShow}

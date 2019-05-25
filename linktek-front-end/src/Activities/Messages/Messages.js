@@ -99,13 +99,7 @@ const styles = theme => ({
 class Messages extends React.Component {
   state = {
     open: true,
-    messages: [
-      ["Artung !!!", "User 1", "enean sagittis, justo a tincidunt pharetra, ipsum ex pretium libero, eu placerat felis felis vitae arcu. Aliquam sit amet accumsan dui, fermentum posuere magna. Donec sed nulla finibus, semper turpis eu, vestibulum lacus. ", "01.01.2001", "15H20"],
-      ["Youwiiiiii", "User 2", "Etiam quis convallis nibh. Nullam ligula sem, tempus sit amet finibus vel, pulvinar nec felis. Nunc cursus eget ex nec dictum. Donec sodales dictum mi nec luctus.", "01.01.2001", "15H22"],
-      ["OMG", "User 3", "ellentesque congue, ligula vel ultricies finibus, ex elit dignissim lorem, eget mollis magna mi vel odio. Vivamus auctor et dolor non vulputate. In vel erat tempus, consectetur nulla sit amet, posuere sem.", "01.01.2001", '18h00'],
-      ["QSddd ", "User 2", "Morbi sollicitudin sed metus at scelerisque. Donec varius in sapien sed aliquam. Quisque consectetur neque eu consequat pellentesque. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus ornare eros eget sem venenatis imperdiet. Etiam est neque, facilisis in convallis vitae, lacinia at dui. Vivamus id tortor pharetra, rhoncus quam ac, ornare orci.", "01.01.2001", '19h00'],
-      ["Bqs dff", "User 3", "ellentesque congue, ligula vel ultricies finibus, ex elit dignissim lorem, eget mollis magna mi vel odio. Vivamus auctor et dolor non vulputate. In vel erat tempus, consectetur nulla sit amet, posuere sem.", "01.01.2001", '18h00'],
-    ],
+    inbox: [],
     sendTo: 'Undefined',
     contact: [],
     contactDetails: [],
@@ -127,6 +121,10 @@ class Messages extends React.Component {
     axios.post(`http://127.0.0.1:3010/account/outbox`, {email: this.props.userEmail})
     .then(ret => this.handleOutBox(ret))
     .catch(error => console.log('error : ' + error));
+
+    axios.post(`http://127.0.0.1:3010/account/inbox`, {email: this.props.userEmail})
+    .then(ret => this.handleInBox(ret))
+    .catch(error => console.log('error : ' + error));
   }
 
   handleRelationList(ret) {
@@ -139,8 +137,19 @@ class Messages extends React.Component {
     }
   }
 
-  handleOutBox(ret) {
+  handleInBox(ret) {
     console.log(ret);
+    let i = 0;
+    for (let value of Object.values(ret)) {
+      if (i === 0) {
+        Object.keys(value).map(k => this.addItemToInbox(value[k]));
+      }
+      i++;
+    }
+  }
+
+  handleOutBox(ret) {
+    //console.log(ret);
     let i = 0;
     for (let value of Object.values(ret)) {
       if (i === 0) {
@@ -150,8 +159,15 @@ class Messages extends React.Component {
     }
   }
 
+  addItemToInbox(value) {
+    let tmpOutbox = this.state.inbox;
+    let tmp = [{title: value.title, content: value.content, id: value.id, date: value.creation_time}];
+    tmpOutbox.push(tmp);
+    this.setState({inbox: tmpOutbox});
+  }
+
   addItemToOutbox(value) {
-    let tmpOutbox = this.state.outbox;
+    let tmpOutbox = this.state.inbox;
     let tmp = [{title: value.title, content: value.content, id: value.id, date: value.creation_time}];
     tmpOutbox.push(tmp);
     this.setState({outbox: tmpOutbox});
@@ -241,6 +257,10 @@ class Messages extends React.Component {
     this.setState({ replyMessageContent: event.target.value});
   }
 
+  sendReplyMessage = () => {
+
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -296,7 +316,7 @@ class Messages extends React.Component {
             Messages
           </Typography>
           <Inner
-            messages={this.state.messages}
+            inbox={this.state.inbox}
             sendTo={this.state.sendTo}
             contact={this.state.contact}
             selectedContact={this.state.selectedContact}

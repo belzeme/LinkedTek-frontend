@@ -38,24 +38,25 @@ const styles = theme => ({
 
 class InboxModule extends React.Component {
 
-  handleFeedRowFrom(value) {
-    return 'From : ' + value[1];
+  handleFeedRowTo(index) {
+    //let tmp = Object.values(this.props.outbox[index]);
+    return 'From : Undefined';
   }
 
-  handleFeedRowDate(value) {
-    return value[3] + ' : ' + value[4];
+  handleFeedRowDate(index) {
+    let tmp = Object.values(this.props.inbox[index]);
+    return tmp[0].date;
+    //return 'date';
   }
 
-  handleFeedRowTitle(value) {
-    return value[0];
+  handleFeedRowTitle(index) {
+    let tmp = Object.values(this.props.inbox[index]);
+    return tmp[0].title;
   }
 
-  handleFeedRowContent(value) {
-    return value[2];
-  }
-
-  handleReplyTitle(value) {
-    return "Reply to " + value;
+  handleFeedRowContent(index) {
+    let tmp = Object.values(this.props.inbox[index]);
+    return tmp[0].content;
   }
 
   render() {
@@ -67,13 +68,13 @@ class InboxModule extends React.Component {
         />
         <div style={{maxHeight: 600, overflow: 'auto', marginTop: 20}}>
           <List dense className={classes.root}>
-            {this.props.messages.map((value, index) => (
+            {this.props.inbox.map((value, index) => (
               <Paper key={index} style={{maxWidth: 440, minWidth: 440, marginBottom: 50, marginLeft: 20}}>
-                <ListItem key={value}>
+                <ListItem key={index}>
                   <div>
-                    <ListItemText primary={this.handleFeedRowDate(value)} secondary={this.handleFeedRowFrom(value)} style={{height: 80}}/>
-                    <p style={{marginTop: -20}}>{this.handleFeedRowTitle(value)}</p>
-                    <p style={{color: 'grey'}}>{this.handleFeedRowContent(value)}</p>
+                    <ListItemText primary={this.handleFeedRowDate(index)} secondary={this.handleFeedRowTo(index)} style={{height: 80}}/>
+                    <p style={{marginTop: -20}}>{this.handleFeedRowTitle(index)}</p>
+                    <p style={{color: 'grey'}}>{this.handleFeedRowContent(index)}</p>
                   </div>
                 </ListItem>
                 <Grid container spacing={24} style={{marginLeft: "auto", marginRight: "auto"}}>
@@ -90,30 +91,10 @@ class InboxModule extends React.Component {
             ))}
           </List>
         </div>
-        {/*Modal for delete message*/}
-        <Modal visible={this.props.modalDeleteMessageVisible} width="400" height="200" effect="fadeInUp" onClickAway={() => this.props.handleDeleteMessageModalClose()}>
-          <div>
-            <h2 style={{display: 'flex', justifyContent: 'center'}}>{"Delete Message ?"}</h2>
-            <div style={{display: 'flex', justifyContent: 'center', marginTop: 30}}>
-              <Grid container spacing={24} style={{marginLeft: "auto", marginRight: "auto", marginTop: 10}}>
-                <Grid item xs>
-                  <Button style={{backgroundColor: '#3f51b5', width: "99%", color: "white", marginLeft: 10 }} onClick={this.props.handleDeleteMessageModalClose}>
-                    OK
-                  </Button>
-                </Grid>
-                <Grid item xs>
-                  <Button style={{backgroundColor: '#3f51b5', width: "99%", color: "white", marginRight: 10 }} onClick={this.props.handleDeleteMessageModalClose}>
-                    Cancel
-                  </Button>
-                </Grid>
-              </Grid>
-            </div>
-          </div>
-        </Modal>
         {/*Modal for reply message*/}
         <Modal visible={this.props.modalReplyMessageVisible} width="400" height="350" effect="fadeInUp" onClickAway={() => this.props.handleReplyMessageModalClose()}>
           <div>
-            <h2 style={{display: 'flex', justifyContent: 'center'}}>{this.handleReplyTitle(this.props.messageSender)}</h2>
+            <h2 style={{display: 'flex', justifyContent: 'center'}}>{}</h2>
             <div style={{display: 'flex', justifyContent: 'center', marginTop: 20}}>
               <TextField
                 id="standard-with-placeholder"
