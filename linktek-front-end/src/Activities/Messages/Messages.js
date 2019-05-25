@@ -290,7 +290,7 @@ class Messages extends React.Component {
               noWrap
               className={classes.title}
             >
-              LinkTek
+              Advanced Cloud : LinkedTek
             </Typography>
             <IconButton color="inherit" onClick={() => {ReactDOM.render(<Login />, document.getElementById('root')); }}>
                 <Logout />
