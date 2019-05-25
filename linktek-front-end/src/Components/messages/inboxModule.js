@@ -39,8 +39,8 @@ const styles = theme => ({
 class InboxModule extends React.Component {
 
   handleFeedRowTo(index) {
-    //let tmp = Object.values(this.props.outbox[index]);
-    return 'From : Undefined';
+    let tmp = Object.values(this.props.inbox[index]);
+    return tmp[0].fromName + ' : ' + tmp[0].fromMail;
   }
 
   handleFeedRowDate(index) {

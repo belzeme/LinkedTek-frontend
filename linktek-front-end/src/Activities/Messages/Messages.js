@@ -160,14 +160,14 @@ class Messages extends React.Component {
   }
 
   addItemToInbox(value) {
-    let tmpOutbox = this.state.inbox;
-    let tmp = [{title: value.title, content: value.content, id: value.id, date: value.creation_time}];
-    tmpOutbox.push(tmp);
-    this.setState({inbox: tmpOutbox});
+    let tmpInbox = this.state.inbox;
+    let tmp = [{title: value.title, content: value.content, id: value.id, date: value.creation_time, fromName: value.sender.name, fromMail: value.sender.email}];
+    tmpInbox.push(tmp);
+    this.setState({inbox: tmpInbox});
   }
 
   addItemToOutbox(value) {
-    let tmpOutbox = this.state.inbox;
+    let tmpOutbox = this.state.outbox;
     let tmp = [{title: value.title, content: value.content, id: value.id, date: value.creation_time}];
     tmpOutbox.push(tmp);
     this.setState({outbox: tmpOutbox});
