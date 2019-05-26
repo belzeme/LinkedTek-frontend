@@ -1,16 +1,13 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import Modal from 'react-awesome-modal';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import ReplyIcon from '@material-ui/icons/Reply';
-import SendIcon from '@material-ui/icons/Send';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -79,7 +76,7 @@ class InboxModule extends React.Component {
                 </ListItem>
                 <Grid container spacing={24} style={{marginLeft: "auto", marginRight: "auto"}}>
                   <Grid item xs>
-                    <Button variant="outlined" color="default" className={classes.button} onClick={this.props.handleReplyMessageModalShow}>
+                    <Button variant="outlined" color="default" className={classes.button} onClick={this.props.handleReplyMessageModalShow(index)}>
                       Reply
                       <ReplyIcon className={classes.rightIcon} style={{marginLeft: 10}}/>
                     </Button>
@@ -91,31 +88,6 @@ class InboxModule extends React.Component {
             ))}
           </List>
         </div>
-        {/*Modal for reply message*/}
-        <Modal visible={this.props.modalReplyMessageVisible} width="400" height="350" effect="fadeInUp" onClickAway={() => this.props.handleReplyMessageModalClose()}>
-          <div>
-            <h2 style={{display: 'flex', justifyContent: 'center'}}>{}</h2>
-            <div style={{display: 'flex', justifyContent: 'center', marginTop: 20}}>
-              <TextField
-                id="standard-with-placeholder"
-                label="Reply Content"
-                onChange={this.props.handleReplyMessageContentChange('content')}
-                className={classes.textField}
-                margin="normal"
-                multiline={true}
-                rows={1}
-                rowsMax={7}
-                style={{marginLeft: 10, width: "99%"}}
-              />
-            </div>
-            <div style={{width: "100%", marginTop: 10}}>
-              <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white", marginLeft: 10, marginTop: 10}} onClick={this.props.handleReplyMessageModalClose}>
-                Send
-                <SendIcon className={classes.rightIcon} style={{marginLeft: 10}}/>
-              </Button>
-            </div>
-          </div>
-        </Modal>
       </Card>
     );
   }

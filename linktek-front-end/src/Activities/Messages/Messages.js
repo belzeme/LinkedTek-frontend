@@ -14,6 +14,10 @@ import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from '../Login/Login.js';
 import ReactDOM from 'react-dom';
 import Inner from './content/messagesInner.js';
+import SendIcon from '@material-ui/icons/Send';
+import Button from '@material-ui/core/Button';
+import Modal from 'react-awesome-modal';
+import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import { mainListItems } from '../../Components/leftMenu';
 
@@ -100,7 +104,7 @@ class Messages extends React.Component {
   state = {
     open: true,
     inbox: [],
-    sendTo: 'Undefined',
+    sendTo: '',
     contact: [],
     contactDetails: [],
     outbox: [],
@@ -110,7 +114,8 @@ class Messages extends React.Component {
     replyMessageContent: '',
     modalDeleteMessageVisible: false,
     modalReplyMessageVisible: false,
-    messageSender: 'John Doe',
+    messageSender: '',
+    replyIndex: 0,
   };
 
   componentWillMount() {
@@ -237,19 +242,33 @@ class Messages extends React.Component {
     }
   }
 
-  handleDeleteMessageModalShow = () => {
-    this.setState({ modalDeleteMessageVisible: true });
-  }
-
-  handleDeleteMessageModalClose = () => {
-    this.setState({ modalDeleteMessageVisible: false });
-  }
-
-  handleReplyMessageModalShow = () => {
+  handleReplyMessageModalShow = index => () => {
+    this.setState({replyIndex: index});
     this.setState({ modalReplyMessageVisible: true });
   }
 
   handleReplyMessageModalClose = () => {
+    this.setState({ modalReplyMessageVisible: false });
+  }
+
+  handleReplyTitle() {
+    let tmp = Object.values(this.state.inbox[this.state.replyIndex]);
+    return 'Reply to : ' + tmp[0].title;
+  }
+
+  handleReplyContent() {
+    return  this.state.replyMessageContent;
+  }
+
+  handleReplyAddress() {
+    let tmp = Object.values(this.state.inbox[this.state.replyIndex]);
+    return tmp[0].fromMail;
+  }
+
+  handleReplyMessageModalClosePopup = () => {
+    axios.post(`http://127.0.0.1:3010/account/message`, {sender: this.props.userEmail, receiver: this.handleReplyAddress(), title: this.handleReplyTitle(), content: this.handleReplyContent()})
+    .then(ret => this.handleSendMessage())
+    .catch(error => console.log('error : ' + error));
     this.setState({ modalReplyMessageVisible: false });
   }
 
@@ -335,6 +354,31 @@ class Messages extends React.Component {
             outbox={this.state.outbox}
           />
         </main>
+        {/*Modal for reply message*/}
+        <Modal visible={this.state.modalReplyMessageVisible} width="400" height="350" effect="fadeInUp" onClickAway={() => this.handleReplyMessageModalClose()}>
+          <div>
+            <h2 style={{display: 'flex', justifyContent: 'center'}}>{}</h2>
+            <div style={{display: 'flex', justifyContent: 'center', marginTop: 20}}>
+              <TextField
+                id="standard-with-placeholder"
+                label="Reply Content"
+                onChange={this.handleReplyMessageContentChange('content')}
+                className={classes.textField}
+                margin="normal"
+                multiline={true}
+                rows={1}
+                rowsMax={7}
+                style={{marginLeft: 10, width: "99%"}}
+              />
+            </div>
+            <div style={{width: "100%", marginTop: 10}}>
+              <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white", marginLeft: 10, marginTop: 10}} onClick={this.handleReplyMessageModalClosePopup}>
+                Send
+                <SendIcon className={classes.rightIcon} style={{marginLeft: 10}}/>
+              </Button>
+            </div>
+          </div>
+        </Modal>
       </div>
     );
   }
