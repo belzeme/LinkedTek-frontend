@@ -33,8 +33,8 @@ const styles = theme => ({
 class OutboxModule extends React.Component {
 
   handleFeedRowTo(index) {
-    //let tmp = Object.values(this.props.outbox[index]);
-    return 'To : Undefined';
+    let tmp = Object.values(this.props.outbox[index]);
+    return 'To : ' + tmp[0].to + ' : ' + tmp[0].toMail;
   }
 
   handleFeedRowDate(index) {

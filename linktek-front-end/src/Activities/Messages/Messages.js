@@ -143,7 +143,7 @@ class Messages extends React.Component {
   }
 
   handleInBox(ret) {
-    console.log(ret);
+    //console.log(ret);
     let i = 0;
     for (let value of Object.values(ret)) {
       if (i === 0) {
@@ -154,7 +154,7 @@ class Messages extends React.Component {
   }
 
   handleOutBox(ret) {
-    //console.log(ret);
+    console.log(ret);
     let i = 0;
     for (let value of Object.values(ret)) {
       if (i === 0) {
@@ -173,7 +173,7 @@ class Messages extends React.Component {
 
   addItemToOutbox(value) {
     let tmpOutbox = this.state.outbox;
-    let tmp = [{title: value.title, content: value.content, id: value.id, date: value.creation_time}];
+    let tmp = [{title: value.title, content: value.content, id: value.id, date: value.creation_time, to: value.receiver.name, toMail: value.receiver.email}];
     tmpOutbox.push(tmp);
     this.setState({outbox: tmpOutbox});
   }

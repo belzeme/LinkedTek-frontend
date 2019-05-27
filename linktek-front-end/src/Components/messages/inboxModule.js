@@ -37,7 +37,7 @@ class InboxModule extends React.Component {
 
   handleFeedRowTo(index) {
     let tmp = Object.values(this.props.inbox[index]);
-    return tmp[0].fromName + ' : ' + tmp[0].fromMail;
+    return "From : " + tmp[0].fromName + ' : ' + tmp[0].fromMail;
   }
 
   handleFeedRowDate(index) {
