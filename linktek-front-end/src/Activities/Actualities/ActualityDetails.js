@@ -222,7 +222,7 @@ class ActualityDetails extends React.Component {
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Typography variant="h4" gutterBottom component="h3">
-            Actualities Details
+            Actuality Details
           </Typography>
           <Inner
             postTitle={this.state.postTitle}
