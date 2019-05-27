@@ -35,9 +35,13 @@ const styles = theme => ({
 
 class MyPostsModule extends React.Component {
 
+  parseISOString(date) {
+    return Date(date);
+  }
+
   handlePostDate(index) {
     let tmp = Object.values(this.props.myPosts[index]);
-    return tmp[0].creation_time;
+    return this.parseISOString(tmp[0].creation_time);
  }
 
   handleRowTitle(index) {

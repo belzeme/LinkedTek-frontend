@@ -36,6 +36,10 @@ class PostModule extends React.Component {
     return 'From : ' + this.props.from;
   }
 
+  parseISOString(date) {
+    return Date(date);
+  }
+
   render() {
     const { classes } = this.props;
     return (

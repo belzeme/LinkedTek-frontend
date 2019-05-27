@@ -37,6 +37,10 @@ const styles = theme => ({
 class FeedModule extends React.Component {
   state = { expanded: false };
 
+  parseISOString(date) {
+    return Date(date);
+  }
+
   handleFeedRowFrom(index) {
     let tmp = Object.values(this.props.feed[index]);
     return 'From : ' + tmp[0].postOwnerName;
@@ -44,7 +48,7 @@ class FeedModule extends React.Component {
 
   handleFeedRowDate(index) {
     let tmp = Object.values(this.props.feed[index]);
-    return tmp[0].postDate;
+    return this.parseISOString(tmp[0].postDate);
   }
 
   handleFeedRowTitle(index) {

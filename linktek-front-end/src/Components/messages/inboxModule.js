@@ -35,6 +35,10 @@ const styles = theme => ({
 
 class InboxModule extends React.Component {
 
+  parseISOString(date) {
+    return Date(date);
+  }
+
   handleFeedRowTo(index) {
     let tmp = Object.values(this.props.inbox[index]);
     return "From : " + tmp[0].fromName + ' : ' + tmp[0].fromMail;
@@ -42,8 +46,7 @@ class InboxModule extends React.Component {
 
   handleFeedRowDate(index) {
     let tmp = Object.values(this.props.inbox[index]);
-    return tmp[0].date;
-    //return 'date';
+    return this.parseISOString(tmp[0].date);
   }
 
   handleFeedRowTitle(index) {

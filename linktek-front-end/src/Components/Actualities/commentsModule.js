@@ -34,6 +34,10 @@ class CommentsModule extends React.Component {
   state = {
   };
 
+  parseISOString(date) {
+    return Date(date);
+  }
+
   handleContent(index) {
     let tmp = Object.values(this.props.comments[index]);
     return tmp[0].content;
@@ -46,7 +50,7 @@ class CommentsModule extends React.Component {
 
   handleCommentDate(index) {
     let tmp = Object.values(this.props.comments[index]);
-    return 'Date : ' + tmp[0].date;
+    return this.parseISOString(tmp[0].date);
   }
 
   render() {

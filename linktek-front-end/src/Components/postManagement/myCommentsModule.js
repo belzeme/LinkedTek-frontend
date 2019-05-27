@@ -34,14 +34,19 @@ const styles = theme => ({
 
 class MyCommentsModule extends React.Component {
 
+  parseISOString(date) {
+    return Date(date);
+  }
+
   handlePostDate(index) {
     let tmp = Object.values(this.props.myComments[index]);
-    return 'Date : ' + tmp[0].postDate;
+    return this.parseISOString(tmp[0].postDate);
   }
 
   handleCommentDate(index) {
     let tmp = Object.values(this.props.myComments[index]);
-    return tmp[0].myCommentDate;
+    return this.parseISOString(tmp[0].myCommentDate);
+
   }
 
   handleRowTitle(index) {
