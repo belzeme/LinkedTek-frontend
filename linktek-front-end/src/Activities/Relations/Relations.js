@@ -241,9 +241,7 @@ class Relations extends React.Component {
   }
 
   handleRelationModalCloseValidated = () => {
-    //this.handleRemoveRelation();
     ReactDOM.render(<UserProfile searchUserName={this.state.relationSelectedName} searchUserMail={this.state.relationEmail} userEmail={this.props.userEmail} />, document.getElementById('root'));
-    //this.setState({ relationSelectedModalVisible: false });
   }
 
   handleRelationModalClose = () => {

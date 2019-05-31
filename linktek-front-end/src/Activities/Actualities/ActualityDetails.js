@@ -113,7 +113,7 @@ class ActualityDetails extends React.Component {
 
   componentWillMount() {
     this.handlePostValues();
-    console.log('ID : ' + this.props.postId);
+    //console.log('ID : ' + this.props.postId);
     axios.post(`http://127.0.0.1:3010/post/comment/list`, {id: this.props.postId})
     .then(ret => {
       console.log(ret);
@@ -128,7 +128,7 @@ class ActualityDetails extends React.Component {
 
   addItemToComments(value){
     let ret = this.state.comments;
-    let tmp = [{date: value.comment.creation_time, content: value.comment.content, from: (value.user.name ? value.user.name : 'Random User')}];
+    let tmp = [{date: value.comment.creation_time, content: value.comment.content, from: (value.user.name ? value.user.name : 'Test User')}];
     ret.push(tmp);
     this.setState({comments: ret});
   }

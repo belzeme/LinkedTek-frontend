@@ -586,7 +586,7 @@ class School extends React.Component {
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Typography variant="h4" gutterBottom component="h3">
-            School and Companies
+            Schools and Companies
           </Typography>
           <Inner
             newInputTypes={this.state.newInputTypes}

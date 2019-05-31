@@ -200,7 +200,7 @@ class Actualities extends React.Component {
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Typography variant="h4" gutterBottom component="h3">
-            Actualities Feed
+            Actuality Feed
           </Typography>
           <Inner
             feed={this.state.actualityFeed}
