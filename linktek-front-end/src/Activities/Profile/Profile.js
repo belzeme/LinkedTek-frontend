@@ -104,30 +104,43 @@ class Profile extends React.Component {
     userModalVisible: false,
     jobInputModalVisible: false,
     jobEditModalVisible: false,
-    userName: 'John Doe',
-    currentJobStartTime: '01.01.2000',
-    job: 'Front-End Developer',
-    company: 'NanoSoft',
+    userName: '',
+    currentJobStartTime: '',
+    job: '',
+    company: '',
     companyNumber: '3',
-    age: '22',
-    names: ['Epitech Toulouse', 'Blop 1', 'Blop 2', 'NanoSoft'],
+    age: '',
+    names: [],
     namesState: ['School', 'Company', 'Company', 'Company'],
-    namesJob: ['Strudent', 'Software Developer', 'Software Developer', 'Software Architect'],
-    result: ['Jean valjean', 'Jean valjean'],
+    namesJob: [],
+    result: [],
     resultPicture: ['../Images/profilePicture1.png', '../Images/profilePicture2.png'],
-    companies: ['Lateral Software', 'Eco-Software', 'Mobile Software', 'NanoSoft'],
+    companies: [],
     searchUserName: "",
-    searchUserCompany: "User Company",
-    searchUserCountry: "User Country",
-    searchUserJob: "User Job Title",
+    searchUserCompany: "",
+    searchUserCountry: "",
+    searchUserJob: "",
     searchUserAge: "Search User Age",
     selectedEditInput: 0,
-    newJobInputType: 'Company',
+    newJobInputType: '',
     countries: [],
-    selectedCountry: 'France',
-    country: 'France',
+    selectedCountry: '',
+    country: '',
     searchUserList: [{name: '', mail: ''}],
   };
+
+  componentWillMount() {
+    this.setState({userName: this.props.userName})
+    console.log("EMAIL : " + this.props.userEmail);
+    axios.post(`http://127.0.0.1:3010/account/profile`, {email: this.props.userEmail})
+    .then(ret => {
+      console.log(ret)
+    })
+    .catch(error => console.log(error));
+
+    axios.get(`http://127.0.0.1:3010/country/list`)
+    .then(ret => this.handleCountryList(ret));
+  }
 
   handleSearchUser = (ret) => {
     this.setState({searchUserList: []});
@@ -162,6 +175,18 @@ class Profile extends React.Component {
 
   handleProfileModalClose = () => {
     this.updateCountry();
+    this.setState({ profileModalVisible: false });
+  }
+
+  handleProfileModalCloseValidated = () => {
+    let tmp = this.setNewProfile();
+    console.log("tmp : ");
+    console.log(tmp);
+    axios.patch(`http://127.0.0.1:3010/account/profile`, {email: this.props.userEmail, properties: tmp})
+    .then(ret => {
+      console.log(ret)
+    })
+    .catch(error => console.log(error));
     this.setState({ profileModalVisible: false });
   }
 
@@ -230,15 +255,21 @@ class Profile extends React.Component {
     this.setState({ selectedCountry: value});
   }
 
-  componentDidMount() {
-    axios.get(`http://127.0.0.1:3010/country/list`)
-    .then(ret => this.handleCountryList(ret));
-  }
-
   updateCountry() {
     if (this.state.country !== this.state.selectedCountry) {
       this.setState({country: this.state.selectedCountry})
     }
+  }
+
+  setNewProfile() {
+    this.updateCountry();
+    console.log("name " + this.state.userName + "  age " + this.state.age);
+    let tmpNameRow = {label: 'name', value: this.state.userName};
+    let tmpAgeRow = {label: 'age', value: this.state.age};
+    let tmpProfile = [];
+    tmpProfile.push(tmpNameRow);
+    tmpProfile.push(tmpAgeRow);
+    return tmpProfile;
   }
 
   handleCountryList(ret) {
@@ -314,6 +345,7 @@ class Profile extends React.Component {
             companies={this.state.companies}
             companyNumber={this.state.companyNumber}
             handleProfileModalClose={this.handleProfileModalClose}
+            handleProfileModalCloseValidated={this.handleProfileModalCloseValidated}
             handleProfileModalShow={this.handleProfileModalShow}
             profileModalVisible={this.state.profileModalVisible}
             handleUserNameChange={this.handleUserNameChange}

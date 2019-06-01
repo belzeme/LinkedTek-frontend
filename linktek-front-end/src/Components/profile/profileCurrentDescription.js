@@ -120,8 +120,8 @@ function PaperSheet(props) {
           </div>
 
           <div style={{display: 'flex', justifyContent: 'center', marginTop: 20}}>
-            <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white" }} onClick={props.handleProfileModalClose}>
-              Close
+            <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white" }} onClick={props.handleProfileModalCloseValidated}>
+              Validate
             </Button>
           </div>
         </div>
