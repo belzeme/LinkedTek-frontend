@@ -46,6 +46,8 @@ const styles = theme => ({
   },
 });
 
+// Register class
+/** Handle the register page */
 class Register extends Component {
   constructor() {
     super();
@@ -61,47 +63,85 @@ class Register extends Component {
     };
   }
 
+  /**
+   * Internal function used to save the email into react properties
+   * @param {event} event the related event
+   */
   handleEmailChange(event)  {
     this.setState({email: event.target.value});
   }
 
+  /**
+   * Internal function used to save the username into react properties
+   * @param {event} event the related event
+   */
   handleNameChange(event)  {
     console.log('test : ' + event.target.value);
     this.setState({name: event.target.value});
   }
 
+  /**
+   * Internal function used to save the password into react properties
+   * @param {event} event the related event
+   */
   handlePasswordChange(event)  {
     this.setState({password: event.target.value});
   }
 
+  /**
+   * Internal function used to save the password confirmation into react properties
+   * @param {event} event the related event
+   */
   handleConfirmChange(event)  {
     this.setState({confirmation: event.target.value});
   }
 
+  /**
+   * Internal function display connection error message popup
+   */
   handleModalShow() {
     this.setState({isModalVisible: true});
   }
 
+  /**
+   * Internal function close connection error message popup
+   */
   handleModalClose() {
     this.setState({isModalVisible: false});
   }
 
+  /**
+   * Internal function display connection failed popup
+   */
   handleKoModalShow() {
     this.setState({isReturnServerKOModalVisible: true});
   }
 
+  /**
+   * Internal function close connection failed popup
+   */
   handleKoModalClose() {
     this.setState({isReturnServerKOModalVisible: false});
   }
 
+  /**
+   * Internal function display connection success popup
+   */
   handleOkModalShow() {
     this.setState({isReturnServerOKModalVisible: true});
   }
 
+  /**
+   * Internal function close connection success popup
+   */
   handleOkModalClose() {
     this.setState({isReturnServerOKModalVisible: false});
   }
 
+  /**
+   * Internal function used to check the register required field before creating account
+   * @return {string} 'Ok' if tests succeds or failure message
+   */
   handleErrorMessage() {
     if (this.state.email === '') {
       return 'Error email field cannot be empty';
@@ -123,13 +163,22 @@ class Register extends Component {
     }
   }
 
+  /**
+   * Internal function used when account creation succeeds.
+   * Close the succed popup and load display the login page
+   */
   handleAccountCreationSuccess() {
     this.handleOkModalClose();
     ReactDOM.render(<Login />, document.getElementById('root'));
   }
 
+  /**
+   * Called when user click on submit button, try to create an account to the service
+   * Displays success pr failure popup
+   * @param {string} email The user email
+   * @param {string} password The user password
+   */
   clickOnSubmitButton = (email, password) => {
-    //console.log("Email : " + this.state.email + '\nPassword : ' + this.state.password + '\nConfirmation : ' + this.state.confirmation);
 
     if (this.handleErrorMessage() !== 'OK') {
       this.handleModalShow()

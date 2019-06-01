@@ -24,7 +24,7 @@ const styles = theme => ({
     display: 'flex',
   },
   toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
+    paddingRight: 24,
   },
   toolbarIcon: {
     display: 'flex',
@@ -96,12 +96,20 @@ const styles = theme => ({
   },
 });
 
+// Actualities class
+/** Handle the user related feed page */
 class Actualities extends React.Component {
   state = {
     open: true,
     actualityFeed: [{postTitle: '', postDate: '', postContent: '', postId: '', postOwnerName: '', postOwnerMail: '', postOwnerId: ''}],
   };
 
+  /**
+   * Request the data required from component.
+   * Get user userEmail
+   * Get username
+   * Request user related actuality feed
+   */
   componentWillMount() {
     localStorage.setItem('userEmail', this.props.userEmail);
     localStorage.setItem('userName', this.props.userName);
@@ -113,6 +121,10 @@ class Actualities extends React.Component {
     .catch(error => console.log(error));
   }
 
+  /**
+   * Internal function used for handling the actuality feed
+   * @param {object} ret The return of backend gateway object.
+   */
   handleFeed(ret) {
     let i = 0;
     for (let value of Object.values(ret)) {
@@ -123,6 +135,10 @@ class Actualities extends React.Component {
     }
   }
 
+  /**
+   * Internal function used for set the feed row into react properties
+   * @param {object} value The feed row
+   */
   addItemToFeed(value) {
     if (value.data.target === 'Post') {
       let tmpFeed = this.state.actualityFeed;
@@ -139,14 +155,6 @@ class Actualities extends React.Component {
       this.setState({actualityFeed: tmpFeed});
     }
   }
-
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
 
   render() {
     const { classes } = this.props;

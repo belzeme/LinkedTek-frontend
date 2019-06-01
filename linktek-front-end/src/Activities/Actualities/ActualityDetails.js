@@ -96,6 +96,8 @@ const styles = theme => ({
   },
 });
 
+// ActualityDetails class
+/** Handle the selected post */
 class ActualityDetails extends React.Component {
   state = {
     open: true,

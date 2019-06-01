@@ -11,6 +11,8 @@ const styles = theme => ({
   },
 });
 
+// ActualityDetailsInner class
+/** Handle the grid of selected post */
 class ActualityDetailsInner extends React.Component {
   state = {
   };

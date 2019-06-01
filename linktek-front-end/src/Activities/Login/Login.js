@@ -19,7 +19,7 @@ import axios from 'axios';
 const styles = theme => ({
   main: {
     width: 'auto',
-    display: 'block', // Fix IE 11 issue.
+    display: 'block',
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
@@ -48,6 +48,8 @@ const styles = theme => ({
   },
 });
 
+// Login class
+/** Handle the login page */
 class Login extends Component {
   constructor() {
     super();
@@ -61,6 +63,10 @@ class Login extends Component {
     };
   }
 
+  /**
+   * Internal function used to check the login required field before connecting
+   * @return {string} 'Ok' if tests succeds or failure message
+   */
   handleErrorMessage() {
     if (this.state.login === '') {
       return 'Error email field cannot be empty';
@@ -73,10 +79,18 @@ class Login extends Component {
     }
   }
 
+  /**
+   * Internal function used to save the login into react properties
+   * @param {event} event the related event
+   */
   handleLoginChange(event)  {
     this.setState({login: event.target.value});
   }
 
+  /**
+   * Internal function used to save the password into react properties
+   * @param {event} event the related event
+   */
   handlePasswordChange(event)  {
     this.setState({password: event.target.value});
   }
@@ -87,6 +101,10 @@ class Login extends Component {
     }
   }
 
+  /**
+   * Internal function called after the connection, load the user actuality feed page
+   * @param {object} ret return object from the backend gateway
+   */
   handleUserConnection(ret) {
     let i = 0;
     for (let value of Object.values(ret)) {
@@ -98,6 +116,11 @@ class Login extends Component {
     ReactDOM.render(<Actualities userEmail={this.state.login} userName={this.state.userName} />, document.getElementById('root'));
   }
 
+  /**
+   * Internal function used to set useremail after connection,
+   * Save the connection token to react properties
+   * @param {object} ret return object from the backend gateway
+   */
   handleConnectionSuccess(ret) {
     this.setState({token: ret.data.token});
     axios.post(`http://127.0.0.1:3010/user/list`, {email: this.state.login})
@@ -109,18 +132,31 @@ class Login extends Component {
     });
   }
 
+  /**
+   * Internal function used when connection failed,
+   */
   handleConnectionFailed() {
     this.handleConnectionFailedModalShow();
   }
 
+  /**
+   * Internal function display connection failed popup
+   */
   handleConnectionFailedModalShow() {
     this.setState({isConnectionFailedModalVisible: true});
   }
 
+  /**
+   * Internal function close connection failed popup
+   */
   handleConnectionFailedModalClose() {
     this.setState({isConnectionFailedModalVisible: false});
   }
 
+  /**
+   * Internal function called when user click on submit Button
+   * Try to connect user to LinkedTek service
+   */
   clickOnSubmitButton() {
     if (this.handleErrorMessage() !== 'OK') {
       this.handleConnectionFailedModalShow();
@@ -132,8 +168,10 @@ class Login extends Component {
     }
   }
 
+  /**
+   * Load and display the register page
+   */
   clickOnRegisterButton() {
-    //console.log("Login : " + this.state.login + '\nPassword : ' + this.state.password);
     ReactDOM.render(<Register />, document.getElementById('root'));
   }
 

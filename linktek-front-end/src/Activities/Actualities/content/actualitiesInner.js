@@ -10,6 +10,8 @@ const styles = theme => ({
   },
 });
 
+// ActualitiesInner class
+/** Handle the grid of feed page */
 class ActualitiesInner extends React.Component {
   state = {
   };
