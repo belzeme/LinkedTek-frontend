@@ -17,10 +17,6 @@ const styles = theme => ({
   },
 });
 
-function handleCompanyName(name) {
-  return name + " Company";
-}
-
 function handleUserAge(age) {
   return age + " Years old";
 }
@@ -36,7 +32,7 @@ function PaperSheet(props) {
         </ListItem>
         <Divider />
         <ListItem divider>
-          <ListItemText primary={handleCompanyName(props.company)}/>
+          <ListItemText primary={props.company}/>
         </ListItem>
         <Divider light />
         <ListItem>
@@ -62,16 +58,16 @@ function PaperSheet(props) {
             style={{marginLeft: 10, width: "95%"}}
           />
           {/*company for title change*/}
-          <TextField
-            id="standard-with-placeholder"
-            label="Company"
-            placeholder={props.company}
-            value={props.company}
-            className={classes.textField}
-            margin="normal"
-            onChange={props.handleCompanyChange('Company')}
-            style={{marginLeft: 10, width: "95%"}}
-          />
+          <div style={{marginLeft: 13, marginTop: 10, marginBottom: 10}}>
+            <p style={{fontSize: 13, color: 'grey'}}>Company </p>
+            <Dropdown
+              options={props.companies}
+              onChange={props.handleSelectedCompChange}
+              value={props.selectedComp}
+              style={{width: 200}}
+            />
+            <p style={{color: 'grey', marginTop: -5, marginBottom: -5}}>________________________________________________</p>
+          </div>
           {/*textField for job title change*/}
           <TextField
             id="standard-with-placeholder"

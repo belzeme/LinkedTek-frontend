@@ -126,20 +126,50 @@ class Profile extends React.Component {
     countries: [],
     selectedCountry: '',
     country: '',
+    selectedComp: '',
     searchUserList: [{name: '', mail: ''}],
   };
 
   componentWillMount() {
     this.setState({userName: this.props.userName})
-    console.log("EMAIL : " + this.props.userEmail);
     axios.post(`http://127.0.0.1:3010/account/profile`, {email: this.props.userEmail})
     .then(ret => {
-      console.log(ret)
+      this.handleUserProfile(ret);
     })
     .catch(error => console.log(error));
 
     axios.get(`http://127.0.0.1:3010/country/list`)
-    .then(ret => this.handleCountryList(ret));
+    .then(ret => this.handleCountryList(ret))
+    .catch(error => console.log('error : ' + error));
+
+    axios.get(`http://127.0.0.1:3010/company/list`)
+    .then(ret => this.handleCompList(ret))
+    .catch(error => console.log('error : ' + error));
+  }
+
+  addNewCompanyToState(value) {
+    let tmp = this.state.companies;
+    tmp.push(value.name);
+    this.setState({companies: tmp});
+  }
+
+  handleCompList(ret) {
+    let i = 0;
+    for (let value of Object.values(ret)) {
+      if (i === 0) {
+        Object.keys(value).map(k => this.addNewCompanyToState(value[k]));
+      }
+      i++;
+    }
+  }
+
+  handleUserProfile(ret) {
+    console.log(ret);
+    this.setState({userName: ret.data.name});
+    this.setState({job: ret.data.job.title});
+    this.setState({company: ret.data.company.name});
+    this.setState({country: ret.data.country.name});
+    this.setState({currentJobStartTime: Date(ret.data.job.since)});
   }
 
   handleSearchUser = (ret) => {
@@ -179,15 +209,41 @@ class Profile extends React.Component {
   }
 
   handleProfileModalCloseValidated = () => {
-    let tmp = this.setNewProfile();
-    console.log("tmp : ");
-    console.log(tmp);
-    axios.patch(`http://127.0.0.1:3010/account/profile`, {email: this.props.userEmail, properties: tmp})
-    .then(ret => {
-      console.log(ret)
-    })
-    .catch(error => console.log(error));
-    this.setState({ profileModalVisible: false });
+    if (this.checkForEditProfile()) {
+      let tmp = this.setNewProfile();
+      axios.patch(`http://127.0.0.1:3010/account/profile`, {email: this.props.userEmail, properties: tmp})
+      .then(ret => {
+        console.log(ret)
+      })
+      .catch(error => console.log(error));
+
+      axios.patch(`http://127.0.0.1:3010/account/profile/job`, {email: this.props.userEmail, company: this.state.selectedComp.value, title: this.state.job})
+      .then(ret => {
+        console.log(ret)
+      })
+      .catch(error => console.log(error));
+
+      axios.patch(`http://127.0.0.1:3010/account/profile/country`, {email: this.props.userEmail, country: this.state.selectedCountry.value})
+      .then(ret => {
+        console.log(ret)
+      })
+      .catch(error => console.log(error));
+      this.setState({ profileModalVisible: false });
+      alert('Profile updated !');
+    }
+    else {
+      alert('Please fill all fields correctly');
+    }
+  }
+
+  checkForEditProfile() {
+    if (this.state.selectedComp === '') {
+      return false;
+    }
+    if (this.state.selectedCountry === '') {
+      return false;
+    }
+    return true;
   }
 
   handleUserModalShow = () => {
@@ -255,6 +311,10 @@ class Profile extends React.Component {
     this.setState({ selectedCountry: value});
   }
 
+  handleSelectedCompChange = (value) => {
+    this.setState({ selectedComp: value});
+  }
+
   updateCountry() {
     if (this.state.country !== this.state.selectedCountry) {
       this.setState({country: this.state.selectedCountry})
@@ -263,7 +323,6 @@ class Profile extends React.Component {
 
   setNewProfile() {
     this.updateCountry();
-    console.log("name " + this.state.userName + "  age " + this.state.age);
     let tmpNameRow = {label: 'name', value: this.state.userName};
     let tmpAgeRow = {label: 'age', value: this.state.age};
     let tmpProfile = [];
@@ -381,6 +440,8 @@ class Profile extends React.Component {
             handleSearchUserName={this.handleSearchUserName}
             searchUserList={this.state.searchUserList}
             handleSearchUser={this.handleSearchUser}
+            selectedComp={this.state.selectedComp}
+            handleSelectedCompChange={this.handleSelectedCompChange}
           />
         </main>
       </div>

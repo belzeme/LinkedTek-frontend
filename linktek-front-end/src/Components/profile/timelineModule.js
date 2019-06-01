@@ -58,7 +58,7 @@ class TimelineModule extends React.Component {
   };
 
   handleJobTitle(job, company) {
-    return job + ' for ' + company + ' company';
+    return job + ' for ' + company;
   };
 
   handleJobStartTime = (date) => {

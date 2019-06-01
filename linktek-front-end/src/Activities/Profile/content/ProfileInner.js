@@ -45,6 +45,8 @@ class ProfileInner extends React.Component {
                 handleSelectedCountryChange={this.props.handleSelectedCountryChange}
                 updateCountry={this.props.updateCountry}
                 handleProfileModalCloseValidated={this.props.handleProfileModalCloseValidated}
+                selectedComp={this.props.selectedComp}
+                handleSelectedCompChange={this.props.handleSelectedCompChange}
               />
              </Paper>
            </Grid>

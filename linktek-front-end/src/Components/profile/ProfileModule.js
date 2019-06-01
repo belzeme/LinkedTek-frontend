@@ -76,6 +76,7 @@ class ProfileModule extends React.Component {
           <CardContent>
             <Paper
               userName={this.props.userName}
+              companies={this.props.companies}
               job={this.props.job}
               company={this.props.company}
               state={this.props.country}
@@ -94,6 +95,8 @@ class ProfileModule extends React.Component {
               handleSelectedCountryChange={this.props.handleSelectedCountryChange}
               updateCountry={this.props.updateCountry}
               handleProfileModalCloseValidated={this.props.handleProfileModalCloseValidated}
+              selectedComp={this.props.selectedComp}
+              handleSelectedCompChange={this.props.handleSelectedCompChange}
             />
           </CardContent>
           <CardContent>
