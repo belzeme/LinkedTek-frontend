@@ -96,6 +96,8 @@ const styles = theme => ({
   },
 });
 
+// UserProfile class
+/** Handle the user profile page */
 class UserProfile extends React.Component {
   state = {
     open: true,

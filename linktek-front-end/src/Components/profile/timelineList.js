@@ -19,8 +19,8 @@ const styles = theme => ({
 
 class TimelineList extends React.Component {
 
-  test(value) {
-    return SchoolPicture;
+  handleJobDate(index) {
+    return this.props.jobList[index].start + ' - ' + this.props.jobList[index].stop;
   }
 
   render() {
@@ -28,14 +28,14 @@ class TimelineList extends React.Component {
 
     return (
       <List dense className={classes.root} style={{marginLeft: "auto", marginRight: "auto"}}>
-        {this.props.companies.map((value, index) => (
-          <ListItem key={value} button onClick={() => this.props.handleJobEditModalShow()}>
+        {this.props.jobList.map((value, index) => (
+          <ListItem key={index} button onClick={() => this.props.handleJobEditModalShow()}>
             <ListItemAvatar >
               <Avatar
-                src={this.props.namesState[index] === 'School' ? SchoolPicture : WorkPicture}
+                src={this.props.jobList[index].type === 'School' ? SchoolPicture : WorkPicture}
               />
             </ListItemAvatar>
-            <ListItemText primary={this.props.names[index]} secondary={"01.01.1900 - 01.01.1901"} />
+            <ListItemText primary={this.props.jobList[index].name} secondary={this.handleJobDate(index)} />
           </ListItem>
         ))}
       </List>

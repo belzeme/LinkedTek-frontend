@@ -101,6 +101,8 @@ const styles = theme => ({
   },
 });
 
+// Post class
+/** Handle the post management page */
 class Post extends React.Component {
   state = {
     open: true,

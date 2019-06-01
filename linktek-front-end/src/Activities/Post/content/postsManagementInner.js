@@ -13,6 +13,8 @@ const styles = theme => ({
   },
 });
 
+// PostManagementInner class
+/** Handle the grid of PostManagement page */
 class PostManagementInner extends React.Component {
   state = {
   };

@@ -11,6 +11,8 @@ const styles = theme => ({
   },
 });
 
+// RelationInner class
+/** Handle the grid of relations page */
 class RelationInner extends React.Component {
   state = {
   };

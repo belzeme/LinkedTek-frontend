@@ -20,6 +20,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import Dropdown from 'react-dropdown';
 
 const styles = theme => ({
   card: {
@@ -104,6 +105,7 @@ class TimelineModule extends React.Component {
               companies={this.props.companies}
               getAvatarImage={this.getAvatarImage}
               formatThatLine={this.formatThatLine}
+              jobList={this.props.jobList}
               handleJobEditModalShow={this.props.handleJobEditModalShow}
               />
           </CardContent>
@@ -112,18 +114,20 @@ class TimelineModule extends React.Component {
               Add New Input
             </Button>
             {/*Modal add new job input*/}
-            <Modal visible={this.props.jobInputModalVisible} width="400" height="500" effect="fadeInUp" onClickAway={() => this.props.handleJobInputModalClose()}>
+            <Modal visible={this.props.jobInputModalVisible} width="400" height="550" effect="fadeInUp" onClickAway={() => this.props.handleJobInputModalClose()}>
               <div>
                 <h2 style={{display: 'flex', justifyContent: 'center'}}>Add new job input</h2>
-                {/*textField for company name*/}
-                <TextField
-                  id="standard-with-placeholder"
-                  label="Company Name"
-                  className={classes.textField}
-                  margin="normal"
-                  onChange={this.props.handleCompanyChange('Company')}
-                  style={{marginLeft: 10, width: "95%"}}
-                />
+                {/*company for title change*/}
+                <div style={{marginLeft: 13, marginTop: 10, marginBottom: 10}}>
+                  <p style={{fontSize: 13, color: 'grey'}}>Company </p>
+                  <Dropdown
+                    options={this.props.companies}
+                    onChange={this.props.handleSelectedCompChange}
+                    value={this.props.selectedCompJob}
+                    style={{width: 200}}
+                  />
+                  <p style={{color: 'grey', marginTop: -5, marginBottom: -5}}>________________________________________________</p>
+                </div>
                 {/*textField for job name*/}
                 <TextField
                   id="standard-with-placeholder"
@@ -135,12 +139,24 @@ class TimelineModule extends React.Component {
                 />
                 {/*textField for date*/}
                 <TextField
-                  id="date"
-                  label="Since"
+                  id="date start"
+                  label="Start date"
                   type="date"
                   className={classes.textField}
                   style={{marginLeft: 10, marginTop: 20, width: "95%"}}
                   onChange={this.props.handleCurrentJobStartDate('Date')}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                {/*textField for date*/}
+                <TextField
+                  id="date stop"
+                  label="Stop date"
+                  type="date"
+                  className={classes.textField}
+                  style={{marginLeft: 10, marginTop: 20, width: "95%"}}
+                  onChange={this.props.handleCurrentJobStopDate('Date')}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -224,7 +240,7 @@ class TimelineModule extends React.Component {
                    aria-label="Input type"
                    name="gender1"
                    className={classes.group}
-                   value={this.props.namesState[this.props.selectedEditInput]}
+                   /*value={this.props.namesState[this.props.selectedEditInput]}*/
                  >
                    <FormControlLabel value="School" control={<Radio />} label="School" />
                    <FormControlLabel value="Company" control={<Radio />} label="Company" style={{marginTop: -5}}/>

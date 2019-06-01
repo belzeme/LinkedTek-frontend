@@ -12,6 +12,8 @@ const styles = theme => ({
   },
 });
 
+// UserProfileInner class
+/** Handle the grid of user profile page */
 class UserProfileInner extends React.Component {
   state = {
   };

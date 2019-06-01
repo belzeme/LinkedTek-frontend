@@ -101,6 +101,8 @@ const styles = theme => ({
   },
 });
 
+// School class
+/** Handle the school and companies page */
 class School extends React.Component {
   state = {
     open: true,

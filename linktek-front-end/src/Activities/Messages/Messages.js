@@ -100,6 +100,8 @@ const styles = theme => ({
   },
 });
 
+// Message class
+/** Handle the messages page */
 class Messages extends React.Component {
   state = {
     open: true,

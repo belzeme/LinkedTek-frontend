@@ -97,6 +97,8 @@ const styles = theme => ({
   },
 });
 
+// RElations class
+/** Handle the user relations page */
 class Relations extends React.Component {
   state = {
     open: true,

@@ -11,6 +11,8 @@ const styles = theme => ({
   },
 });
 
+// MessagesInner class
+/** Handle the grid message page */
 class MessagesInner extends React.Component {
   state = {
   };

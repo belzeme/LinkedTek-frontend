@@ -13,6 +13,8 @@ const styles = theme => ({
   },
 });
 
+// SchoolAndCompaniesInner class
+/** Handle the grid of schools and companies page */
 class SchoolAndCompaniesInner extends React.Component {
   state = {
   };

@@ -106,12 +106,12 @@ class Profile extends React.Component {
     jobEditModalVisible: false,
     userName: '',
     currentJobStartTime: '',
+    currentJobStopTime: '',
     job: '',
     company: '',
     companyNumber: '3',
     age: '',
     names: [],
-    namesState: ['School', 'Company', 'Company', 'Company'],
     namesJob: [],
     result: [],
     resultPicture: ['../Images/profilePicture1.png', '../Images/profilePicture2.png'],
@@ -127,7 +127,9 @@ class Profile extends React.Component {
     selectedCountry: '',
     country: '',
     selectedComp: '',
+    selectedCompJob: '',
     searchUserList: [{name: '', mail: ''}],
+    jobList: [],
   };
 
   componentWillMount() {
@@ -145,6 +147,10 @@ class Profile extends React.Component {
     axios.get(`http://127.0.0.1:3010/company/list`)
     .then(ret => this.handleCompList(ret))
     .catch(error => console.log('error : ' + error));
+
+    axios.post(`http://127.0.0.1:3010/account/profile/history/job/list`, {email: this.props.userEmail})
+    .then(ret => this.handleJobList(ret))
+    .catch(error => console.log('error : ' + error));
   }
 
   addNewCompanyToState(value) {
@@ -153,11 +159,29 @@ class Profile extends React.Component {
     this.setState({companies: tmp});
   }
 
+  addJobToList(value) {
+    let tmpList = this.state.jobList;
+    console.log("Value : ");
+    console.log(value);
+    let tmp = {name: 'name', start: 'start', stop: 'stop', type: 'type'};
+    this.setState({jobList: tmpList});
+  }
+
   handleCompList(ret) {
     let i = 0;
     for (let value of Object.values(ret)) {
       if (i === 0) {
         Object.keys(value).map(k => this.addNewCompanyToState(value[k]));
+      }
+      i++;
+    }
+  }
+
+  handleJobList(ret) {
+    let i = 0;
+    for (let value of Object.values(ret)) {
+      if (i === 0) {
+        Object.keys(value).map(k => this.addJobToList(value[k]));
       }
       i++;
     }
@@ -282,6 +306,10 @@ class Profile extends React.Component {
     this.setState({ company: event.target.value });
   }
 
+  handleCompanyChangeJob = name => event => {
+    this.setState({ selectedCompJob: event.target.value });
+  }
+
   handleJobChange = name => event => {
     this.setState({ job: event.target.value });
   }
@@ -292,6 +320,10 @@ class Profile extends React.Component {
 
   handleCurrentJobStartDate = name => event => {
     this.setState({ currentJobStartTime: event.target.value });
+  }
+
+  handleCurrentJobStopDate = name => event => {
+    this.setState({ currentJobStopTime: event.target.value });
   }
 
   handleProfilePictureChange = name => event => {
@@ -442,6 +474,9 @@ class Profile extends React.Component {
             handleSearchUser={this.handleSearchUser}
             selectedComp={this.state.selectedComp}
             handleSelectedCompChange={this.handleSelectedCompChange}
+            jobList={this.state.jobList}
+            handleCurrentJobStopDate={this.handleCurrentJobStopDate}
+            selectedCompJob={this.state.selectedCompJob}
           />
         </main>
       </div>

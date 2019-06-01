@@ -12,6 +12,8 @@ const styles = theme => ({
   },
 });
 
+// ProfileInner class
+/** Handle the grid of profile page */
 class ProfileInner extends React.Component {
   state = {
   };
@@ -55,10 +57,11 @@ class ProfileInner extends React.Component {
                 <TimelineModule
                   job={this.props.job}
                   company={this.props.company}
+                  companies={this.props.companies}
                   names={this.props.names}
                   currentJobStartTime={this.props.currentJobStartTime}
+                  handleCompanyChangeJob={this.props.handleCompanyChangeJob}
                   namesState={this.props.namesState}
-                  companies={this.props.companies}
                   handleJobInputModalShow={this.props.handleJobInputModalShow}
                   handleJobInputModalClose={this.props.handleJobInputModalClose}
                   jobInputModalVisible={this.props.jobInputModalVisible}
@@ -72,7 +75,10 @@ class ProfileInner extends React.Component {
                   namesJob={this.props.namesJob}
                   handleNewJobInputCompanyTypeChanged={this.props.handleNewJobInputCompanyTypeChanged}
                   newJobInputType={this.props.newJobInputType}
-                  editNamesState={this.props.editNamesState}/>
+                  editNamesState={this.props.editNamesState}
+                  jobList={this.props.jobList}
+                  handleCurrentJobStopDate={this.props.handleCurrentJobStopDate}
+                  selectedCompJob={this.props.selectedCompJob}/>
               </Paper>
            </Grid>
            <Grid item xs>
