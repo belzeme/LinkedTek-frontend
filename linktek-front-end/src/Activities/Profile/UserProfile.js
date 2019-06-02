@@ -113,7 +113,6 @@ class UserProfile extends React.Component {
   };
 
   componentWillMount() {
-    //console.log(this.props.searchUserMail);
     axios.post(`http://127.0.0.1:3010/post/list`, {email: this.props.searchUserMail})
     .then(ret => this.handleSearchPosts(ret))
     .catch(error => console.log('error : ' + error));

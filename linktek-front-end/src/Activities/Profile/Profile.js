@@ -144,6 +144,13 @@ class Profile extends React.Component {
     selectedUserName: '',
   };
 
+  /**
+   * Request the data required from component.
+   * Get user profile details
+   * Get user country list
+   * Get user company list
+   * Get user job timeline
+   */
   componentWillMount() {
     this.setState({userName: this.props.userName})
     axios.post(`http://127.0.0.1:3010/account/profile`, {email: this.props.userEmail})
@@ -165,12 +172,20 @@ class Profile extends React.Component {
     .catch(error => console.log('error : ' + error));
   }
 
+  /**
+   * Internal function used for set the company name row into react properties
+   * @param {string} value The new company input
+   */
   addNewCompanyToState(value) {
     let tmp = this.state.companies;
     tmp.push(value.name);
     this.setState({companies: tmp});
   }
 
+  /**
+   * Internal function used for set the job row into react properties
+   * @param {string} value The new job input
+   */
   addJobToList(value) {
     let tmpList = this.state.jobList;
     let tmp = {name: value.company.name, start: Date(value.job.from), stop: Date(value.job.to), type: 'Company', title: value.job.title};
@@ -178,6 +193,10 @@ class Profile extends React.Component {
     this.setState({jobList: tmpList});
   }
 
+  /**
+   * Internal function used for set the company list into react properties
+   * @param {object} ret The company list
+   */
   handleCompList(ret) {
     let i = 0;
     for (let value of Object.values(ret)) {
@@ -188,6 +207,10 @@ class Profile extends React.Component {
     }
   }
 
+  /**
+   * Internal function used for set the job list into react properties
+   * @param {object} ret The company list
+   */
   handleJobList(ret) {
     let i = 0;
     for (let value of Object.values(ret)) {
@@ -198,8 +221,11 @@ class Profile extends React.Component {
     }
   }
 
+  /**
+   * Internal function used for set new user profile into react properties
+   * @param {object} ret The user new profile
+   */
   handleUserProfile(ret) {
-    //console.log(ret);
     this.setState({userName: ret.data.name});
     this.setState({job: ret.data.job.title});
     this.setState({company: ret.data.company.name});
@@ -207,6 +233,10 @@ class Profile extends React.Component {
     this.setState({currentJobStartTime: Date(ret.data.job.since)});
   }
 
+  /**
+   * Internal function used for handle the user search functionality
+   * @param {object} ret The search result
+   */
   handleSearchUser = (ret) => {
     this.setState({searchUserList: []});
     if (ret.data.length > 0) {
@@ -222,27 +252,49 @@ class Profile extends React.Component {
     }
   }
 
+  /**
+   *  Function used for set the searchUserName into react properties
+   * @param {event} event The new searchUserName value
+   */
   handleSearchUserName = (event) => {
     this.setState({searchUserName: event.target.value});
   };
 
+  /**
+   *  Function used for open the profile drawer
+   */
   handleDrawerOpen = () => {
     this.setState({ open: true });
   };
 
+  /**
+   *  Function used for close the profile drawer
+   */
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
 
+  /**
+   *  Function used for open the profile modal
+   */
   handleProfileModalShow = () => {
     this.setState({ profileModalVisible: true });
   }
 
+  /**
+   *  Function used for close the profile modal
+   */
   handleProfileModalClose = () => {
     this.updateCountry();
     this.setState({ profileModalVisible: false });
   }
 
+  /**
+   *  Function used when update profile from modal
+   *  Update the user name and Age
+   *  Update the user current job
+   *  Update the user country
+   */
   handleProfileModalCloseValidated = () => {
     if (this.checkForEditProfile()) {
       let tmp = this.setNewProfile();
@@ -272,6 +324,10 @@ class Profile extends React.Component {
     }
   }
 
+  /**
+   *  Function used fcheck the fields of edit profile modal
+   *  @return {boolean} false if error
+   */
   checkForEditProfile() {
     if (this.state.selectedComp === '') {
       return false;
@@ -282,16 +338,28 @@ class Profile extends React.Component {
     return true;
   }
 
+  /**
+   * Function used for opening the user modal
+   * @param {string} mail The selected user mail
+   * @param {string} name The selected user name
+   */
   handleUserModalShow = (mail, name) => {
     this.setState({selectedUserMail: mail});
     this.setState({selectedUserName: name});
     this.setState({ userModalVisible: true });
   }
 
+  /**
+   * Function used for close the user modal
+   */
   handleUserModalClose = () => {
     this.setState({ userModalVisible: false });
   }
 
+  /**
+   *  Function used for close the user modal
+   *  Load and display the user profile page
+   */
   handleUserModalCloseValidated = () => {
     this.setState({ userModalVisible: false });
     ReactDOM.render(<UserProfile
@@ -300,14 +368,24 @@ class Profile extends React.Component {
       />, document.getElementById('root'));
   }
 
+  /**
+   * Function used for display the job modal
+   */
   handleJobInputModalShow = () => {
     this.setState({ jobInputModalVisible: true });
   }
 
+  /**
+   * Function used for close the job modal
+   */
   handleJobInputModalClose = () => {
     this.setState({ jobInputModalVisible: false });
   }
 
+  /**
+   * Function used for validate the new job input
+   * Display success or failure alert
+   */
   handleJobInputModalCloseValidated = () => {
     axios.post(`http://127.0.0.1:3010/account/profile/history/job`, {email: this.props.userEmail, company: this.state.selectedCompJob, job: {from: this.state.inputJobStartTime, to: this.state.inputJobStopTime, title: this.state.jobInput}})
     .then(ret => {
@@ -322,54 +400,103 @@ class Profile extends React.Component {
     this.setState({ jobInputModalVisible: false });
   }
 
+  /**
+   * Function used for open the edit job modal
+   */
   handleJobEditModalShow = () => {
     this.setState({ jobEditModalVisible: true });
   }
 
+  /**
+   * Function used for close the edit job modal
+   */
   handleJobEditModalClose = () => {
     this.setState({ jobEditModalVisible: false });
   }
 
+  /**
+   * Internal function used for set the userName into react properties
+   * @param {event} event The new userName value
+   */
   handleUserNameChange = name => event => {
     this.setState({ userName: event.target.value });
   }
 
+  /**
+   * Internal function used for set the country into react properties
+   * @param {event} event The new country value
+   */
   handleCountryChange = name => event => {
     this.setState({ country: event.target.value });
   }
 
+  /**
+   * Internal function used for set the company into react properties
+   * @param {event} event The new company value
+   */
   handleCompanyChange = name => event => {
     this.setState({ company: event.target.value });
   }
 
+  /**
+   * Internal function used for set the selectedCompJob into react properties
+   * @param {event} event The new selectedCompJob value
+   */
   handleCompanyChangeJob = name => event => {
     this.setState({ selectedCompJob: event.target.value });
   }
 
+  /**
+   * Internal function used for set the job into react properties
+   * @param {event} event The new job value
+   */
   handleJobChange = name => event => {
     this.setState({ job: event.target.value });
   }
 
+  /**
+   * Internal function used for set the jobInput into react properties
+   * @param {event} event The new jobInput value
+   */
   handleJobInputChange = name => event => {
     this.setState({ jobInput: event.target.value });
   }
 
+  /**
+   * Internal function used for set the age into react properties
+   * @param {event} event The new age value
+   */
   handleAgeChange = name => event => {
     this.setState({ age: event.target.value });
   }
 
+  /**
+   * Internal function used for set the inputJobStartTime into react properties
+   * @param {event} event The new inputJobStartTime value
+   */
   handleCurrentJobStartDate = name => event => {
     this.setState({ inputJobStartTime: event.target.value });
   }
 
+  /**
+   * Internal function used for set the inputJobStopTime into react properties
+   * @param {event} event The new inputJobStopTime value
+   */
   handleCurrentJobStopDate = name => event => {
     this.setState({ inputJobStopTime: event.target.value });
   }
 
+  /**
+   * Internal function used for set the selectedPicture into react properties
+   * @param {event} event The new selectedPicture value
+   */
   handleProfilePictureChange = name => event => {
     this.setState({ selectedPicture: event.target.value });
   }
 
+  /**
+   * Internal function used for set the type of new input job into react properties
+   */
   handleNewJobInputCompanyTypeChanged = () => {
     if (this.state.newJobInputType === 'School') {
       this.setState({ newJobInputType: 'Company' });
@@ -379,22 +506,41 @@ class Profile extends React.Component {
     }
   }
 
+  /**
+   * Internal function used for set the selectedCompJob into react properties
+   * @param {string} value The new selectedCompJob value
+   */
   handleSelectedCompJobChange = (value) => {
     this.setState({ selectedCompJob: value.value});
   }
 
+  /**
+   * Internal function used for set the selectedCountry into react properties
+   * @param {string} value The new selectedCountry value
+   */
   handleSelectedCountryChange = (value) => {
     this.setState({ selectedCountry: value});
   }
 
+  /**
+   * Internal function used for set the selectedComp into react properties
+   * @param {string} value The new selectedComp value
+   */
   handleSelectedCompChange = (value) => {
     this.setState({ selectedComp: value});
   }
 
+  /**
+   * Internal function used to close the job modal
+   */
   compJobClose = () => {
     this.setState({compJobInputVisible: false});
   }
 
+  /**
+   * Internal function used to close the job modal
+   * Display job input modal
+   */
   compJobCloseValidated = () => {
     if (this.state.selectedCompJob !== '') {
       this.setState({compJobInputVisible: false});
@@ -405,16 +551,26 @@ class Profile extends React.Component {
     }
   }
 
+  /**
+   * Function used for close the job modal
+   */
   compJobShow = () => {
     this.setState({compJobInputVisible: true});
   }
 
+  /**
+   * Function used to update user country
+   */
   updateCountry() {
     if (this.state.country !== this.state.selectedCountry) {
       this.setState({country: this.state.selectedCountry})
     }
   }
 
+  /**
+   * Function used to update user country
+   *  @return {object} the new user profile
+   */
   setNewProfile() {
     this.updateCountry();
     let tmpNameRow = {label: 'name', value: this.state.userName};
@@ -425,6 +581,10 @@ class Profile extends React.Component {
     return tmpProfile;
   }
 
+  /**
+   * Function used to update user country
+   *  @param {object} the new user country
+   */
   handleCountryList(ret) {
     this.setState({countries: ret.data});
   }
