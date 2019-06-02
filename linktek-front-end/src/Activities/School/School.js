@@ -133,40 +133,13 @@ class School extends React.Component {
     ],
   };
 
-  handleInputProperties() {
-    let tmp = this.state.updateInput;
-    tmp[0].value = this.state.editInputName;
-    tmp[1].value = this.state.editInputDesc;
-    this.setState({updateInput: tmp});
-  }
-
-  setOldInputName = (oldName) => {
-    this.setState({oldInutName: oldName});
-  }
-
-  addNewSchoolToState(value) {
-//    console.log('val : ' + value.name);
-    let tmp = this.state.schoolList;
-    tmp.push(value.name);
-    this.setState({schoolList: tmp});
-
-    tmp = this.state.schoolDescription;
-    tmp.push(value.description);
-    this.setState({schoolDescription: tmp});
-  }
-
-  addNewCompanyToState(value) {
-    //console.log("NAME : " + value.name);
-    let tmp = this.state.companyList;
-    tmp.push(value.name);
-    this.setState({companyList: tmp});
-
-    //console.log("DESC : " + value.description);
-    tmp = this.state.companyDescription;
-    tmp.push(value.description);
-    this.setState({companyDescription: tmp});
-  }
-
+  /**
+   * Request the data required from component.
+   * Get user country list
+   * Get user company list
+   * Get user school list
+   * Get user user subscription list
+   */
   componentWillMount() {
     axios.get(`http://127.0.0.1:3010/country/list`)
     .then(ret => this.handleCountryList(ret))
@@ -189,10 +162,64 @@ class School extends React.Component {
     .catch(error => console.log('error : ' + error));
   }
 
+  /**
+   * Internal function used for set input properties into react properties
+   */
+  handleInputProperties() {
+    let tmp = this.state.updateInput;
+    tmp[0].value = this.state.editInputName;
+    tmp[1].value = this.state.editInputDesc;
+    this.setState({updateInput: tmp});
+  }
+
+  /**
+   * Internal function used for set the company name row into react properties
+   * @param {string} oldName The old input name
+   */
+  setOldInputName = (oldName) => {
+    this.setState({oldInutName: oldName});
+  }
+
+  /**
+   * Internal function used for set school row into react properties
+   * @param {string} value The school row
+   */
+  addNewSchoolToState(value) {
+    let tmp = this.state.schoolList;
+    tmp.push(value.name);
+    this.setState({schoolList: tmp});
+
+    tmp = this.state.schoolDescription;
+    tmp.push(value.description);
+    this.setState({schoolDescription: tmp});
+  }
+
+  /**
+   * Internal function used for set company row into react properties
+   * @param {string} value The company row
+   */
+  addNewCompanyToState(value) {
+    let tmp = this.state.companyList;
+    tmp.push(value.name);
+    this.setState({companyList: tmp});
+
+    tmp = this.state.companyDescription;
+    tmp.push(value.description);
+    this.setState({companyDescription: tmp});
+  }
+
+  /**
+   * Internal function used for set the country list into react properties
+   * @param {object} ret The country list
+   */
   handleCountryList(ret) {
     this.setState({countryList: ret.data});
   }
 
+  /**
+   * Internal function used for set the company list into react properties
+   * @param {object} ret The company list
+   */
   handleCompList(ret) {
     let i = 0;
     for (let value of Object.values(ret)) {
@@ -203,6 +230,11 @@ class School extends React.Component {
     }
   }
 
+  /**
+   * Internal function used for set the country list into react properties
+   * @param {object} value The subscribtion object
+   * @param {string} type The subscribtion type
+   */
   addItemToUserSubscriptions(value, type) {
     if (type === 'school') {
       let tmp = this.state.schoolSubscribed;
@@ -216,6 +248,10 @@ class School extends React.Component {
     }
   }
 
+  /**
+   * Internal function used for set the user school subscription list into react properties
+   * @param {object} ret The user school subscription list
+   */
   handleUserSubscriptionsSchool(ret) {
     let i = 0;
     for (let value of Object.values(ret)) {
@@ -226,6 +262,10 @@ class School extends React.Component {
     }
   }
 
+  /**
+   * Internal function used for set the user company subscription list into react properties
+   * @param {object} ret The user company subscription list
+   */
   handleUserSubscriptionsCompany(ret) {
     let i = 0;
     for (let value of Object.values(ret)) {
@@ -236,6 +276,10 @@ class School extends React.Component {
     }
   }
 
+  /**
+   * Internal function used for set the school list into react properties
+   * @param {object} ret The school list
+   */
   handleSchoolList(ret) {
     let i = 0;
     for (let value of Object.values(ret)) {
@@ -246,6 +290,11 @@ class School extends React.Component {
     }
   }
 
+  /**
+   * Internal function used for creating a new school
+   * @param {object} value The school value
+   * @param {object} ret The backend return
+   */
   createNewSchoolReturn(value, ret) {
     console.log('CREATE NEW SCHOOL');
     console.log(ret);
@@ -253,45 +302,60 @@ class School extends React.Component {
       this.handleSuccessModalShow();
     }
     else {
-      //console.log('ret : ' + ret);
       this.handleErrorModalShow();
     }
   }
 
+  /**
+   * Internal function used for creating a new company
+   * @param {object} value The company value
+   * @param {object} ret The backend return
+   */
   createNewCompReturn(value, ret) {
     if (value === true) {
-      //console.log("TRUE");
       console.log(ret);
       this.handleSuccessModalShow();
     }
     else {
-      //console.log("FALSE");
       this.handleErrorModalShow();
     }
   }
 
+  /**
+   *  Function used for close the success modal
+   */
   handleSuccessModalClose = () => {
     this.setState({ isSuccessModalVisible: false });
   }
 
+  /**
+   *  Function used for show the success modal
+   */
   handleSuccessModalShow = () => {
     this.setState({ isSuccessModalVisible: true });
   }
 
+  /**
+   *  Function used for close the error modal
+   */
   handleErrorModalClose = () => {
     this.setState({ isErrorModalVisible: false });
   }
 
+  /**
+   *  Function used for show the error modal
+   */
   handleErrorModalShow = () => {
     this.setState({ isErrorModalVisible: true });
   }
 
+  /**
+   *  Function used for testing the new input data before creation
+   * @param {string} type school or company type
+   */
   handleCreateNewItemTests(type) {
     if (type === 0) {
       if (this.state.newInputName === '' || this.state.newInputDescription === '' || this.state.selectedCountry === '') {
-        console.log('name : ' + this.state.newInputName);
-        console.log('desc : ' + this.state.newInputDescription);
-        console.log('country : ' + this.state.selectedCountry);
         this.setState({ isErrorModalVisible: true });
         return 'KO';
       }
@@ -305,8 +369,11 @@ class School extends React.Component {
     return 'OK';
   }
 
+  /**
+   *  Function used for creating a new school
+   * @param {object} props school properties
+   */
   handleCreateNewSchool = (props) => {
-    console.log(this.handleCreateNewItemTests(this.state.newInputTypeSelected));
     if (this.handleCreateNewItemTests(this.state.newInputTypeSelected) === 'OK') {
       if (this.state.newInputTypeSelected === 0) {
         axios.post(`http://127.0.0.1:3010/school/create`, {name: this.state.newInputName, description: this.state.newInputDescription, country: this.state.selectedCountry})
@@ -326,14 +393,9 @@ class School extends React.Component {
     }
   }
 
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
-
+  /**
+   *  Function used for updating the new input type
+   */
   handleNewInputTypeChanged = () => {
     if (this.state.newInputTypeSelected === 0) {
       this.setState({ newInputTypeSelected: 1 });
@@ -343,30 +405,57 @@ class School extends React.Component {
     }
   }
 
+  /**
+   * Internal function used for set the editInputName into react properties
+   * @param {event} event The new editInputName value
+   */
   handleInputNameChanged = (event) => {
     this.setState({ editInputName: event.target.value });
   }
 
+  /**
+   * Internal function used for set the newInputName into react properties
+   * @param {event} event The new newInputName value
+   */
   handleNewInputNameChanged = (event) => {
     this.setState({ newInputName: event.target.value });
   }
 
+  /**
+   * Internal function used for set the editInputDesc into react properties
+   * @param {event} event The new editInputDesc value
+   */
   handleInputDescChanged = (event) => {
     this.setState({ editInputDesc: event.target.value });
   }
 
+  /**
+   * Internal function used for set the newInputDescription into react properties
+   * @param {event} event The new newInputDescription value
+   */
   handleNewInputDescriptionChanged = (event) => {
     this.setState({ newInputDescription: event.target.value });
   }
 
+  /**
+   * Internal function used for set the selectedCountry into react properties
+   * @param {event} event The new selectedCountry value
+   */
   handleSelectedCountryChange = (value) => {
     this.setState({ selectedCountry: value.value});
   }
 
+  /**
+   * Internal function used to close the edit school modal popup
+   */
   handleEditSchoolModalClose = () => {
     this.setState({isEditSchoolModalVisible: false});
   }
 
+  /**
+   * Internal function used to close the edit school modal popup
+   * Display success or error alert
+   */
   handleEditSchoolModalCloseValidated = () => {
     this.handleInputProperties();
     axios.patch(`http://127.0.0.1:3010/school`, {name: this.state.oldInutName, properties: this.state.updateInput})
@@ -381,10 +470,17 @@ class School extends React.Component {
     this.setState({isEditSchoolModalVisible: false});
   }
 
+  /**
+   * Internal function used to close the edit company modal popup
+   */
   handleEditCompanyModalClose = () => {
     this.setState({isEditSchoolModalVisible: false});
   }
 
+  /**
+   * Internal function used to close the edit company modal popup
+   * Display success or error alert
+   */
   handleEditCompanyModalCloseValidated = () => {
     this.handleInputProperties();
     axios.patch(`http://127.0.0.1:3010/company`, {name: this.state.oldInutName, properties: this.state.updateInput})
@@ -400,6 +496,10 @@ class School extends React.Component {
     this.setState({isEditCompanyModalVisible: false});
   }
 
+  /**
+   * Internal function used to open the edit school modal popup
+   * @param {string} index The selected school index
+   */
   handleEditSchoolModalShow = (index) => {
     this.setOldInputName(this.state.schoolSubscribed[index]);
     this.setState({editInputName: this.state.schoolList[index]});
@@ -407,10 +507,17 @@ class School extends React.Component {
     this.setState({isEditSchoolModalVisible: true});
   }
 
+  /**
+   * Internal function used to close the edit company modal popup
+   */
   handleEditCompanyModalClose = () =>{
     this.setState({isEditCompanyModalVisible: false});
   }
 
+  /**
+   * Internal function used to open the edit company modal popup
+   * @param {string} index The selected company index
+   */
   handleEditCompanyModalShow = (index) => {
     this.setOldInputName(this.state.companySubscribed[index]);
     this.setState({editInputName: this.state.companyList[index]});
@@ -418,6 +525,13 @@ class School extends React.Component {
     this.setState({isEditCompanyModalVisible: true});
   }
 
+  /**
+   * Internal function used to handle user subscription
+   * @param {object} value The selected item value
+   * @param {object} ret The backend return object
+   * @param {string} name The selected item name
+   * @param {boolean} subscribe The selected item subscribe value
+   */
   handleSchoolorCompanySubscription(value, ret, name, subscribe) {
     if (value) {
       //success
@@ -442,6 +556,11 @@ class School extends React.Component {
     }
   }
 
+  /**
+   * Internal function used to handle user subscription
+   * @param {string} selectedName The selected item name
+   * @param {string} type The selected item type
+   */
   handleUserSchoolOrCompanySubscription = (selectedName, type) => {
     if (type === 'school') {
       let subscribed = false;
@@ -494,6 +613,11 @@ class School extends React.Component {
     }
   }
 
+  /**
+   * Internal function used for set the school list into react properties
+    * @param {object} sucess Unsued parameter
+   * @param {object} ret The school list
+   */
   handleFilterSchool(sucess, ret) {
     let i = 0;
     for (let value of Object.values(ret)) {
@@ -504,6 +628,11 @@ class School extends React.Component {
     }
   }
 
+  /**
+   * Internal function used for set the company list into react properties
+    * @param {object} sucess Unsued parameter
+   * @param {object} ret The company list
+   */
   handleFilterCompany(sucess, ret) {
     let i = 0;
     for (let value of Object.values(ret)) {
@@ -514,6 +643,10 @@ class School extends React.Component {
     }
   }
 
+  /**
+   * Function used for filter the school by country
+   * @param {object} value the country required
+   */
   handleFilteredCountryChangeSchools = (value) => {
     this.setState({filteredCountrySchools: value});
     axios.post(`http://127.0.0.1:3010/school/filter`, {name: value.value})
@@ -525,6 +658,10 @@ class School extends React.Component {
     .catch(error => console.log(error));
   }
 
+  /**
+   * Function used for filter the company by country
+   * @param {object} value the country required
+   */
   handleFilteredCountryChangeCompanies = (value) => {
     this.setState({ filteredCountryCompanies: value});
     axios.post(`http://127.0.0.1:3010/company/filter`, {name: value.value})
@@ -565,7 +702,7 @@ class School extends React.Component {
               noWrap
               className={classes.title}
             >
-              LinkTek
+            Advanced Cloud : LinkedTek
             </Typography>
             <IconButton color="inherit" onClick={() => {ReactDOM.render(<Login />, document.getElementById('root')); }}>
                 <Logout />
