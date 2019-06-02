@@ -130,6 +130,11 @@ class Relations extends React.Component {
     relationSuggestionSelectstate: '',
   };
 
+  /**
+   * Request the data required from component.
+   * Get user relation list
+   * Get user relation suggestion list
+   */
   componentWillMount() {
     axios.post(`http://127.0.0.1:3010/account/leader/list`, {email: this.props.userEmail})
     .then(ret => this.handleRelationList(ret))
@@ -144,6 +149,10 @@ class Relations extends React.Component {
     .catch(error => console.log('error : ' + error));
   }
 
+  /**
+   * Internal function used for set the relation suggestion list into react properties
+   * @param {object} ret The relation suggestion list
+   */
   handleSuggestionList(ret) {
     //console.log(ret);
     let i = 0;
@@ -155,18 +164,22 @@ class Relations extends React.Component {
     }
   }
 
+  /**
+   * Internal function used for set the relation suggestion row into react properties
+   * @param {string} value The relation suggestion row
+   */
   addItemToSuggestion(value){
-    //console.log(value);
     let ret = this.state.relationSuggestion;
     let tmp = [{name: value.name, mail: value.email}];
     ret.push(tmp);
     this.setState({relationSuggestion: ret});
-
   }
 
+  /**
+   * Internal function used for set the relation row into react properties
+   * @param {string} value The relation row
+   */
   addItemToUserRelations(value){
-    //console.log('name : ' + value.name);
-    //console.log('email : ' + value.email);
     let tmp = this.state.userRelations;
     tmp.push(value.name);
     this.setState({userRelations: tmp});
@@ -175,8 +188,11 @@ class Relations extends React.Component {
     this.setState({userRelationMails: tmp});
   }
 
+  /**
+   * Internal function used for set the relation list into react properties
+   * @param {object} ret The relation list
+   */
   handleRelationList(ret) {
-    //console.log(ret);
     this.setState({userRelations: []});
     this.setState({userRelationMails: []});
     let i = 0;
@@ -188,33 +204,59 @@ class Relations extends React.Component {
     }
   }
 
+  /**
+   * Internal function used for search user
+   * @param {object} ret The backend return object
+   */
   handleSearch(ret) {
     alert('Relation added !');
     console.log(ret);
   }
 
+  /**
+   * Internal function used for debugging search user
+   * @param {object} error The backend return error object
+   */
   handleSearchError(error) {
     console.log('error : ' + error);
   }
 
+  /**
+   * Internal function used to open the drawer
+   */
   handleDrawerOpen = () => {
     this.setState({ open: true });
   };
 
+  /**
+   * Internal function used to close the drawer
+   */
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
 
+  /**
+   * Internal function used to display the search user modal
+   * @param {string} searchUserSelectedName The search user name
+   * @param {string} searchUserSelectedJob The search user job
+   */
   handleSearchUserModalShow = (name, email) => {
     this.setState({searchUserSelectedName: name});
     this.setState({searchUserSelectedJob: email});
     this.setState({ searchUserModalVisible: true });
   }
 
+  /**
+   * Internal function used to close the search user modal
+   */
   handleSearchUserModalClose = () => {
     this.setState({ searchUserModalVisible: false });
   }
 
+  /**
+   * Internal function used to close the search user modal
+   * Request backend for search user
+   */
   handleSearchUserModalCloseValidated = () => {
     axios.post(`http://127.0.0.1:3010/account/leader`, {follower: this.props.userEmail, leader: this.state.searchUserSelectedJob})
     .then(ret => this.handleSearch(ret))
@@ -222,47 +264,77 @@ class Relations extends React.Component {
     this.setState({ searchUserModalVisible: false });
   }
 
+  /**
+   * Internal function used to remove a relation
+   * @param {object} value Used for debugging
+   */
   removeRelation(value) {
     alert('Remove relation done !');
   }
 
+  /**
+   * Internal function used to remove a relation error
+   * @param {object} error Used for debugging
+   */
   removeRelationError(error) {
     console.log(error);
     alert('Remove relation error !');
   }
 
+  /**
+   * Internal function used to remove a relation
+   */
   handleRemoveRelation() {
     axios.delete(`http://127.0.0.1:3010/account/leader`, {data: {follower: this.props.userEmail, leader: this.state.relationEmail}})
     .then(ret => this.removeRelation(ret))
     .catch(error => this.removeRelationError(error));
   }
 
+  /**
+   * Internal function used to display the relation modal
+   * @param {string} index the selected relation index
+   */
   handleRelationModalShow = (index) => {
     this.setState({ relationEmail: this.state.userRelationMails[index]});
     this.setState({ relationSelectedName: this.state.userRelations[index]});
     this.setState({ relationSelectedModalVisible: true });
   }
 
+  /**
+   * Internal function used to close the relation modal
+   * Load and display the selected user profile
+   */
   handleRelationModalCloseValidated = () => {
     ReactDOM.render(<UserProfile searchUserName={this.state.relationSelectedName} searchUserMail={this.state.relationEmail} userEmail={this.props.userEmail} />, document.getElementById('root'));
   }
 
+  /**
+   * Internal function used to close the relation modal
+   */
   handleRelationModalClose = () => {
     this.setState({ relationSelectedModalVisible: false });
   }
 
+  /**
+   * Internal function used to display the relation suggestion modal
+   * @param {string} index the selected relation suggestion index
+   */
   handleSelectedSuggestionModalShow = (index) => {
-    console.log("INDEX " + index);
-    console.log(this.state.relationSuggestion[index][0].name);
     this.setState({relationSuggestionSelectedName: this.state.relationSuggestion[index][0].name});
     this.setState({relationSuggestionSelectedMail: this.state.relationSuggestion[index][0].mail});
     this.setState({ realtionSuggestionModalVisible: true });
   }
 
+  /**
+   * Internal function used to close the relation suggestion modal
+   */
   handleSelectedSuggestionModalClose = () => {
     this.setState({ realtionSuggestionModalVisible: false });
   }
 
+  /**
+   * Internal function used to close the relation suggestion modal
+   */
   handleSelectedSuggestionModalCloseValidated = () => {
     axios.post(`http://127.0.0.1:3010/account/leader`, {follower: this.props.userEmail, leader: this.state.relationSuggestionSelectedMail})
     .then(ret => alert('User added as relation !'))
@@ -270,6 +342,10 @@ class Relations extends React.Component {
     this.setState({ realtionSuggestionModalVisible: false });
   }
 
+  /**
+   * Internal function used for set the searchUserSelectedName into react properties
+   * @param {event} event The new searchUserSelectedName value
+   */
   handleSearchUserSelectedName = (event) => {
     this.setState({ searchUserSelectedName: event.target.value });
   }
