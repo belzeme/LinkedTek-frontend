@@ -67,6 +67,7 @@ class RelationInner extends React.Component {
               handleSelectedSuggestionModalClose={this.props.handleSelectedSuggestionModalClose}
               realtionSuggestionModalVisible={this.props.realtionSuggestionModalVisible}
               relationSuggestionSelectstate={this.props.relationSuggestionSelectstate}
+              handleSelectedSuggestionModalCloseValidated={this.props.handleSelectedSuggestionModalCloseValidated}
             />
            </Grid>
          </Grid>

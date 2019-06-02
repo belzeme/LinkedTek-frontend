@@ -12,10 +12,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
 import CardContent from '@material-ui/core/CardContent';
 import SearchUserList from './searchUserList.js';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
 import UserPicture from '../../Images/profilePicture2.png';
 import axios from 'axios';
 
@@ -87,16 +83,9 @@ class AddRelationModule extends React.Component {
   };
 
   formatSeachJobModalTitle() {
-    return "Email : " + this.props.searchUserSelectedJob;
+    return this.props.searchUserSelectedJob;
   }
 
-  formatSeachCompanyModalTitle() {
-    return "Company : " + this.props.searchUserSelectedCompany;
-  }
-
-  formatSeachAgeModalTitle() {
-    return "Age : " + this.props.searchUserSelectedAge;
-  }
 
   render() {
     const { classes } = this.props;
@@ -148,7 +137,7 @@ class AddRelationModule extends React.Component {
             />
           </CardContent>
         </Collapse>
-        <Modal visible={this.props.searchUserModalVisible} width="400" height="530" effect="fadeInUp" onClickAway={() => this.props.handleSearchUserModalClose()}>
+        <Modal visible={this.props.searchUserModalVisible} width="400" height="390" effect="fadeInUp" onClickAway={() => this.props.handleSearchUserModalClose()}>
           <div>
             <h2 style={{display: 'flex', justifyContent: 'center'}}>{this.props.searchUserSelectedName}</h2>
             <Card className={classes.card}>
@@ -157,21 +146,8 @@ class AddRelationModule extends React.Component {
                 image={ UserPicture }
               />
             </Card>
-            <List component="nav" className={classes.root} style={{marginLeft: "auto", marginRight: "auto", marginTop: 20}}>
-              <ListItem>
-                <ListItemText primary={this.formatSeachJobModalTitle()}/>
-              </ListItem>
-              <Divider />
-              <ListItem divider>
-                <ListItemText primary={this.formatSeachCompanyModalTitle()}/>
-              </ListItem>
-              <Divider light />
-              <ListItem>
-                <ListItemText primary={this.formatSeachAgeModalTitle()}/>
-              </ListItem>
-            </List>
             <div style={{display: 'flex', justifyContent: 'center'}}>
-              <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white" }} onClick={this.props.handleSearchUserModalCloseValidated}>
+              <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white", marginTop: 20 }} onClick={this.props.handleSearchUserModalCloseValidated}>
                 Add as relation
               </Button>
             </div>

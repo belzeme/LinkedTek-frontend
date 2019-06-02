@@ -9,7 +9,6 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 import UserPicture from '../../Images/profilePicture2.png';
 import { withStyles } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
 import Modal from 'react-awesome-modal';
 import Button from '@material-ui/core/Button';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -27,22 +26,6 @@ const styles = theme => ({
 });
 
 class DisplayRelationsModule extends React.Component {
-
-  formatRelationJobModalTitle() {
-    return "Mail : " + this.props.relationEmail;
-  }
-
-  formatRelationCompanyModalTitle() {
-    return "Company : " + this.props.relationSelectedCompany;
-  }
-
-  formatRelationAgeModalTitle() {
-    return "Age : " + this.props.relationSelectedAge;
-  }
-
-  formatRelationStateModalTitle() {
-    return "State : " + this.props.relationSelectstate;
-  }
 
   render() {
     const { classes } = this.props;
@@ -65,7 +48,7 @@ class DisplayRelationsModule extends React.Component {
             ))}
           </List>
         </div>
-        <Modal visible={this.props.relationSelectedModalVisible} width="400" height="600" effect="fadeInUp" onClickAway={() => this.props.handleRelationModalClose()}>
+        <Modal visible={this.props.relationSelectedModalVisible} width="400" height="400" effect="fadeInUp" onClickAway={() => this.props.handleRelationModalClose()}>
           <div>
             <h2 style={{display: 'flex', justifyContent: 'center'}}>{this.props.relationSelectedName}</h2>
             <Card className={classes.card}>
@@ -74,22 +57,6 @@ class DisplayRelationsModule extends React.Component {
                 image={ UserPicture }
               />
             </Card>
-            <List component="nav" className={classes.root} style={{marginLeft: "auto", marginRight: "auto", marginTop: 20}}>
-              <ListItem>
-                <ListItemText primary={this.formatRelationJobModalTitle()}/>
-              </ListItem>
-              <Divider />
-              <ListItem divider>
-                <ListItemText primary={this.formatRelationCompanyModalTitle()}/>
-              </ListItem>
-              <ListItem>
-                <ListItemText primary={this.formatRelationStateModalTitle()}/>
-              </ListItem>
-              <Divider light />
-              <ListItem>
-                <ListItemText primary={this.formatRelationAgeModalTitle()}/>
-              </ListItem>
-            </List>
             <div style={{display: 'flex', justifyContent: 'center', marginTop: 20}}>
               <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white" }} onClick={this.props.handleRelationModalCloseValidated}>
                 View profile

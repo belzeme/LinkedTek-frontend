@@ -121,12 +121,13 @@ class Relations extends React.Component {
     relationSelectstate: "",
     relationEmail: '',
 
-    relationSuggestionSelectedName: "Aplus Didée",
-    relationSuggestionSelectedCompany: 'Mega software',
-    relationSuggestionSelectedJob: 'Front-end developer',
-    relationSuggestionSelectedAge: 33,
-    realtionSuggestionModalVisible: false,
-    relationSuggestionSelectstate: "Russia",
+    relationSuggestionSelectedName: "",
+    relationSuggestionSelectedCompany: '',
+    relationSuggestionSelectedMail: "",
+    relationSuggestionSelectedJob: '',
+    relationSuggestionSelectedAge: '',
+    realtionSuggestionModalVisible: '',
+    relationSuggestionSelectstate: '',
   };
 
   componentWillMount() {
@@ -250,11 +251,22 @@ class Relations extends React.Component {
     this.setState({ relationSelectedModalVisible: false });
   }
 
-  handleSelectedSuggestionModalShow = () => {
+  handleSelectedSuggestionModalShow = (index) => {
+    console.log("INDEX " + index);
+    console.log(this.state.relationSuggestion[index][0].name);
+    this.setState({relationSuggestionSelectedName: this.state.relationSuggestion[index][0].name});
+    this.setState({relationSuggestionSelectedMail: this.state.relationSuggestion[index][0].mail});
     this.setState({ realtionSuggestionModalVisible: true });
   }
 
   handleSelectedSuggestionModalClose = () => {
+    this.setState({ realtionSuggestionModalVisible: false });
+  }
+
+  handleSelectedSuggestionModalCloseValidated = () => {
+    axios.post(`http://127.0.0.1:3010/account/leader`, {follower: this.props.userEmail, leader: this.state.relationSuggestionSelectedMail})
+    .then(ret => alert('User added as relation !'))
+    .catch(error => this.handleSearchError(error));
     this.setState({ realtionSuggestionModalVisible: false });
   }
 
@@ -355,6 +367,7 @@ class Relations extends React.Component {
               relationSuggestionSelectstate={this.state.relationSuggestionSelectstate}
               handleSelectedSuggestionModalShow={this.handleSelectedSuggestionModalShow}
               handleSelectedSuggestionModalClose={this.handleSelectedSuggestionModalClose}
+              handleSelectedSuggestionModalCloseValidated={this.handleSelectedSuggestionModalCloseValidated}
             />
         </main>
       </div>
