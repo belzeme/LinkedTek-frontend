@@ -20,7 +20,6 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-import Dropdown from 'react-dropdown';
 
 const styles = theme => ({
   card: {
@@ -110,31 +109,20 @@ class TimelineModule extends React.Component {
               />
           </CardContent>
           <CardContent>
-            <Button style={{backgroundColor: '#3f51b5', width: "100%", color: "white" }} onClick={this.props.handleJobInputModalShow}>
+            <Button style={{backgroundColor: '#3f51b5', width: "100%", color: "white" }} onClick={this.props.compJobShow}>
               Add New Input
             </Button>
             {/*Modal add new job input*/}
-            <Modal visible={this.props.jobInputModalVisible} width="400" height="550" effect="fadeInUp" onClickAway={() => this.props.handleJobInputModalClose()}>
+            <Modal visible={this.props.jobInputModalVisible} width="400" height="370" effect="fadeInUp" onClickAway={() => this.props.handleJobInputModalClose()}>
               <div>
                 <h2 style={{display: 'flex', justifyContent: 'center'}}>Add new job input</h2>
-                {/*company for title change*/}
-                <div style={{marginLeft: 13, marginTop: 10, marginBottom: 10}}>
-                  <p style={{fontSize: 13, color: 'grey'}}>Company </p>
-                  <Dropdown
-                    options={this.props.companies}
-                    onChange={this.props.handleSelectedCompChange}
-                    value={this.props.selectedCompJob}
-                    style={{width: 200}}
-                  />
-                  <p style={{color: 'grey', marginTop: -5, marginBottom: -5}}>________________________________________________</p>
-                </div>
                 {/*textField for job name*/}
                 <TextField
                   id="standard-with-placeholder"
                   label="Job title"
                   className={classes.textField}
                   margin="normal"
-                  onChange={this.props.handleJobChange('Job')}
+                  onChange={this.props.handleJobInputChange('Job')}
                   style={{marginLeft: 10, width: "95%"}}
                 />
                 {/*textField for date*/}
@@ -161,24 +149,9 @@ class TimelineModule extends React.Component {
                     shrink: true,
                   }}
                 />
-                <div style={{marginTop: 20}}>
-                  <FormControl component="fieldset" className={classes.formControl}>
-                   <FormLabel component="legend">Input Type</FormLabel>
-                   <RadioGroup
-                     aria-label="Input type"
-                     name="gender1"
-                     className={classes.group}
-                     value={this.props.newJobInputType}
-                     onChange={this.props.handleNewJobInputCompanyTypeChanged}
-                   >
-                     <FormControlLabel value="School" control={<Radio />} label="School" />
-                     <FormControlLabel value="Company" control={<Radio />} label="Company" style={{marginTop: -5}}/>
-                   </RadioGroup>
-                 </FormControl>
-               </div>
-                <div style={{display: 'flex', justifyContent: 'center', marginTop: 10}}>
-                  <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white" }} onClick={this.props.handleJobInputModalClose}>
-                    Close
+                <div style={{display: 'flex', justifyContent: 'center', marginTop: 20}}>
+                  <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white" }} onClick={this.props.handleJobInputModalCloseValidated}>
+                    Validate
                   </Button>
                 </div>
               </div>

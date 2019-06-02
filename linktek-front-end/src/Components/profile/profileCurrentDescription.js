@@ -17,10 +17,6 @@ const styles = theme => ({
   },
 });
 
-function handleUserAge(age) {
-  return age + " Years old";
-}
-
 function PaperSheet(props) {
   const { classes } = props;
 
@@ -36,7 +32,7 @@ function PaperSheet(props) {
         </ListItem>
         <Divider light />
         <ListItem>
-          <ListItemText primary={handleUserAge(props.age)}/>
+          <ListItemText primary={props.country}/>
         </ListItem>
       </List>
       <Button style={{backgroundColor: '#3f51b5', width: "100%", color: "white" }} onClick={props.handleProfileModalShow}>

@@ -120,6 +120,12 @@ class Messages extends React.Component {
     replyIndex: 0,
   };
 
+  /**
+   * Request the data required from component.
+   * Get user relation list
+   * Get user inbox
+   * Get user outbox
+   */
   componentWillMount() {
     axios.post(`http://127.0.0.1:3010/account/leader/list`, {email: this.props.userEmail})
     .then(ret => this.handleRelationList(ret))
@@ -134,6 +140,10 @@ class Messages extends React.Component {
     .catch(error => console.log('error : ' + error));
   }
 
+  /**
+   * Internal function used for handling the relation list
+   * @param {object} ret The return of backend gateway object.
+   */
   handleRelationList(ret) {
     let i = 0;
     for (let value of Object.values(ret)) {
@@ -144,6 +154,10 @@ class Messages extends React.Component {
     }
   }
 
+  /**
+   * Internal function used for handling the inbox
+   * @param {object} ret The return of backend gateway object.
+   */
   handleInBox(ret) {
     //console.log(ret);
     let i = 0;
@@ -155,6 +169,10 @@ class Messages extends React.Component {
     }
   }
 
+  /**
+   * Internal function used for handling the outbox
+   * @param {object} ret The return of backend gateway object.
+   */
   handleOutBox(ret) {
     console.log(ret);
     let i = 0;
@@ -166,6 +184,10 @@ class Messages extends React.Component {
     }
   }
 
+  /**
+   * Internal function used for set the inbox row into react properties
+   * @param {object} value The feed row
+   */
   addItemToInbox(value) {
     let tmpInbox = this.state.inbox;
     let tmp = [{title: value.title, content: value.content, id: value.id, date: value.creation_time, fromName: value.sender.name, fromMail: value.sender.email}];
@@ -173,6 +195,10 @@ class Messages extends React.Component {
     this.setState({inbox: tmpInbox});
   }
 
+  /**
+   * Internal function used for set the outbox row into react properties
+   * @param {object} value The feed row
+   */
   addItemToOutbox(value) {
     let tmpOutbox = this.state.outbox;
     let tmp = [{title: value.title, content: value.content, id: value.id, date: value.creation_time, to: value.receiver.name, toMail: value.receiver.email}];
@@ -180,6 +206,10 @@ class Messages extends React.Component {
     this.setState({outbox: tmpOutbox});
   }
 
+  /**
+   * Internal function used for set the relation row into react properties
+   * @param {object} value The feed row
+   */
   addItemToUserRelations(value){
     let contact = this.state.contact;
     let details = this.state.contactDetails;
@@ -192,13 +222,6 @@ class Messages extends React.Component {
     this.setState({contactDetails: details});
   }
 
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
 
   handleSelectedContactChange = (value) => {
     this.setState({ selectedContact: value});

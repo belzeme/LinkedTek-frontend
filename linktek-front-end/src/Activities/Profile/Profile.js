@@ -14,6 +14,9 @@ import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from '../Login/Login.js';
 import ReactDOM from 'react-dom';
 import ProfileModule from './content/ProfileInner.js';
+import Modal from 'react-awesome-modal';
+import Dropdown from 'react-dropdown';
+import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import { mainListItems } from '../../Components/leftMenu';
 
@@ -106,7 +109,8 @@ class Profile extends React.Component {
     jobEditModalVisible: false,
     userName: '',
     currentJobStartTime: '',
-    currentJobStopTime: '',
+    inputJobStartTime: '',
+    inputJobStopTime: '',
     job: '',
     company: '',
     companyNumber: '3',
@@ -130,6 +134,8 @@ class Profile extends React.Component {
     selectedCompJob: '',
     searchUserList: [{name: '', mail: ''}],
     jobList: [],
+    compJobInputVisible: false,
+    jobInput: '',
   };
 
   componentWillMount() {
@@ -163,7 +169,8 @@ class Profile extends React.Component {
     let tmpList = this.state.jobList;
     console.log("Value : ");
     console.log(value);
-    let tmp = {name: 'name', start: 'start', stop: 'stop', type: 'type'};
+    let tmp = {name: value.company.name, start: Date(value.job.from), stop: Date(value.job.to), type: 'Company', title: value.job.title};
+    tmpList.push(tmp);
     this.setState({jobList: tmpList});
   }
 
@@ -286,6 +293,27 @@ class Profile extends React.Component {
     this.setState({ jobInputModalVisible: false });
   }
 
+  handleJobInputModalCloseValidated = () => {
+    console.log("Email : " + this.props.userEmail);
+    console.log("Comp : " + this.state.selectedCompJob);
+    console.log("Start : " + this.state.inputJobStartTime);
+    console.log("Stop : " + this.state.inputJobStopTime);
+    console.log("Job : " + this.state.jobInput);
+
+    axios.post(`http://127.0.0.1:3010/account/profile/history/job`, {email: this.props.userEmail, company: this.state.selectedCompJob, job: {from: this.state.inputJobStartTime, to: this.state.inputJobStopTime, title: this.state.jobInput}})
+    .then(ret => {
+      console.log(ret);
+      this.setState({selectedCompJob: ''});
+      this.setState({inputJobStartTime: ''});
+      this.setState({inputJobStopTime: ''});
+      this.setState({jobInput: ''});
+      alert('Job input created with success !');
+    })
+    .catch(error => console.log(error));
+
+    this.setState({ jobInputModalVisible: false });
+  }
+
   handleJobEditModalShow = () => {
     this.setState({ jobEditModalVisible: true });
   }
@@ -314,16 +342,20 @@ class Profile extends React.Component {
     this.setState({ job: event.target.value });
   }
 
+  handleJobInputChange = name => event => {
+    this.setState({ jobInput: event.target.value });
+  }
+
   handleAgeChange = name => event => {
     this.setState({ age: event.target.value });
   }
 
   handleCurrentJobStartDate = name => event => {
-    this.setState({ currentJobStartTime: event.target.value });
+    this.setState({ inputJobStartTime: event.target.value });
   }
 
   handleCurrentJobStopDate = name => event => {
-    this.setState({ currentJobStopTime: event.target.value });
+    this.setState({ inputJobStopTime: event.target.value });
   }
 
   handleProfilePictureChange = name => event => {
@@ -339,12 +371,35 @@ class Profile extends React.Component {
     }
   }
 
+  handleSelectedCompJobChange = (value) => {
+    this.setState({ selectedCompJob: value.value});
+  }
+
   handleSelectedCountryChange = (value) => {
     this.setState({ selectedCountry: value});
   }
 
   handleSelectedCompChange = (value) => {
+    console.log(value);
     this.setState({ selectedComp: value});
+  }
+
+  compJobClose = () => {
+    this.setState({compJobInputVisible: false});
+  }
+
+  compJobCloseValidated = () => {
+    if (this.state.selectedCompJob !== '') {
+      this.setState({compJobInputVisible: false});
+      this.setState({ jobInputModalVisible: true });
+    }
+    else {
+      alert("Please select a company");
+    }
+  }
+
+  compJobShow = () => {
+    this.setState({compJobInputVisible: true});
   }
 
   updateCountry() {
@@ -477,8 +532,30 @@ class Profile extends React.Component {
             jobList={this.state.jobList}
             handleCurrentJobStopDate={this.handleCurrentJobStopDate}
             selectedCompJob={this.state.selectedCompJob}
+            compJobInputVisible={this.state.compJobInputVisible}
+            compJobClose={this.compJobClose}
+            compJobShow={this.compJobShow}
+            handleJobInputModalCloseValidated={this.handleJobInputModalCloseValidated}
+            handleJobInputChange={this.handleJobInputChange}
           />
         </main>
+        {/*Modal add new job input*/}
+        <Modal visible={this.state.compJobInputVisible} width="400" height="200" effect="fadeInUp" onClickAway={() => this.compJobClose()}>
+          <div>
+            <h2 style={{display: 'flex', justifyContent: 'center'}}>Select company</h2>
+            <div style={{marginLeft: 20 }}>
+              <Dropdown
+                options={this.state.companies}
+                onChange={this.handleSelectedCompJobChange}
+                value={this.state.selectedCompJob}
+                placeholder="Select a company"
+                style={{width: 200}}/>
+                <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white", marginTop: 20 }} onClick={this.compJobCloseValidated}>
+                  Validate
+                </Button>
+            </div>
+          </div>
+        </Modal>
       </div>
     );
   }

@@ -97,6 +97,7 @@ class ProfileModule extends React.Component {
               handleProfileModalCloseValidated={this.props.handleProfileModalCloseValidated}
               selectedComp={this.props.selectedComp}
               handleSelectedCompChange={this.props.handleSelectedCompChange}
+              country={this.props.country}
             />
           </CardContent>
           <CardContent>

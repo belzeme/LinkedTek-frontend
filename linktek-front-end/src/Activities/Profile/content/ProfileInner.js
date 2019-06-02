@@ -78,7 +78,12 @@ class ProfileInner extends React.Component {
                   editNamesState={this.props.editNamesState}
                   jobList={this.props.jobList}
                   handleCurrentJobStopDate={this.props.handleCurrentJobStopDate}
-                  selectedCompJob={this.props.selectedCompJob}/>
+                  selectedCompJob={this.props.selectedCompJob}
+                  compJobInputVisible={this.props.compJobInputVisible}
+                  compJobClose={this.props.compJobClose}
+                  compJobShow={this.props.compJobShow}
+                  handleJobInputModalCloseValidated={this.props.handleJobInputModalCloseValidated}
+                  handleJobInputChange={this.props.handleJobInputChange}/>
               </Paper>
            </Grid>
            <Grid item xs>
