@@ -112,6 +112,11 @@ class UserProfile extends React.Component {
     userEmail: '',
   };
 
+  /**
+   * Request the data required from component.
+   * Get user profile details
+   * Get user post list
+   */
   componentWillMount() {
     axios.post(`http://127.0.0.1:3010/post/list`, {email: this.props.searchUserMail})
     .then(ret => this.handleSearchPosts(ret))
@@ -125,7 +130,10 @@ class UserProfile extends React.Component {
     .catch(error => console.log(error));
   }
 
-
+  /**
+   * Internal function used for set the user information into react properties
+   * @param {object} ret The user information
+   */
   handleUserInformation(ret) {
     console.log(ret);
     console.log(ret.data.job.title);
@@ -134,6 +142,10 @@ class UserProfile extends React.Component {
     this.setState({userJob: ret.data.job.title});
   }
 
+  /**
+   * Internal function used for set the user information list into react properties
+   * @param {object} ret The user information list
+   */
   handleSearchPosts(ret) {
     let i = 0;
     for (let value of Object.values(ret)) {
@@ -144,15 +156,25 @@ class UserProfile extends React.Component {
     }
   }
 
+  /**
+   *  Function used for remove the user relation success
+   */
   removeRelation(value) {
     alert('Remove relation done !');
   }
 
+  /**
+   *  Function used for remove the user relation failure
+   */
   removeRelationError(error) {
     console.log(error);
     alert('Remove relation error !');
   }
 
+  /**
+   *  Function used for set the searchUserName into react properties
+   * @param {event} event The new searchUserName value
+   */
   addPropsToState(row) {
     let ret = this.state.userPosts;
     //console.log(row);
@@ -163,14 +185,9 @@ class UserProfile extends React.Component {
     this.setState({userPosts: ret});
   }
 
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
-
+  /**
+   *  Function used for remove relation
+   */
   handleDeleteRelationClose = () => {
     axios.delete(`http://127.0.0.1:3010/account/leader`, {data: {follower: this.props.userEmail, leader: this.props.searchUserMail}})
     .then(ret => this.removeRelation(ret))
@@ -178,10 +195,18 @@ class UserProfile extends React.Component {
     this.setState({ deleteRelationModalVisible: false });
   }
 
+  /**
+   *  Function used for display the remove relation confirmation popup
+   */
   handleDeleteRelationShow = () => {
     this.setState({ deleteRelationModalVisible: true });
   }
 
+  /**
+   *  Function used for get the post id
+   * @param {string} index The selected post index
+   * @return {string} index The selected post id
+   */
   handlePostId = (index) => {
     let tmp = Object.values(this.state.userPosts[index]);
     return tmp[0].id;
