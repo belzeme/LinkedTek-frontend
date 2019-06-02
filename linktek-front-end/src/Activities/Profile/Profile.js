@@ -12,6 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Logout from '@material-ui/icons/PowerSettingsNew';
 import Login from '../Login/Login.js';
+import Actualities from '../Actualities/Actualities.js';
 import ReactDOM from 'react-dom';
 import ProfileModule from './content/ProfileInner.js';
 import Modal from 'react-awesome-modal';
@@ -170,8 +171,6 @@ class Profile extends React.Component {
 
   addJobToList(value) {
     let tmpList = this.state.jobList;
-    console.log("Value : ");
-    console.log(value);
     let tmp = {name: value.company.name, start: Date(value.job.from), stop: Date(value.job.to), type: 'Company', title: value.job.title};
     tmpList.push(tmp);
     this.setState({jobList: tmpList});
@@ -198,7 +197,7 @@ class Profile extends React.Component {
   }
 
   handleUserProfile(ret) {
-    console.log(ret);
+    //console.log(ret);
     this.setState({userName: ret.data.name});
     this.setState({job: ret.data.job.title});
     this.setState({company: ret.data.company.name});
@@ -264,6 +263,7 @@ class Profile extends React.Component {
       .catch(error => console.log(error));
       this.setState({ profileModalVisible: false });
       alert('Profile updated !');
+      ReactDOM.render(<Actualities userEmail={this.props.userEmail} userName={this.props.userName} />, document.getElementById('root'));
     }
     else {
       alert('Please fill all fields correctly');
@@ -307,15 +307,8 @@ class Profile extends React.Component {
   }
 
   handleJobInputModalCloseValidated = () => {
-    console.log("Email : " + this.props.userEmail);
-    console.log("Comp : " + this.state.selectedCompJob);
-    console.log("Start : " + this.state.inputJobStartTime);
-    console.log("Stop : " + this.state.inputJobStopTime);
-    console.log("Job : " + this.state.jobInput);
-
     axios.post(`http://127.0.0.1:3010/account/profile/history/job`, {email: this.props.userEmail, company: this.state.selectedCompJob, job: {from: this.state.inputJobStartTime, to: this.state.inputJobStopTime, title: this.state.jobInput}})
     .then(ret => {
-      console.log(ret);
       this.setState({selectedCompJob: ''});
       this.setState({inputJobStartTime: ''});
       this.setState({inputJobStopTime: ''});
@@ -393,7 +386,6 @@ class Profile extends React.Component {
   }
 
   handleSelectedCompChange = (value) => {
-    console.log(value);
     this.setState({ selectedComp: value});
   }
 
