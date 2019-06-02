@@ -100,6 +100,7 @@ class ProfileInner extends React.Component {
               handleSearchUserName={this.props.handleSearchUserName}
               handleSearchUser={this.props.handleSearchUser}
               searchUserList={this.props.searchUserList}
+              handleUserModalCloseValidated={this.props.handleUserModalCloseValidated}
               />
            </Paper>
            </Grid>

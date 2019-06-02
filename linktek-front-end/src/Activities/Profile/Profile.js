@@ -17,6 +17,7 @@ import ProfileModule from './content/ProfileInner.js';
 import Modal from 'react-awesome-modal';
 import Dropdown from 'react-dropdown';
 import Button from '@material-ui/core/Button';
+import UserProfile from './UserProfile.js';
 import axios from 'axios';
 import { mainListItems } from '../../Components/leftMenu';
 
@@ -136,6 +137,8 @@ class Profile extends React.Component {
     jobList: [],
     compJobInputVisible: false,
     jobInput: '',
+    selectedUserMail: '',
+    selectedUserName: '',
   };
 
   componentWillMount() {
@@ -277,12 +280,22 @@ class Profile extends React.Component {
     return true;
   }
 
-  handleUserModalShow = () => {
+  handleUserModalShow = (mail, name) => {
+    this.setState({selectedUserMail: mail});
+    this.setState({selectedUserName: name});
     this.setState({ userModalVisible: true });
   }
 
   handleUserModalClose = () => {
     this.setState({ userModalVisible: false });
+  }
+
+  handleUserModalCloseValidated = () => {
+    this.setState({ userModalVisible: false });
+    ReactDOM.render(<UserProfile
+      searchUserMail={this.state.selectedUserMail}
+      searchUserName={this.state.selectedUserName}
+      />, document.getElementById('root'));
   }
 
   handleJobInputModalShow = () => {
@@ -537,6 +550,7 @@ class Profile extends React.Component {
             compJobShow={this.compJobShow}
             handleJobInputModalCloseValidated={this.handleJobInputModalCloseValidated}
             handleJobInputChange={this.handleJobInputChange}
+            handleUserModalCloseValidated={this.handleUserModalCloseValidated}
           />
         </main>
         {/*Modal add new job input*/}

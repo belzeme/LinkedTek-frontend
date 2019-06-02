@@ -17,7 +17,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import UserPicture from '../../Images/profilePicture1.png';
-import Divider from '@material-ui/core/Divider';
 import axios from 'axios';
 
 const styles = theme => ({
@@ -118,13 +117,13 @@ class SearchModule extends React.Component {
             <List dense className={classes.root} style={{marginLeft: "auto", marginRight: "auto"}}>
               {this.props.searchUserList.map((value, index) => (
                 <ListItem key={index} button>
-                  <ListItemText primary={this.getUserName(index)} secondary={this.getUserMail(index)} style={{height: 50}} onClick={() => this.props.handleUserModalShow()}/>
+                  <ListItemText primary={this.getUserName(index)} secondary={this.getUserMail(index)} style={{height: 50}} onClick={() => this.props.handleUserModalShow(this.getUserMail(index), this.getUserName(index))}/>
                 </ListItem>
               ))}
             </List>
           </CardContent>
         </Collapse>
-        <Modal visible={this.props.userModalVisible} width="400" height="550" effect="fadeInUp" onClickAway={() => this.props.handleUserModalClose()}>
+        <Modal visible={this.props.userModalVisible} width="400" height="380" effect="fadeInUp" onClickAway={() => this.props.handleUserModalClose()}>
           <div>
             <h2 style={{display: 'flex', justifyContent: 'center'}}>{this.props.searchUserName + ' Profile'}</h2>
             <Card className={classes.card}>
@@ -133,25 +132,9 @@ class SearchModule extends React.Component {
                 image={ UserPicture }
               />
             </Card>
-            <List component="nav" className={classes.root} style={{marginLeft: "auto", marginRight: "auto"}}>
-              <ListItem>
-                <ListItemText primary={this.props.searchUserJob}/>
-              </ListItem>
-              <Divider />
-              <ListItem divider>
-                <ListItemText primary={this.props.searchUserCompany}/>
-              </ListItem>
-              <ListItem>
-                <ListItemText primary={this.props.searchUserCountry}/>
-              </ListItem>
-              <Divider light />
-              <ListItem>
-                <ListItemText primary={this.props.searchUserAge}/>
-              </ListItem>
-            </List>
             <div style={{display: 'flex', justifyContent: 'center'}}>
-              <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white" }} onClick={this.props.handleUserModalClose}>
-                Close
+              <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white", marginTop: 15 }} onClick={this.props.handleUserModalCloseValidated}>
+                View user page
               </Button>
             </div>
           </div>
