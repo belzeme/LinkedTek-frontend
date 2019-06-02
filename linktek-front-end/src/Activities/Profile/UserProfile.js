@@ -102,9 +102,9 @@ class UserProfile extends React.Component {
   state = {
     open: true,
     userName: '',
-    userJob: 'Undefined',
-    userState: 'Undefined',
-    userCompany: 'Undefined',
+    userJob: '',
+    userState: '',
+    userCompany: '',
     userAge: '0',
     deleteRelationModalVisible: false,
     userPosts: [],
@@ -118,6 +118,21 @@ class UserProfile extends React.Component {
     .then(ret => this.handleSearchPosts(ret))
     .catch(error => console.log('error : ' + error));
     this.setState({userEmail: localStorage.getItem('userEmail')});
+
+    axios.post(`http://127.0.0.1:3010/account/profile`, {email: this.props.searchUserMail})
+    .then(ret => {
+      this.handleUserInformation(ret);
+    })
+    .catch(error => console.log(error));
+  }
+
+
+  handleUserInformation(ret) {
+    console.log(ret);
+    console.log(ret.data.job.title);
+    this.setState({userCompany: ret.data.company.name});
+    this.setState({userState: ret.data.country.name});
+    this.setState({userJob: ret.data.job.title});
   }
 
   handleSearchPosts(ret) {
@@ -234,7 +249,7 @@ class UserProfile extends React.Component {
               userAge={this.state.userAge}
               userState={this.state.userState}
               userCompany={this.state.userCompany}
-              userJob={this.props.searchUserMail}
+              userJob={this.state.userJob}
               handleDeleteRelationClose={this.handleDeleteRelationClose}
               handleDeleteRelationShow={this.handleDeleteRelationShow}
               deleteRelationModalVisible={this.state.deleteRelationModalVisible}

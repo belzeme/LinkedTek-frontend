@@ -44,7 +44,7 @@ class UserProfileDescriptionModule extends React.Component {
   }
 
   handleUserAge(age) {
-    return age + " Years old";
+    return 'country';
   }
 
   render() {
@@ -66,14 +66,10 @@ class UserProfileDescriptionModule extends React.Component {
           </ListItem>
           <Divider />
           <ListItem divider>
-            <ListItemText primary={this.handleCompanyName(this.props.userCompany)}/>
+            <ListItemText primary={this.props.userCompany}/>
           </ListItem>
           <ListItem>
             <ListItemText primary={this.props.userState}/>
-          </ListItem>
-          <Divider light />
-          <ListItem>
-            <ListItemText primary={this.handleUserAge(this.props.userAge)}/>
           </ListItem>
         </List>
         <Button style={{backgroundColor: '#3f51b5', width: "95%", color: "white", marginLeft: 11, marginBottom: 10 }} onClick={() => this.props.handleDeleteRelationShow()}>
