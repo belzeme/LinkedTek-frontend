@@ -97,7 +97,7 @@ const styles = theme => ({
   },
 });
 
-// RElations class
+// Relations class
 /** Handle the user relations page */
 class Relations extends React.Component {
   state = {

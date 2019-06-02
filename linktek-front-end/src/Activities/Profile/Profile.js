@@ -101,6 +101,8 @@ const styles = theme => ({
   },
 });
 
+// Profile class
+/** Handle the user profile page */
 class Profile extends React.Component {
   state = {
     open: true,

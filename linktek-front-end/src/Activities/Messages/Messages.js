@@ -222,19 +222,33 @@ class Messages extends React.Component {
     this.setState({contactDetails: details});
   }
 
-
+  /**
+   * Internal function used for set the selectedContact into react properties
+   * @param {object} value The new selectedContact value
+   */
   handleSelectedContactChange = (value) => {
     this.setState({ selectedContact: value});
   }
 
+  /**
+   * Internal function used for set the newMessageTitle into react properties
+   * @param {event} event The new newMessageTitle value
+   */
   handleNewMessageTitleChange = name => event => {
     this.setState({ newMessageTitle: event.target.value});
   }
 
+  /**
+   * Internal function used for set the newMessageContent into react properties
+   * @param {event} event The new newMessageContent value
+   */
   handleNewMessageContentChange = name => (event) => {
     this.setState({ newMessageContent: event.target.value});
   }
 
+  /**
+   * Internal function used to get the user email
+   */
   getUserEmail() {
     if (this.state.newMessageTitle === '' || this.state.newMessageContent === '') {
       return -1;
@@ -248,6 +262,10 @@ class Messages extends React.Component {
     return -1;
   }
 
+  /**
+   * Internal function used to warn user that the message had been send
+   * Reset used react properties
+   */
   handleSendMessage() {
     alert('Message send with success !');
     this.setState({newMessageTitle: ''});
@@ -255,6 +273,9 @@ class Messages extends React.Component {
     this.setState({selectedContact: 0});
   }
 
+  /**
+   * Function used to send new message
+   */
   sendNewMessage = () => {
     let index = this.getUserEmail();
     if (index >= 0) {
@@ -267,29 +288,49 @@ class Messages extends React.Component {
     }
   }
 
+  /**
+   * Function used to open reply message modal
+   * Set the reply message index to react properties
+   */
   handleReplyMessageModalShow = index => () => {
     this.setState({replyIndex: index});
     this.setState({ modalReplyMessageVisible: true });
   }
 
+  /**
+   * Function used to closed reply message modal
+   */
   handleReplyMessageModalClose = () => {
     this.setState({ modalReplyMessageVisible: false });
   }
 
+  /**
+   * Internal function handle the message reply title
+   */
   handleReplyTitle() {
     let tmp = Object.values(this.state.inbox[this.state.replyIndex]);
     return 'Reply to : ' + tmp[0].title;
   }
 
+  /**
+   * Internal function handle the message reply content
+   */
   handleReplyContent() {
     return  this.state.replyMessageContent;
   }
 
+  /**
+   * Internal function handle the message reply address
+   */
   handleReplyAddress() {
     let tmp = Object.values(this.state.inbox[this.state.replyIndex]);
     return tmp[0].fromMail;
   }
 
+  /**
+   * Function used to closed reply message modal
+   * Send new message to user
+   */
   handleReplyMessageModalClosePopup = () => {
     axios.post(`http://127.0.0.1:3010/account/message`, {sender: this.props.userEmail, receiver: this.handleReplyAddress(), title: this.handleReplyTitle(), content: this.handleReplyContent()})
     .then(ret => this.handleSendMessage())
@@ -297,12 +338,12 @@ class Messages extends React.Component {
     this.setState({ modalReplyMessageVisible: false });
   }
 
+  /**
+   * Internal function used set the reply message content to react properties
+   * @param {event} event The new replyMessage content
+   */
   handleReplyMessageContentChange = name => (event) => {
     this.setState({ replyMessageContent: event.target.value});
-  }
-
-  sendReplyMessage = () => {
-
   }
 
   render() {

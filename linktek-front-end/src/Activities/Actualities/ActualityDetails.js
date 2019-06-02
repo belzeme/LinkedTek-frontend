@@ -109,10 +109,11 @@ class ActualityDetails extends React.Component {
     newComment: '',
   };
 
-  handleCommentChange = name => event => {
-    this.setState({ newComment: event.target.value});
-  }
-
+  /**
+   * Request the data required from component.
+   * Get the selected post values
+   * Get the selected post comments
+   */
   componentWillMount() {
     this.handlePostValues();
     //console.log('ID : ' + this.props.postId);
@@ -128,6 +129,18 @@ class ActualityDetails extends React.Component {
     });
   }
 
+  /**
+   * Internal function used for set the newComment into react properties
+   * @param {event} event The new newComment value
+   */
+  handleCommentChange = name => event => {
+    this.setState({ newComment: event.target.value});
+  }
+
+  /**
+   * Internal function used for set the comment row into react properties
+   * @param {object} value The comment row
+   */
   addItemToComments(value){
     let ret = this.state.comments;
     let tmp = [{date: value.comment.creation_time, content: value.comment.content, from: (value.user.name ? value.user.name : 'Test User')}];
@@ -135,6 +148,10 @@ class ActualityDetails extends React.Component {
     this.setState({comments: ret});
   }
 
+  /**
+   * Internal function used for handling the comment list
+   * @param {object} ret The return of backend gateway object.
+   */
   handleCommentList(ret) {
     this.setState({comments: []});
     let i = 0;
@@ -146,6 +163,9 @@ class ActualityDetails extends React.Component {
     }
   }
 
+  /**
+   * Internal function used for handling the post values
+   */
   handlePostValues() {
     this.setState({postTitle: this.props.postTitle});
     this.setState({content: this.props.postContent});
@@ -153,6 +173,9 @@ class ActualityDetails extends React.Component {
     this.setState({from: this.props.postOwner});
   }
 
+  /**
+   * Function used for post a new comment
+   */
   handleAddNewComment = () => {
     if (this.state.newComment === '') {
       alert('Error, new comment field cannot be empty !');
@@ -161,7 +184,6 @@ class ActualityDetails extends React.Component {
       console.log('Email : ' + this.props.email + '\nId: ' + this.props.postId + '\nComment : ' + this.state.newComment);
       axios.post(`http://127.0.0.1:3010/comment`, {email: localStorage.getItem('userEmail'), id: this.props.postId, content: this.state.newComment})
       .then(ret => {
-        //console.log(ret);
         alert('Comment post with success !');
       })
       .catch(error => {
